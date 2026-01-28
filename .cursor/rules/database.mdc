@@ -1,0 +1,84 @@
+---
+title: "Database and Backend Guidelines"
+description: "Supabase, Prisma, and data management patterns"
+alwaysApply: true
+version: "1.0.0"
+tags: ["database", "backend", "supabase", "prisma"]
+globs:
+  - "lib/**/*"
+  - "app/api/**/*"
+  - "prisma/**/*"
+---
+
+## Database Choice
+
+- **Primary**: Supabase (PostgreSQL) for authentication, real-time, and storage
+- **Alternative**: Prisma ORM with PostgreSQL/MySQL for type-safe database access
+- Choose based on project needs: Supabase for rapid development, Prisma for complex schemas
+
+## Supabase Patterns
+
+- Create a single Supabase client instance in `lib/supabase/client.ts`
+- Use separate clients for server and client components
+- Implement Row Level Security (RLS) policies for data protection
+- Use Supabase Auth helpers for Next.js when available
+- Store environment variables in `.env.local`
+
+```typescript
+// lib/supabase/client.ts
+import { createClient } from '@supabase/supabase-js';
+
+export const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+```
+
+## Prisma Patterns
+
+- Define schema in `prisma/schema.prisma`
+- Use migrations for schema changes: `npx prisma migrate dev`
+- Generate Prisma Client after schema changes: `npx prisma generate`
+- Create a singleton Prisma client instance to avoid connection issues
+
+```typescript
+// lib/prisma.ts
+import { PrismaClient } from '@prisma/client';
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+```
+
+## Data Fetching
+
+- Use Server Components for data fetching when possible
+- Implement proper error handling and loading states
+- Cache data appropriately using Next.js caching strategies
+- Use React Query or SWR for client-side data fetching if needed
+
+## API Routes
+
+- Use Next.js Route Handlers (`app/api/route.ts`) for API endpoints
+- Implement proper HTTP methods (GET, POST, PUT, DELETE)
+- Validate request data before processing
+- Return appropriate status codes and error messages
+- Use TypeScript for request/response types
+
+## Authentication
+
+- Use Supabase Auth for authentication flows
+- Implement proper session management
+- Protect API routes with middleware
+- Use Next.js middleware for route protection
+
+## Error Handling
+
+- Always handle database errors gracefully
+- Log errors appropriately (avoid exposing sensitive info)
+- Return user-friendly error messages
+- Implement retry logic for transient failures

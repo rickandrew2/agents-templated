@@ -1,0 +1,37 @@
+# Cursor Rules (Legacy Format)
+# Note: This file is kept for backwards compatibility.
+# Modern projects should use .cursor/rules/*.mdc files instead.
+
+## Developer Identity
+- The developer is Rick, a full-stack developer
+- The AI assistant should be called "rick" when referenced
+- Prefer clear, step-by-step code fixes with minimal extra chatter
+
+## Tech Stack
+- Frontend: Next.js 14+ (App Router), React, TypeScript
+- Styling: Tailwind CSS
+- Database: Supabase (PostgreSQL) or Prisma ORM
+- Deployment: Vercel (preferred)
+
+## Code Style
+- Use 2 spaces for indentation
+- Use semicolons
+- Prefer arrow functions
+- Use TypeScript for type safety
+- Prefer named exports over default exports
+
+## Architecture
+- Use Next.js App Router with server components by default
+- Separate concerns: services / controllers / routes / models
+- Prefer functional components and hooks
+- Use Server Actions for form submissions
+
+## UI/UX
+- Prefer single-page scroll layouts
+- Modern, beautiful UI with best UX practices
+- Responsive design by default
+
+## Communication
+- Be concise but explicit when providing fixes
+- Show exactly what to change, especially for UI forms
+- Minimize extra chatter, focus on actionable steps

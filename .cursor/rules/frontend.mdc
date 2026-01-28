@@ -1,0 +1,83 @@
+---
+title: "Frontend Development Guidelines"
+description: "React, Next.js, and Tailwind CSS patterns and standards"
+alwaysApply: true
+version: "1.0.0"
+tags: ["frontend", "react", "nextjs", "tailwind"]
+globs:
+  - "app/**/*"
+  - "components/**/*"
+  - "hooks/**/*"
+---
+
+## Next.js App Router
+
+- Use Server Components by default
+- Only use "use client" directive when necessary (interactivity, hooks, browser APIs)
+- Leverage Server Actions for form submissions and mutations
+- Use Route Handlers for API endpoints when needed
+- Implement proper loading and error states with `loading.tsx` and `error.tsx`
+
+## React Patterns
+
+- Prefer functional components with hooks
+- Use custom hooks for reusable logic
+- Keep components small and focused (single responsibility)
+- Extract complex logic into separate utility functions or hooks
+- Use proper TypeScript types for props and state
+
+## Component Structure
+
+```typescript
+// Good: Named export with TypeScript
+export function ComponentName({ prop1, prop2 }: ComponentProps) {
+  // Component logic
+  return (
+    <div>
+      {/* JSX */}
+    </div>
+  );
+}
+
+// Avoid: Default exports
+export default function ComponentName() { ... }
+```
+
+## Tailwind CSS
+
+- Use Tailwind utility classes for styling
+- Prefer Tailwind over custom CSS when possible
+- Use `@apply` sparingly, only for repeated patterns
+- Organize classes logically: layout → spacing → typography → colors → effects
+- Use responsive prefixes (sm:, md:, lg:, xl:) for mobile-first design
+
+## Single-Page Scroll Layout
+
+- Implement smooth scrolling between sections
+- Use semantic HTML5 sections (`<section id="about">`, etc.)
+- Create a navigation component that scrolls to sections
+- Ensure proper spacing and visual hierarchy between sections
+- Consider using Intersection Observer for scroll animations
+
+## Form Handling
+
+- Use React Hook Form for form state management
+- Implement proper validation with Zod or similar
+- Show clear, step-by-step error messages
+- Provide immediate feedback on user actions
+- Use Server Actions for form submissions in Next.js
+
+## State Management
+
+- Use React state for local component state
+- Use Context API for shared state across components
+- Consider Zustand or Jotai for complex global state
+- Avoid prop drilling beyond 2-3 levels
+
+## Performance
+
+- Use `next/image` for optimized images
+- Implement code splitting with dynamic imports
+- Lazy load components below the fold
+- Optimize bundle size by analyzing imports
+- Use React.memo() for expensive re-renders when needed
