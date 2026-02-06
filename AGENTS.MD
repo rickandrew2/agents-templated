@@ -1,9 +1,10 @@
 ## Agents
 
-This file defines the different agents (MCP helpers) available in this project and when to use each one.
+This file defines the different agents (MCP helpers) available in this **enterprise-grade Next.js template** and when to use each one.
 
 - See `CLAUDE.md` for overall project guidelines.
 - Use this file as a quick reference for **which agent to call for which task**.
+- All agents now support **security-first development** with comprehensive validation patterns.
 
 ---
 
@@ -16,12 +17,23 @@ This file defines the different agents (MCP helpers) available in this project a
 - New visual component (popup, card, section, etc.) → `snippet_frontend` or `create_frontend`
 - Redesign/restyle of existing UI → `modify_frontend`
 - Figma-driven implementation → follow the Figma MCP rules below
+- Component library and design system work
+- Accessibility improvements and WCAG compliance
 - Pure text/logic or trivial tweaks → do it directly without Gemini
+
+#### Enhanced Capabilities
+
+- **Security-aware components**: Automatically includes proper input sanitization
+- **Accessibility-first**: Components include ARIA attributes and keyboard navigation
+- **Performance-optimized**: Uses Next.js Image, lazy loading, and bundle optimization
+- **Type-safe**: All components include proper TypeScript interfaces
 
 #### Critical rules
 
 1. If UI already exists and you need to redesign/restyle it → use `modify_frontend`, **not** `snippet_frontend`.
 2. Tasks can be mixed (logic + UI). Do the logic yourself, delegate the UI to Gemini.
+3. **Always include accessibility testing** patterns for new components.
+4. **Follow security patterns** from `.cursor/rules/security.mdc` for user inputs.
 
 ---
 
@@ -29,70 +41,216 @@ This file defines the different agents (MCP helpers) available in this project a
 
 #### Scope
 
-- Owns **Node/Express** and **Next.js API routes**, plus service/use‑case layers.
+- Owns **Next.js API routes**, **Server Actions**, and **service/use-case layers**
+- **Authentication & Authorization** with NextAuth.js v5
+- **Rate limiting** and **security middleware**
+- **Input validation** with Zod schemas
 
-#### Responsibilities
+#### Enhanced Responsibilities
 
-- Add/update endpoints following existing routing patterns.
-- Move business logic into dedicated service functions (not inside route handlers/components).
-- Keep responses typed and consistent with shared types.
+- Implement secure API endpoints with comprehensive validation
+- Add authentication middleware and role-based access control
+- Integrate rate limiting for DoS protection
+- Create type-safe server actions and data fetching
+- Handle errors gracefully with proper logging
+- Move business logic into dedicated service functions (not inside route handlers/components)
+- Keep responses typed and consistent with shared types
 
-#### Must
+#### Security Requirements (NEW)
 
-- Validate input at the edge.
-- Use Prisma for all DB access.
-- Preserve auth and authorization checks.
+- **Always validate input** at API boundaries using Zod schemas
+- **Implement rate limiting** for all public endpoints
+- **Use NextAuth.js v5** for authentication flows
+- **Apply OWASP Top 10** protection patterns
+- **Log security events** appropriately without exposing sensitive data
+- **Handle database errors** gracefully with proper error responses
 
----
+#### Database Integration
 
-### DBAgent (Prisma & Postgres)
-
-#### Scope
-
-- Owns **Prisma schema, migrations, and queries**.
-
-#### Responsibilities
-
-- Design and evolve DB schema with Prisma migrations.
-- Optimize queries to avoid N+1 and obvious performance traps.
-
-#### Must
-
-- Never run manual ad‑hoc destructive SQL in code.
-- Always keep schema + migrations in sync.
-
----
-
-### TestAgent (Unit/Integration + Playwright)
-
-#### Scope
-
-- Owns **tests**: unit, integration, and Playwright E2E.
-
-#### Responsibilities
-
-- Add/extend tests for new features and bug fixes.
-- Use existing testing tools/patterns where present.
-
-#### Playwright‑specific
-
-- Use Playwright MCP when generating or updating **E2E test flows**.
-- Aim for stable selectors (`data-test` attributes) and clear test names.
+- **Database-agnostic**: Support both Prisma and Supabase patterns
+- **Choose your approach**: Use consistent database access patterns
+- **Type-safe queries**: Leverage ORM type generation
+- **Error handling**: Proper database error catching and transformation
 
 ---
 
-### ReviewerAgent (Code Review)
+### DBAgent (Database & Schema Management)
 
 #### Scope
 
-- Reviews changes for:
-  - Correctness, security, performance, readability.
-  - Tests and error handling coverage.
+- Owns **database schema, migrations, and data access patterns**
+- **Database-agnostic**: Supports both **Prisma + PostgreSQL** and **Supabase** approaches
+
+#### Enhanced Responsibilities
+
+- **Schema Design**: Create optimized, scalable database schemas
+- **Migration Management**: Handle schema evolution safely
+- **Query Optimization**: Prevent N+1 queries and performance issues
+- **Data Access Patterns**: Implement consistent, type-safe data access
+- **Security**: Row-level security, input sanitization, and access controls
+
+#### Database Strategy Support
+
+**For Prisma + PostgreSQL:**
+- Design schema in `prisma/schema.prisma`
+- Create and manage migrations with `prisma migrate`
+- Implement type-safe queries with Prisma Client
+- Handle connection pooling and optimization
+
+**For Supabase:**
+- Design tables with Row Level Security (RLS) policies
+- Implement real-time subscriptions where needed
+- Use Supabase client with proper type generation
+- Leverage built-in authentication and storage
+
+#### Security Requirements (NEW)
+
+- **Input validation**: All database inputs must be validated with Zod
+- **Access control**: Implement proper authorization checks
+- **SQL injection prevention**: Use ORM-only access, no raw SQL
+- **Audit logging**: Track important data changes
+- **Data encryption**: Handle sensitive data appropriately
 
 #### Must
 
-- Flag missing tests for important logic.
-- Ensure conventions in `CLAUDE.md` are followed.
+- **Choose one approach** and maintain consistency throughout the project
+- Never run manual ad-hoc destructive SQL in production code
+- Always keep schema + migrations in sync
+- **Test database operations** with appropriate test patterns
+- **Document schema decisions** and migration strategies
+
+---
+
+### TestAgent (Comprehensive Testing)
+
+#### Scope
+
+- Owns **complete testing strategy**: unit, integration, E2E, and accessibility testing
+- **Vitest + Testing Library** for unit and integration tests
+- **Playwright** for cross-browser E2E testing
+- **Accessibility testing** with axe-core integration
+
+#### Enhanced Responsibilities
+
+- **Unit Testing**: Components, hooks, utilities with >80% coverage
+- **Integration Testing**: API routes, database operations, authentication flows
+- **E2E Testing**: Critical user journeys across multiple browsers
+- **Accessibility Testing**: Automated WCAG compliance checking
+- **Performance Testing**: Core Web Vitals and loading time validation
+- **Security Testing**: Input validation and authentication testing
+
+#### Testing Patterns (NEW)
+
+- **Component Testing**: React Testing Library with comprehensive user interaction testing
+- **API Testing**: Mock authentication, database operations, and external services
+- **E2E Testing**: Page Object Model with stable selectors and user journey validation
+- **Accessibility Testing**: Automated axe-core scanning and keyboard navigation testing
+- **Visual Regression**: Screenshot comparison for critical UI components
+
+#### Quality Gates
+
+- **Code Coverage**: Maintain >80% coverage for business logic
+- **E2E Coverage**: All critical user flows must have E2E tests
+- **Accessibility**: All public pages must pass WCAG 2.1 AA standards
+- **Performance**: Core Web Vitals must meet "Good" thresholds
+- **Security**: Authentication and authorization flows fully tested
+
+#### Tools & Configuration
+
+- **Vitest**: Fast unit testing with ES modules support
+- **Testing Library**: User-focused component testing
+- **Playwright**: Cross-browser E2E testing with trace viewer
+- **@axe-core/playwright**: Automated accessibility testing
+- **MSW**: API mocking for reliable integration tests
+
+#### Playwright-specific
+
+- Use Playwright MCP when generating or updating **E2E test flows**
+- Aim for stable selectors (`data-testid` attributes) and clear test names
+- **Implement Page Object Model** for maintainable test code
+- **Include accessibility checks** in all E2E test suites
+
+---
+
+### SecurityAgent (NEW - Security & Compliance)
+
+#### Scope
+
+- **Security-first development** across all application layers
+- **OWASP Top 10** protection implementation
+- **Authentication & authorization** security patterns
+- **Input validation** and **output sanitization**
+- **Security monitoring** and **audit logging**
+
+#### Responsibilities
+
+- **Input Validation**: Implement Zod schemas for all user inputs
+- **Authentication Security**: NextAuth.js v5 configuration and session management
+- **Authorization**: Role-based access control (RBAC) implementation
+- **Rate Limiting**: DoS protection with sliding window algorithms
+- **Security Headers**: CSP, HSTS, and comprehensive security header configuration
+- **Data Protection**: Encryption, sanitization, and secure data handling
+- **Audit Logging**: Security event logging without exposing sensitive data
+- **Vulnerability Assessment**: Regular security pattern reviews
+
+#### Security Patterns
+
+- **Authentication**: Multi-provider NextAuth.js setup with secure session management
+- **Authorization**: Middleware-based route protection with role validation
+- **Input Validation**: Zod schema validation at every API boundary
+- **Rate Limiting**: Upstash Redis-based rate limiting with different limits per endpoint
+- **Error Handling**: Secure error responses that don't leak sensitive information
+- **Database Security**: ORM-only access with parameterized queries
+- **File Upload Security**: Content type validation and secure storage
+
+#### Must
+
+- **Validate all inputs** with appropriate Zod schemas
+- **Implement rate limiting** on authentication and public endpoints
+- **Use NextAuth.js v5** for all authentication flows
+- **Apply security headers** to all responses
+- **Log security events** appropriately
+- **Never expose sensitive data** in error messages or logs
+
+---
+
+### ReviewerAgent (Code Review & Quality)
+
+#### Enhanced Scope
+
+- Reviews changes for **correctness, security, performance, and readability**
+- **Security vulnerability assessment** using OWASP guidelines
+- **Performance impact analysis** and optimization recommendations
+- **Test coverage verification** and quality assessment
+- **Accessibility compliance** checking
+- **Code quality standards** enforcement
+
+#### Security Review Focus (NEW)
+
+- **Input validation**: Ensure all user inputs are properly validated
+- **Authentication flows**: Verify secure authentication implementation
+- **Authorization checks**: Validate role-based access controls
+- **Data exposure**: Check for sensitive data leaks in responses
+- **Error handling**: Ensure secure error message patterns
+- **Dependencies**: Review third-party package security
+
+#### Quality Standards
+
+- **TypeScript**: Strict typing without `any` usage
+- **Testing**: Appropriate test coverage for new functionality
+- **Performance**: Bundle size impact and Core Web Vitals consideration
+- **Accessibility**: WCAG 2.1 AA compliance for user-facing features
+- **Security**: OWASP Top 10 protection patterns
+- **Documentation**: Clear code documentation and README updates
+
+#### Must
+
+- **Flag missing tests** for important logic and security flows
+- **Ensure security patterns** from `.cursor/rules/security.mdc` are followed
+- **Validate accessibility** for all user-facing components
+- **Check performance impact** of new dependencies and code changes
+- **Verify documentation** is updated for significant changes
+- **Ensure conventions** in `CLAUDE.md` are followed throughout
 
 ---
 

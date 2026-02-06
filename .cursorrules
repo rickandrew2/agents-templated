@@ -1,37 +1,67 @@
-# Cursor Rules (Legacy Format)
-# Note: This file is kept for backwards compatibility.
-# Modern projects should use .cursor/rules/*.mdc files instead.
+# Cursor Rules - Enterprise Next.js Template
+# This is an enterprise-grade Next.js development template with comprehensive security, testing, and developer experience optimizations.
+# Detailed rules are in .cursor/rules/*.mdc files - refer to those for implementation patterns.
 
-## Developer Identity
-- The developer is Rick, a full-stack developer
-- The AI assistant should be called "rick" when referenced
-- Prefer clear, step-by-step code fixes with minimal extra chatter
+## Developer Identity & Communication
+- Primary developer: Rick (full-stack developer)
+- AI assistant should be called "rick" when referenced
+- Provide clear, step-by-step solutions with actionable code examples
+- Focus on security, performance, and maintainability in all recommendations
 
-## Tech Stack
-- Frontend: Next.js 14+ (App Router), React, TypeScript
-- Styling: Tailwind CSS
-- Database: Supabase (PostgreSQL) or Prisma ORM
-- Deployment: Vercel (preferred)
+## Enterprise Tech Stack
+- **Frontend**: Next.js 14+ (App Router), React 18+, TypeScript 5+ (strict mode)
+- **Authentication**: NextAuth.js v5 with multi-provider support
+- **Database**: Database-agnostic (Prisma + PostgreSQL OR Supabase) - choose ONE
+- **Security**: Zod validation, rate limiting (Upstash Redis), OWASP protection
+- **Testing**: Vitest + Testing Library (unit/integration), Playwright (E2E)
+- **Styling**: Tailwind CSS with design system approach
+- **Quality**: ESLint + Prettier + TypeScript strict + pre-commit hooks
+- **Deployment**: Vercel (optimized configuration)
 
-## Code Style
-- Use 2 spaces for indentation
-- Use semicolons
-- Prefer arrow functions
-- Use TypeScript for type safety
-- Prefer named exports over default exports
+## Core Architecture Principles
+- **Security-first development**: Always validate inputs, authenticate users, rate limit endpoints
+- **Type safety**: End-to-end TypeScript with runtime validation (Zod)
+- **Performance optimization**: Bundle analysis, Core Web Vitals monitoring, optimized images
+- **Testing strategy**: Unit (80%), Integration (15%), E2E (5%) coverage
+- **Database-agnostic**: Support both Prisma and Supabase patterns, choose ONE per project
+- **Feature-oriented structure**: Group by domain/feature, not just by technical layer
 
-## Architecture
-- Use Next.js App Router with server components by default
-- Separate concerns: services / controllers / routes / models
-- Prefer functional components and hooks
-- Use Server Actions for form submissions
+## Security Requirements (CRITICAL)
+- **Input validation**: All user inputs MUST use Zod schemas
+- **Authentication**: NextAuth.js v5 for all auth flows with secure session management
+- **Rate limiting**: Public endpoints MUST have rate limiting (Upstash Redis)
+- **Authorization**: Role-based access control with proper middleware
+- **Error handling**: Never expose sensitive data in error responses
+- **Database access**: ORM-only, no raw SQL unless performance-critical
 
-## UI/UX
-- Prefer single-page scroll layouts
-- Modern, beautiful UI with best UX practices
-- Responsive design by default
+## Code Quality Standards
+- **TypeScript**: Strict mode, no `any` usage, proper type inference
+- **Components**: Server Components by default, "use client" only when necessary
+- **Testing**: All business logic and user flows must have tests
+- **Performance**: Monitor bundle size, use `next/image`, lazy loading
+- **Accessibility**: WCAG 2.1 AA compliance for all user-facing components
+- **Documentation**: Keep README, CLAUDE.md, and AGENTS.MD updated
 
-## Communication
-- Be concise but explicit when providing fixes
-- Show exactly what to change, especially for UI forms
-- Minimize extra chatter, focus on actionable steps
+## Agent Delegation (See AGENTS.MD for details)
+- **UI/Design work** → Gemini agent (snippet_frontend, modify_frontend)
+- **API/Business logic** → BackendAgent
+- **Database/Schema** → DBAgent  
+- **Testing implementation** → TestAgent
+- **Security reviews** → SecurityAgent
+- **Code quality** → ReviewerAgent
+- **Figma implementation** → Follow Figma MCP workflow
+
+## Development Workflow
+1. **Security first**: Validate inputs, check authentication, apply rate limiting
+2. **Type safety**: Use Zod schemas and TypeScript strict mode
+3. **Test coverage**: Write tests for business logic and critical paths
+4. **Performance**: Use `npm run analyze` to monitor bundle size
+5. **Quality gates**: Run `npm run lint`, `npm run type-check`, tests before commits
+6. **Agent coordination**: Delegate complex tasks to specialized agents
+
+## Communication Style
+- **Actionable solutions**: Provide specific code examples and clear implementation steps
+- **Security awareness**: Always mention security implications and best practices
+- **Performance focus**: Consider bundle size, loading times, and Core Web Vitals
+- **Test guidance**: Include testing patterns and coverage recommendations
+- **Enterprise mindset**: Think production-ready, scalable, maintainable code

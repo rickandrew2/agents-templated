@@ -1,165 +1,309 @@
-# Next.js Full-Stack Boilerplate
+# Enterprise Next.js Template
 
-A modern, production-ready boilerplate for Next.js projects with TypeScript, Tailwind CSS, and Supabase/Prisma integration. This boilerplate includes comprehensive Cursor AI rules to help maintain consistency and best practices across projects.
+🚀 **A production-ready Next.js template with enterprise-grade security, testing, and developer experience.**
 
-## Features
+## ✨ Key Features
 
-- **Next.js 14+** with App Router
-- **TypeScript** for type safety
-- **Tailwind CSS** for styling
-- **Supabase/Prisma** for database management
-- **Cursor AI Rules** (.mdc files) for consistent development
-- **Pre-configured** ESLint and Prettier
-- **Modern folder structure** following best practices
+### 🔒 **Security First** 
+- **NextAuth.js v5** with multiple provider support
+- **Input validation** with Zod schemas at every boundary
+- **Rate limiting** with Upstash Redis
+- **Security headers** and Content Security Policy
+- **OWASP Top 10** protection patterns
 
-## Quick Start
+### 🗄️ **Flexible Database** 
+- **Prisma + PostgreSQL** for complex schemas and type safety
+- **Supabase** for rapid development with built-in auth and real-time
+- Choose your approach - template supports both with clear separation
 
-1. **Clone or copy this boilerplate** to your new project directory
-2. **Install dependencies**:
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
+### ⚡ **Performance Optimized**
+- **Next.js 14+** with App Router and Server Components
+- **Bundle analysis** and optimization out of the box
+- **Image optimization** with next/image
+- **Core Web Vitals** monitoring ready
 
-3. **Set up environment variables**:
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your configuration
-   ```
+### 🧪 **Comprehensive Testing**
+- **Vitest + Testing Library** for unit and integration tests
+- **Playwright** for end-to-end testing with multiple browsers
+- **Accessibility testing** with axe-core
+- **80%+ code coverage** targets
 
-4. **Run the development server**:
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
+### 🤖 **AI-First Development**
+- **Cursor AI** integration with comprehensive rule files
+- **Agent system** for delegating UI, backend, and database work
+- **Figma-to-code** workflow with MCP integration
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+### 🛠️ **Developer Experience**
+- **TypeScript** with strict configuration
+- **ESLint + Prettier** with security and accessibility rules
+- **Husky + lint-staged** for pre-commit quality gates
+- **Bundle analyzer** and performance monitoring
 
-## Project Structure
+---
 
-```
-├── .cursor/
-│   └── rules/          # Cursor AI rule files (.mdc)
-│       ├── core.mdc    # Core guidelines and tech stack
-│       ├── frontend.mdc # React/Next.js patterns
-│       ├── database.mdc # Database and backend patterns
-│       └── style.mdc   # Code style and formatting
-├── app/                # Next.js App Router pages
-├── components/         # React components
-├── hooks/              # Custom React hooks
-├── lib/                # Utility functions and clients
-├── public/             # Static assets
-├── docs/               # Project documentation
-└── [config files]      # TypeScript, Tailwind, etc.
-```
+## 🚀 Quick Start
 
-## Cursor AI Rules
-
-This boilerplate includes comprehensive `.mdc` rule files in `.cursor/rules/` that guide Cursor AI to:
-
-- Follow consistent coding patterns
-- Use the correct tech stack conventions
-- Maintain code style and formatting
-- Implement best practices for Next.js, React, and databases
-
-### Rule Files
-
-- **core.mdc**: General architecture, tech stack, and developer preferences
-- **frontend.mdc**: React/Next.js patterns, Tailwind CSS, and UI guidelines
-- **database.mdc**: Supabase and Prisma patterns, data fetching, and API routes
-- **style.mdc**: Naming conventions, formatting, and code quality standards
-
-### Customizing Rules
-
-You can edit any `.mdc` file in `.cursor/rules/` to match your project's specific needs. The rules use YAML frontmatter to define when they apply:
-
-- `alwaysApply: true` - Always active
-- `globs: ["**/*.tsx"]` - Apply to specific file patterns
-- `tags: ["frontend"]` - Categorize rules for manual selection
-
-See [Cursor Rules Documentation](https://docs.cursor.com/context/rules) for more details.
-
-## Tech Stack
-
-- **Framework**: Next.js 14+ (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Database**: Supabase (PostgreSQL) or Prisma ORM
-- **Deployment**: Vercel (recommended)
-
-## Development
-
-### Code Formatting
-
-This project uses ESLint and Prettier for code quality:
+### 1. Clone and Install
 
 ```bash
-# Check for linting errors
-npm run lint
-
-# Format code
-npm run format
+git clone <your-repo> my-app
+cd my-app
+npm install
 ```
 
-### Type Checking
+### 2. Choose Your Database Strategy
+
+**Option A: Prisma + PostgreSQL** (Complex schemas, maximum type safety)
+```bash
+# Set up your PostgreSQL database
+cp .env.example .env.local
+# Edit DATABASE_URL in .env.local
+
+npm run db:migrate
+npm run db:generate
+```
+
+**Option B: Supabase** (Rapid development, built-in auth)
+```bash
+cp .env.example .env.local
+# Edit NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+# Generate types
+npx supabase gen types typescript --project-id your-project > types/database.ts
+```
+
+### 3. Configure Environment
 
 ```bash
-npm run type-check
+# Copy environment template
+cp .env.example .env.local
+
+# Generate NextAuth secret
+openssl rand -base64 32
+
+# Edit .env.local with your values
 ```
 
-## Environment Variables
+### 4. Start Development
 
-Create a `.env.local` file with the following variables:
-
-```env
-# Supabase (if using)
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# Database (if using Prisma)
-DATABASE_URL=your_database_url
-
-# Add other environment variables as needed
+```bash
+npm run dev
 ```
 
-## Deployment
+Visit [http://localhost:3000](http://localhost:3000) 🎉
+
+---
+
+## 📁 Project Structure
+
+```
+app/                    # Next.js App Router
+├── (auth)/            # Authentication pages
+├── api/               # API routes with validation  
+├── dashboard/         # Protected dashboard pages
+└── globals.css        # Global styles
+
+components/            # Shared components
+├── ui/               # Base design system
+├── forms/            # Form components
+└── layout/           # Layout components
+
+lib/                  # Core utilities
+├── auth.ts           # NextAuth configuration
+├── data/             # Database access layer
+├── validations/      # Zod schemas
+└── utils.ts          # Utility functions
+
+.cursor/rules/        # AI development rules
+├── core.mdc          # Architecture guidelines
+├── frontend.mdc      # React/Next.js patterns
+├── database.mdc      # Database patterns
+├── security.mdc      # Security best practices
+└── testing.mdc       # Testing patterns
+
+__tests__/           # Unit & integration tests
+e2e/                 # Playwright E2E tests
+docs/                # Project documentation
+```
+
+---
+
+## 🛠️ Development Commands
+
+### Development
+```bash
+npm run dev                # Start development server
+npm run build              # Production build
+npm run start              # Start production server
+```
+
+### Code Quality
+```bash
+npm run lint               # Check linting
+npm run lint:fix           # Auto-fix issues
+npm run format             # Format code
+npm run type-check         # TypeScript validation
+```
+
+### Testing
+```bash
+npm run test               # Unit tests
+npm run test:watch         # Tests in watch mode
+npm run test:ui            # Tests with UI
+npm run test:e2e           # Playwright E2E tests
+npm run test:e2e:ui        # E2E tests with UI
+```
+
+### Database (Prisma)
+```bash
+npm run db:generate        # Generate Prisma client
+npm run db:migrate         # Run migrations
+npm run db:push            # Push schema changes
+npm run db:studio          # Open Prisma Studio
+```
+
+### Analysis
+```bash
+npm run analyze            # Bundle size analysis
+```
+
+---
+
+## 🏗️ Architecture Decisions
+
+### Database Strategy
+
+This template supports two database approaches:
+
+| Feature | Prisma + PostgreSQL | Supabase |
+|---------|--------------------|-----------| 
+| **Type Safety** | ✅ Compile-time | ✅ Generated types |
+| **Complex Queries** | ✅ Advanced SQL | ⚠️ Limited joins |
+| **Authentication** | ➡️ NextAuth.js | ✅ Built-in |
+| **Real-time** | ➡️ Custom solution | ✅ Built-in |
+| **File Storage** | ➡️ External service | ✅ Built-in |
+| **Learning Curve** | ⚠️ Moderate | ✅ Low |
+| **Hosting Flexibility** | ✅ Any provider | ⚠️ Vendor lock-in |
+
+**Choose Prisma** for complex applications with custom business logic.
+**Choose Supabase** for rapid prototyping and apps needing real-time features.
+
+### Security Architecture
+
+- **Input Validation**: Zod schemas at API boundaries
+- **Authentication**: NextAuth.js v5 with session management
+- **Authorization**: Middleware-based route protection
+- **Rate Limiting**: Per-endpoint limits with sliding windows
+- **Headers**: Comprehensive security headers and CSP
+- **Database**: ORM-only access, no raw SQL
+
+### Testing Strategy
+
+- **Unit Tests (80%)**: Components, hooks, utilities
+- **Integration Tests (15%)**: API routes, database operations
+- **E2E Tests (5%)**: Critical user journeys
+- **Accessibility**: Automated axe-core testing
+
+---
+
+## 🤖 AI-Assisted Development
+
+This template includes comprehensive Cursor AI integration:
+
+### Agent System
+
+- **Gemini**: UI/design work (`snippet_frontend`, `modify_frontend`)
+- **BackendAgent**: API routes and business logic
+- **DBAgent**: Database schema and queries
+- **TestAgent**: Testing implementation
+- **ReviewerAgent**: Code review and security
+
+### Cursor Rules
+
+Detailed implementation patterns in `.cursor/rules/`:
+- `core.mdc` - Architecture and development identity
+- `frontend.mdc` - React/Next.js/Tailwind patterns
+- `database.mdc` - Database-agnostic patterns
+- `security.mdc` - Security best practices
+- `testing.mdc` - Testing patterns and examples
+
+---
+
+## 🚢 Deployment
 
 ### Vercel (Recommended)
 
-1. Push your code to GitHub
-2. Import your repository in [Vercel](https://vercel.com)
-3. Add your environment variables
-4. Deploy!
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+
+# Set environment variables in Vercel dashboard
+```
 
 ### Other Platforms
 
-This boilerplate can be deployed to any platform that supports Next.js:
-- Netlify
-- AWS Amplify
-- Railway
-- DigitalOcean App Platform
+This template works with any Node.js hosting provider:
+- **Netlify**: Add `netlify.toml` configuration
+- **Railway**: Connect GitHub repository
+- **Docker**: Add `Dockerfile` and `docker-compose.yml`
 
-## Documentation
+### Environment Variables
 
-- [Architecture Overview](docs/architecture.md) - System design and data flow
-- [Cursor Rules](.cursor/rules/) - AI assistant guidelines
+Essential production variables:
+- `DATABASE_URL` or Supabase credentials
+- `NEXTAUTH_SECRET` (32+ characters)
+- `NEXTAUTH_URL` (your production domain)
+- Rate limiting: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
 
-## Contributing
+---
 
-This is a personal boilerplate template. Customize it to fit your needs!
+## 📚 Documentation
 
-## License
+- **[CLAUDE.md](CLAUDE.md)** - Architecture guidelines and coding standards
+- **[AGENTS.md](AGENTS.md)** - AI agent responsibilities and workflows
+- **[docs/architecture.md](docs/architecture.md)** - Detailed architecture decisions
+- **[.cursor/rules/](/.cursor/rules/)** - Implementation patterns for AI
 
-MIT License - feel free to use this boilerplate for your projects.
+---
 
-## Notes
+## 🤝 Contributing
 
-- This boilerplate is designed for full-stack development with a focus on modern React patterns
-- The Cursor AI rules are tailored for a developer named Rick with specific preferences
-- Update the rules and configuration files as your needs evolve
+1. **Fork** the repository
+2. **Create** a feature branch
+3. **Follow** the coding standards in `CLAUDE.md`
+4. **Add tests** for new functionality
+5. **Run** quality checks: `npm run lint && npm run test`
+6. **Submit** a pull request
+
+### Quality Gates
+
+- ✅ TypeScript compilation
+- ✅ ESLint + Prettier
+- ✅ Unit test coverage >80%
+- ✅ E2E test coverage for new features
+- ✅ Security scan passes
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Next.js** team for the excellent framework
+- **Vercel** for hosting and development experience
+- **Prisma** and **Supabase** for database solutions
+- **Testing Library** and **Playwright** for testing tools
+- **Tailwind CSS** for utility-first styling
+
+---
+
+**Built with ❤️ for modern web development**
+
+[⭐ Star this repo](https://github.com/your-username/your-repo) if it helped you!
