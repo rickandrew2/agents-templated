@@ -1,309 +1,318 @@
-# Enterprise Next.js Template
+# Technology-Agnostic Development Template
 
-🚀 **A production-ready Next.js template with enterprise-grade security, testing, and developer experience.**
+A flexible, enterprise-grade development template that adapts to any modern technology stack while maintaining security-first development patterns, comprehensive testing, and excellent developer experience.
 
-## ✨ Key Features
+## 🎯 Purpose
 
-### 🔒 **Security First** 
-- **NextAuth.js v5** with multiple provider support
-- **Input validation** with Zod schemas at every boundary
-- **Rate limiting** with Upstash Redis
-- **Security headers** and Content Security Policy
-- **OWASP Top 10** protection patterns
+This template provides a **proven agent-based development structure** that can be adapted to any technology stack:
+- **Frontend**: React, Vue, Angular, Svelte, or traditional server-side rendering
+- **Backend**: Node.js, Python, Go, Rust, Java, or any modern backend framework  
+- **Database**: SQL, NoSQL, or cloud-native database solutions
+- **Authentication**: Self-managed or Authentication as a Service
+- **Deployment**: Any cloud provider or hosting solution
 
-### 🗄️ **Flexible Database** 
-- **Prisma + PostgreSQL** for complex schemas and type safety
-- **Supabase** for rapid development with built-in auth and real-time
-- Choose your approach - template supports both with clear separation
+## 🏗️ Architecture
 
-### ⚡ **Performance Optimized**
-- **Next.js 14+** with App Router and Server Components
-- **Bundle analysis** and optimization out of the box
-- **Image optimization** with next/image
-- **Core Web Vitals** monitoring ready
+### Agent-Based Development
+This template uses specialized agents for different aspects of development:
 
-### 🧪 **Comprehensive Testing**
-- **Vitest + Testing Library** for unit and integration tests
-- **Playwright** for end-to-end testing with multiple browsers
-- **Accessibility testing** with axe-core
-- **80%+ code coverage** targets
+- **FrontendAgent**: UI/UX development and design system implementation
+- **BackendAgent**: API development, business logic, and server-side concerns  
+- **DatabaseAgent**: Schema design, migrations, and data access patterns
+- **TestAgent**: Comprehensive testing strategy across all layers
+- **SecurityAgent**: Security-first development and compliance
+- **ReviewerAgent**: Code review and quality assurance
 
-### 🤖 **AI-First Development**
-- **Cursor AI** integration with comprehensive rule files
-- **Agent system** for delegating UI, backend, and database work
-- **Figma-to-code** workflow with MCP integration
-
-### 🛠️ **Developer Experience**
-- **TypeScript** with strict configuration
-- **ESLint + Prettier** with security and accessibility rules
-- **Husky + lint-staged** for pre-commit quality gates
-- **Bundle analyzer** and performance monitoring
-
----
+### Core Principles
+- ✅ **Security-first development** with OWASP Top 10 protection
+- ✅ **Type safety** across the entire application stack
+- ✅ **Comprehensive testing** with unit, integration, and E2E coverage
+- ✅ **Accessibility** compliance with WCAG 2.1 AA standards
+- ✅ **Performance optimization** with monitoring and optimization patterns
+- ✅ **Developer experience** with hot reload, debugging, and quality gates
 
 ## 🚀 Quick Start
 
-### 1. Clone and Install
+### 1. Clone and Clean
+```bash
+# Clone the template
+git clone <this-repo> my-project
+cd my-project
+
+# Remove technology-specific files (optional - see cleanup guide below)
+rm package*.json *.config.* tsconfig.json
+rm -rf app/ components/ lib/ public/ test/ node_modules/ .next/
+```
+
+### 2. Choose Your Stack
+Select your preferred technologies:
+
+**Frontend Options:**
+- React/Next.js, Vue/Nuxt, Angular, Svelte/SvelteKit, or traditional SSR
+
+**Backend Options:**
+- Node.js (Express/Fastify), Python (Django/FastAPI), Go, Rust, Java/Spring
+
+**Database Options:**
+- PostgreSQL/MySQL with ORM, MongoDB/NoSQL, or cloud solutions like Supabase
+
+### 3. Adapt the Template
+Update the configuration files for your chosen stack:
 
 ```bash
-git clone <your-repo> my-app
-cd my-app
-npm install
+# Update agent rules for your technology choices
+# Edit agents/rules/*.mdc files
+code agents/rules/core.mdc
+
+# Customize the cursor rules for your stack
+code .cursorrules
+
+# Update project guidelines
+code CLAUDE.md
 ```
 
-### 2. Choose Your Database Strategy
-
-**Option A: Prisma + PostgreSQL** (Complex schemas, maximum type safety)
-```bash
-# Set up your PostgreSQL database
-cp .env.example .env.local
-# Edit DATABASE_URL in .env.local
-
-npm run db:migrate
-npm run db:generate
-```
-
-**Option B: Supabase** (Rapid development, built-in auth)
-```bash
-cp .env.example .env.local
-# Edit NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-# Generate types
-npx supabase gen types typescript --project-id your-project > types/database.ts
-```
-
-### 3. Configure Environment
+### 4. Initialize Your Project
+Set up your chosen technologies:
 
 ```bash
-# Copy environment template
-cp .env.example .env.local
+# Example for Node.js + React
+npm init -y
+npm install react next typescript
+# ... install your chosen dependencies
 
-# Generate NextAuth secret
-openssl rand -base64 32
+# Example for Python + Django  
+pip install django djangorestframework
+django-admin startproject myproject .
 
-# Edit .env.local with your values
+# Example for Go + Gin
+go mod init myproject
+go get github.com/gin-gonic/gin
 ```
 
-### 4. Start Development
+## 📁 Directory Structure
+
+### Current Structure
+```
+├── agents/                    # Agent rules and skills (create this)
+│   ├── rules/                # Development rules and patterns
+│   │   ├── core.mdc         # Core architecture guidelines  
+│   │   ├── security.mdc     # Security patterns and requirements
+│   │   └── style.mdc        # Code style and formatting rules
+│   └── skills/              # Reusable agent skills and capabilities
+├── AGENTS.md                 # Agent responsibilities and usage guide
+├── CLAUDE.md                 # Project guidelines and architecture
+├── .cursorrules             # Cursor AI assistant configuration
+├── .gitignore               # Git ignore patterns (generalized)
+├── .editorconfig            # Editor configuration (universal)
+└── README.md                # This file
+```
+
+### After Adding Your Stack
+Your structure will adapt to your chosen technologies:
 
 ```bash
-npm run dev
+# React/Next.js example
+├── agents/
+├── src/ or app/             # Your source code
+├── public/                  # Static assets  
+├── package.json            # Node.js dependencies
+├── tsconfig.json           # TypeScript configuration
+└── next.config.js          # Framework configuration
+
+# Django example  
+├── agents/
+├── myproject/              # Django project
+├── apps/                   # Django apps
+├── requirements.txt        # Python dependencies
+├── manage.py              # Django management
+└── settings/              # Django settings
+
+# Go example
+├── agents/  
+├── cmd/                   # Application entrypoints
+├── internal/              # Private application code
+├── pkg/                   # Public library code
+├── go.mod                 # Go module file
+└── main.go               # Main application file
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) 🎉
+## 🛠️ Configuration Files
 
----
+### Core Template Files (Keep)
+- `AGENTS.md` - Agent responsibilities and delegation patterns
+- `CLAUDE.md` - Project guidelines and architecture decisions  
+- `.cursorrules` - AI assistant configuration and development rules
+- `.gitignore` - Version control ignore patterns (update as needed)
+- `.editorconfig` - Universal editor configuration
 
-## 📁 Project Structure
+### Technology-Specific Files (Add as needed)
+- **JavaScript/TypeScript**: `package.json`, `tsconfig.json`, `eslint.config.js`
+- **Python**: `requirements.txt` or `pyproject.toml`, `setup.py`
+- **Go**: `go.mod`, `go.sum`
+- **Rust**: `Cargo.toml`, `Cargo.lock`
+- **Java**: `pom.xml` or `build.gradle`
 
-```
-app/                    # Next.js App Router
-├── (auth)/            # Authentication pages
-├── api/               # API routes with validation  
-├── dashboard/         # Protected dashboard pages
-└── globals.css        # Global styles
+## 🔒 Security Patterns
 
-components/            # Shared components
-├── ui/               # Base design system
-├── forms/            # Form components
-└── layout/           # Layout components
+This template enforces security-first development:
 
-lib/                  # Core utilities
-├── auth.ts           # NextAuth configuration
-├── data/             # Database access layer
-├── validations/      # Zod schemas
-└── utils.ts          # Utility functions
+### Input Validation
+```typescript
+// Example with Zod (TypeScript)
+import { z } from 'zod'
 
-.cursor/rules/        # AI development rules
-├── core.mdc          # Architecture guidelines
-├── frontend.mdc      # React/Next.js patterns
-├── database.mdc      # Database patterns
-├── security.mdc      # Security best practices
-└── testing.mdc       # Testing patterns
-
-__tests__/           # Unit & integration tests
-e2e/                 # Playwright E2E tests
-docs/                # Project documentation
+const userSchema = z.object({
+  email: z.string().email().toLowerCase(),
+  password: z.string().min(8)
+})
 ```
 
----
+```python
+# Example with Pydantic (Python)
+from pydantic import BaseModel, EmailStr
 
-## 🛠️ Development Commands
+class User(BaseModel):
+    email: EmailStr
+    password: str
+```
 
-### Development
+### Authentication Patterns
+- Secure session management with appropriate token expiration
+- Multi-factor authentication for sensitive operations
+- Role-based access control with proper middleware
+- Secure password hashing and storage
+
+### Rate Limiting
+```javascript
+// Example rate limiting pattern
+const rateLimit = require('express-rate-limit')
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 attempts per window
+  message: 'Too many authentication attempts'
+})
+```
+
+## 🧪 Testing Strategy
+
+### Test Coverage Targets
+- **Unit Tests**: 80% coverage for business logic
+- **Integration Tests**: 15% coverage for API endpoints and database operations
+- **E2E Tests**: 5% coverage for critical user journeys
+
+### Testing Tools by Technology
+**JavaScript/TypeScript:**
+- Unit/Integration: Jest, Vitest, or framework-specific test runners
+- E2E: Playwright, Cypress, or Selenium
+- Component: Testing Library, Enzyme
+
+**Python:**
+- Unit/Integration: pytest, unittest
+- E2E: Selenium, Playwright
+- API: requests, httpx
+
+**Go:**
+- Unit/Integration: Built-in testing package, testify
+- E2E: Selenium, Playwright
+- HTTP: httptest package
+
+## 📋 Agent Usage Examples
+
+### Frontend Development
 ```bash
-npm run dev                # Start development server
-npm run build              # Production build
-npm run start              # Start production server
+# Delegate UI work to FrontendAgent
+"Create a responsive navigation component with accessibility support"
+"Redesign the user profile page following our design system"
+"Implement the login form with proper validation"
 ```
 
-### Code Quality
+### Backend Development  
 ```bash
-npm run lint               # Check linting
-npm run lint:fix           # Auto-fix issues
-npm run format             # Format code
-npm run type-check         # TypeScript validation
+# Delegate API work to BackendAgent
+"Create a secure user registration endpoint with rate limiting"
+"Implement JWT authentication middleware"
+"Add password reset functionality with email verification"
 ```
 
-### Testing
+### Database Operations
 ```bash
-npm run test               # Unit tests
-npm run test:watch         # Tests in watch mode
-npm run test:ui            # Tests with UI
-npm run test:e2e           # Playwright E2E tests
-npm run test:e2e:ui        # E2E tests with UI
+# Delegate database work to DatabaseAgent
+"Design a user roles and permissions schema"
+"Create a migration to add audit logging"
+"Optimize the user query to prevent N+1 problems"
 ```
 
-### Database (Prisma)
+## 🚀 Deployment Patterns
+
+### Environment Configuration
 ```bash
-npm run db:generate        # Generate Prisma client
-npm run db:migrate         # Run migrations
-npm run db:push            # Push schema changes
-npm run db:studio          # Open Prisma Studio
+# Environment variables pattern
+DATABASE_URL=postgres://user:pass@localhost:5432/dbname
+JWT_SECRET=your-secret-key
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
 ```
 
-### Analysis
-```bash
-npm run analyze            # Bundle size analysis
+### Docker Support
+```dockerfile
+# Example Dockerfile pattern
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
 ```
 
----
-
-## 🏗️ Architecture Decisions
-
-### Database Strategy
-
-This template supports two database approaches:
-
-| Feature | Prisma + PostgreSQL | Supabase |
-|---------|--------------------|-----------| 
-| **Type Safety** | ✅ Compile-time | ✅ Generated types |
-| **Complex Queries** | ✅ Advanced SQL | ⚠️ Limited joins |
-| **Authentication** | ➡️ NextAuth.js | ✅ Built-in |
-| **Real-time** | ➡️ Custom solution | ✅ Built-in |
-| **File Storage** | ➡️ External service | ✅ Built-in |
-| **Learning Curve** | ⚠️ Moderate | ✅ Low |
-| **Hosting Flexibility** | ✅ Any provider | ⚠️ Vendor lock-in |
-
-**Choose Prisma** for complex applications with custom business logic.
-**Choose Supabase** for rapid prototyping and apps needing real-time features.
-
-### Security Architecture
-
-- **Input Validation**: Zod schemas at API boundaries
-- **Authentication**: NextAuth.js v5 with session management
-- **Authorization**: Middleware-based route protection
-- **Rate Limiting**: Per-endpoint limits with sliding windows
-- **Headers**: Comprehensive security headers and CSP
-- **Database**: ORM-only access, no raw SQL
-
-### Testing Strategy
-
-- **Unit Tests (80%)**: Components, hooks, utilities
-- **Integration Tests (15%)**: API routes, database operations
-- **E2E Tests (5%)**: Critical user journeys
-- **Accessibility**: Automated axe-core testing
-
----
-
-## 🤖 AI-Assisted Development
-
-This template includes comprehensive Cursor AI integration:
-
-### Agent System
-
-- **Gemini**: UI/design work (`snippet_frontend`, `modify_frontend`)
-- **BackendAgent**: API routes and business logic
-- **DBAgent**: Database schema and queries
-- **TestAgent**: Testing implementation
-- **ReviewerAgent**: Code review and security
-
-### Cursor Rules
-
-Detailed implementation patterns in `.cursor/rules/`:
-- `core.mdc` - Architecture and development identity
-- `frontend.mdc` - React/Next.js/Tailwind patterns
-- `database.mdc` - Database-agnostic patterns
-- `security.mdc` - Security best practices
-- `testing.mdc` - Testing patterns and examples
-
----
-
-## 🚢 Deployment
-
-### Vercel (Recommended)
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-
-# Set environment variables in Vercel dashboard
+### CI/CD Pipeline
+```yaml
+# Example GitHub Actions
+name: CI/CD Pipeline
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run tests
+        run: npm test
+      - name: Security audit
+        run: npm audit
+      - name: Accessibility tests
+        run: npm run test:a11y
 ```
 
-### Other Platforms
+## 🔄 Maintenance
 
-This template works with any Node.js hosting provider:
-- **Netlify**: Add `netlify.toml` configuration
-- **Railway**: Connect GitHub repository
-- **Docker**: Add `Dockerfile` and `docker-compose.yml`
+### Regular Updates
+- **Dependencies**: Update regularly with proper testing
+- **Security**: Apply security patches immediately  
+- **Performance**: Monitor and optimize based on metrics
+- **Documentation**: Keep current with code changes
 
-### Environment Variables
-
-Essential production variables:
-- `DATABASE_URL` or Supabase credentials
-- `NEXTAUTH_SECRET` (32+ characters)
-- `NEXTAUTH_URL` (your production domain)
-- Rate limiting: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
-
----
+### Quality Gates
+- All code must pass linting and formatting checks
+- Test coverage must meet minimum thresholds
+- Security scans must pass without high-severity issues
+- Accessibility tests must pass for user-facing features
 
 ## 📚 Documentation
 
-- **[CLAUDE.md](CLAUDE.md)** - Architecture guidelines and coding standards
-- **[AGENTS.md](AGENTS.md)** - AI agent responsibilities and workflows
-- **[docs/architecture.md](docs/architecture.md)** - Detailed architecture decisions
-- **[.cursor/rules/](/.cursor/rules/)** - Implementation patterns for AI
+### Additional Resources
+- **Architecture**: See `CLAUDE.md` for detailed architecture guidelines
+- **Agent Usage**: See `AGENTS.md` for detailed agent responsibilities  
+- **Security**: See `agents/rules/security.mdc` for security patterns
+- **Code Style**: See `agents/rules/style.mdc` for formatting rules
+
+### Getting Help
+1. **Check the agent files** in `agents/rules/*.mdc` for implementation patterns
+2. **Review `CLAUDE.md`** for architecture and technology selection guidance
+3. **Use the agents** defined in `AGENTS.md` for specialized development tasks
+4. **Follow security patterns** to maintain enterprise-grade security standards
 
 ---
 
-## 🤝 Contributing
-
-1. **Fork** the repository
-2. **Create** a feature branch
-3. **Follow** the coding standards in `CLAUDE.md`
-4. **Add tests** for new functionality
-5. **Run** quality checks: `npm run lint && npm run test`
-6. **Submit** a pull request
-
-### Quality Gates
-
-- ✅ TypeScript compilation
-- ✅ ESLint + Prettier
-- ✅ Unit test coverage >80%
-- ✅ E2E test coverage for new features
-- ✅ Security scan passes
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **Next.js** team for the excellent framework
-- **Vercel** for hosting and development experience
-- **Prisma** and **Supabase** for database solutions
-- **Testing Library** and **Playwright** for testing tools
-- **Tailwind CSS** for utility-first styling
-
----
-
-**Built with ❤️ for modern web development**
-
-[⭐ Star this repo](https://github.com/your-username/your-repo) if it helped you!
+**Ready to start building?** Choose your technology stack, adapt the configuration files, and begin development with enterprise-grade patterns from day one.
