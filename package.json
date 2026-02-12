@@ -1,0 +1,47 @@
+{
+  "name": "agents-templated",
+  "version": "1.0.0",
+  "description": "Technology-agnostic development template with AI assistant integration, security-first patterns, and comprehensive testing guidelines",
+  "main": "index.js",
+  "bin": {
+    "agents-templated": "bin/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "template",
+    "boilerplate",
+    "ai-assistant",
+    "cursor",
+    "copilot",
+    "agents",
+    "security",
+    "testing",
+    "development",
+    "scaffold",
+    "cli"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/agents-templated.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "bin",
+    "templates",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "commander": "^11.1.0",
+    "fs-extra": "^11.2.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6"
+  }
+}

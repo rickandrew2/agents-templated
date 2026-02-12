@@ -18,14 +18,58 @@ This template provides a proven agent-based development structure that works wit
 
 ## Quick Start
 
-### 1. Clone the Template
+### Installation Options
+
+**Option 1: NPM Package (Recommended for Existing Projects)**
+
+Install globally and use in any project:
+
+```bash
+# Install globally
+npm install -g agents-templated
+
+# Use in any existing project
+cd your-existing-project
+agents-templated init
+```
+
+Or install locally per project:
+
+```bash
+# Install as dev dependency
+npm install --save-dev agents-templated
+
+# Initialize templates
+npx agents-templated init
+```
+
+**Option 2: Clone Template (New Projects)**
 
 ```bash
 git clone <this-repo> my-project
 cd my-project
 ```
 
-### 2. Choose Your Technology Stack
+### CLI Usage
+
+```bash
+# Install all components
+agents-templated init --all
+
+# Install specific components
+agents-templated init --docs        # Documentation only
+agents-templated init --rules       # Agent rules only
+agents-templated init --skills      # Skills only
+agents-templated init --github      # GitHub Copilot config
+
+# Force overwrite existing files
+agents-templated init --all --force
+
+# List available components
+agents-templated list
+```
+
+### Choose Your Technology Stack
 
 This template adapts to your preferred technologies:
 
@@ -38,7 +82,7 @@ This template adapts to your preferred technologies:
 **Database Options:**
 - PostgreSQL/MySQL with ORM, MongoDB/NoSQL, or cloud solutions like Supabase
 
-### 3. Configure AI Assistants
+### Configure AI Assistants
 
 The template includes configuration files for multiple AI assistants:
 
@@ -46,7 +90,7 @@ The template includes configuration files for multiple AI assistants:
 - **GitHub Copilot**: Uses `.github/copilot-instructions.md` (auto-loaded)
 - **Other AI Tools**: Reference `AI_INSTRUCTIONS.md` in your prompts
 
-### 4. Initialize Your Project
+### Initialize Your Project
 
 Set up your chosen technologies:
 
@@ -62,6 +106,28 @@ django-admin startproject myproject .
 # Example for Go + Gin
 go mod init myproject
 go get github.com/gin-gonic/gin
+```
+
+## Programmatic API
+
+Use agents-templated programmatically in your build scripts:
+
+```javascript
+const agentsTemplated = require('agents-templated');
+
+// Install all components
+await agentsTemplated.install('./my-project', {
+  force: true
+});
+
+// Install specific components
+await agentsTemplated.install('./my-project', {
+  docs: true,
+  rules: true,
+  skills: false,
+  github: true,
+  force: false
+});
 ```
 
 ## Directory Structure

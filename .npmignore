@@ -1,0 +1,21 @@
+# Keep source files out of npm package
+node_modules/
+*.log
+.DS_Store
+.env
+.env.local
+
+# Development files
+.git/
+.github/workflows/
+.vscode/
+.idea/
+
+# Test files
+test/
+tests/
+*.test.js
+*.spec.js
+
+# Documentation for development only
+.cursorrules
