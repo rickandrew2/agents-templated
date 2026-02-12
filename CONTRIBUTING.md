@@ -6,15 +6,6 @@ Thank you for your interest in contributing to Agents Templated! This document p
 
 See [`.github/GET_STARTED.md`](.github/GET_STARTED.md) for development setup instructions.
 
-## 📦 Publishing & Development Guides
-
-For maintainers and contributors, detailed guides are available in the `.github/` folder:
-
-- **[Publishing Guide](.github/PUBLISHING_GUIDE.md)** - How to publish new versions to NPM
-- **[NPM Package Guide](.github/NPM_PACKAGE_GUIDE.md)** - Package configuration and best practices
-- **[Promotion Guide](.github/PROMOTION_GUIDE.md)** - Marketing and promotion strategies
-- **[Quick Start Promotion](.github/QUICK_START_PROMOTION.md)** - Quick promotion checklist
-
 ## 🤝 How to Contribute
 
 1. **Fork the repository**
