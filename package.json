@@ -1,6 +1,6 @@
 {
   "name": "agents-templated",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Technology-agnostic development template with AI assistant integration, security-first patterns, and comprehensive testing guidelines",
   "main": "index.js",
   "bin": {
