@@ -83,3 +83,5 @@ credentials.json
 .env.production
 .env.staging
 .env.development
+
+.github
