@@ -296,10 +296,6 @@ When contributing to this template:
 4. Follow security and testing patterns
 5. Ensure AI assistant configurations remain compatible
 
-## License
-
-[Add your license here]
-
 ---
 
 **Ready to start building?** Choose your technology stack, adapt the configuration files, and begin development with enterprise-grade patterns from day one.
