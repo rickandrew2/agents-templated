@@ -5,21 +5,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/rickandrew2/agents-projects-templated?style=social)](https://github.com/rickandrew2/agents-projects-templated)
 
-A flexible, enterprise-grade development template that adapts to any modern technology stack while maintaining security-first development patterns, comprehensive testing, and excellent developer experience. Built with AI assistant integration for Cursor, GitHub Copilot, and other AI coding tools.
+An enterprise-grade development template that works with any technology stack. Provides proven patterns, security guidelines, and AI assistant integration for Cursor and GitHub Copilot. You choose your tech stack (React, Django, Go, etc.) and install it separately—this package scaffolds the structure and patterns you'll follow.
 
 ## Overview
 
-This template provides a proven agent-based development structure that works with any technology stack. It includes comprehensive rules, patterns, and guidelines that help both developers and AI assistants maintain consistent, secure, and high-quality code across different projects.
+This template provides proven development patterns and guidelines that work with **any** technology stack. It scaffolds project structure, AI assistant configurations, and security patterns—but does **not** install tech packages for you. After running `agents-templated init`, you independently install your chosen frameworks (React, Django, Go, etc.) into the scaffolded structure.
 
 ## Key Features
 
-- **Technology-Agnostic**: Works with React, Vue, Angular, Node.js, Python, Go, Rust, or any modern stack
-- **AI Assistant Ready**: Pre-configured for Cursor, GitHub Copilot, and other AI coding tools
-- **Security-First**: Built-in OWASP Top 10 protection patterns and security guidelines
-- **Comprehensive Testing**: Testing strategy with unit, integration, and E2E coverage targets
-- **Agent-Based Architecture**: Specialized agents for frontend, backend, database, testing, and security
-- **Type-Safe Patterns**: Strong typing and validation patterns across the stack
-- **Accessibility Compliant**: WCAG 2.1 AA standards built into development patterns
+- **Technology-Agnostic Templates**: Provides patterns and structure that work with any tech stack (React, Vue, Django, Go, etc.)
+- **AI Assistant Ready**: Pre-configured instructions for Cursor, GitHub Copilot, and other AI coding tools
+- **Security-First Patterns**: Built-in OWASP Top 10 protection patterns and security guidelines
+- **Testing Strategy**: Defined testing approach with unit, integration, and E2E coverage targets
+- **Agent-Based Architecture**: Guides for specialized agents (frontend, backend, database, testing, security)
+- **Type-Safe Development**: Type validation patterns applicable to any language
+- **Accessibility Guidelines**: WCAG 2.1 AA compliance patterns built into development guides
 
 ## Quick Start
 
@@ -74,9 +74,9 @@ agents-templated init --all --force
 agents-templated list
 ```
 
-### Choose Your Technology Stack
+### Step 2: Choose Your Technology Stack
 
-This template adapts to your preferred technologies:
+After running `agents-templated init`, select and install your preferred technologies. The template works with **any** modern stack:
 
 **Frontend Options:**
 - React/Next.js, Vue/Nuxt, Angular, Svelte/SvelteKit, or traditional SSR
@@ -87,6 +87,8 @@ This template adapts to your preferred technologies:
 **Database Options:**
 - PostgreSQL/MySQL with ORM, MongoDB/NoSQL, or cloud solutions like Supabase
 
+**Note:** You must install these packages yourself—the template doesn't include them.
+
 ### Configure AI Assistants
 
 The template includes configuration files for multiple AI assistants:
@@ -95,9 +97,9 @@ The template includes configuration files for multiple AI assistants:
 - **GitHub Copilot**: Uses `.github/copilot-instructions.md` (auto-loaded)
 - **Other AI Tools**: Reference `AI_INSTRUCTIONS.md` in your prompts
 
-### Initialize Your Project
+### Step 3: Install Your Technology Stack
 
-Set up your chosen technologies:
+Once the template is initialized, install your chosen framework and dependencies:
 
 ```bash
 # Example for Node.js + React
@@ -112,6 +114,8 @@ django-admin startproject myproject .
 go mod init myproject
 go get github.com/gin-gonic/gin
 ```
+
+**Important:** `agents-templated init` only provides templates and patterns. You must install framework packages separately using npm, pip, go, or your tech stack's package manager.
 
 ## Programmatic API
 
