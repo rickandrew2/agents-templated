@@ -27,7 +27,7 @@ program
       const targetDir = process.cwd();
       const templateDir = path.join(__dirname, '..', 'templates');
 
-      console.log(chalk.blue.bold('\n🤖 Agents Templated - AI-Powered Development Setup\n'));
+      console.log(chalk.blue.bold('\nAgents Templated - AI-Powered Development Setup\n'));
 
       let choices = [];
       
@@ -71,7 +71,7 @@ program
 
       // Install documentation files
       if (installAll || choices.includes('docs')) {
-        console.log(chalk.yellow('📄 Installing documentation files...'));
+        console.log(chalk.yellow('Installing documentation files...'));
         await copyFiles(templateDir, targetDir, [
           'AGENTS.MD',
           'CLAUDE.md',
@@ -82,7 +82,7 @@ program
 
       // Install agent rules
       if (installAll || choices.includes('rules')) {
-        console.log(chalk.yellow('📋 Installing agent rules...'));
+        console.log(chalk.yellow('Installing agent rules...'));
         await fs.ensureDir(path.join(targetDir, 'agents', 'rules'));
         await copyDirectory(
           path.join(templateDir, 'agents', 'rules'),
@@ -93,7 +93,7 @@ program
 
       // Install skills
       if (installAll || choices.includes('skills')) {
-        console.log(chalk.yellow('🎯 Installing skills...'));
+        console.log(chalk.yellow('Installing skills...'));
         await fs.ensureDir(path.join(targetDir, 'agents', 'skills'));
         await copyDirectory(
           path.join(templateDir, 'agents', 'skills'),
@@ -104,14 +104,14 @@ program
 
       // Install GitHub Copilot instructions
       if (installAll || choices.includes('github')) {
-        console.log(chalk.yellow('🐙 Installing GitHub Copilot instructions...'));
+        console.log(chalk.yellow('Installing GitHub Copilot instructions...'));
         await fs.ensureDir(path.join(targetDir, '.github'));
         await copyFiles(templateDir, targetDir, [
           '.github/copilot-instructions.md'
         ], options.force);
       }
 
-      console.log(chalk.green.bold('\n✅ Installation complete!\n'));
+      console.log(chalk.green.bold('\nInstallation complete!\n'));
       console.log(chalk.cyan('Next steps:'));
       console.log(chalk.white('  1. Review CLAUDE.md for project guidelines'));
       console.log(chalk.white('  2. Review AGENTS.MD for agent patterns'));
@@ -119,7 +119,7 @@ program
       console.log(chalk.white('  4. Adapt the rules to your technology stack\n'));
 
     } catch (error) {
-      console.error(chalk.red('❌ Error:'), error.message);
+      console.error(chalk.red('Error:'), error.message);
       process.exit(1);
     }
   });
@@ -128,7 +128,7 @@ program
   .command('list')
   .description('List available components')
   .action(() => {
-    console.log(chalk.blue.bold('\n📦 Available Components:\n'));
+    console.log(chalk.blue.bold('\nAvailable Components:\n'));
     console.log(chalk.yellow('docs') + '    - Documentation files (AGENTS.MD, CLAUDE.md, AI_INSTRUCTIONS.md, README.md)');
     console.log(chalk.yellow('rules') + '   - Agent rules (core, database, frontend, security, testing, style)');
     console.log(chalk.yellow('skills') + '  - Agent skills (find-skills, web-design-guidelines)');
@@ -143,20 +143,20 @@ async function copyFiles(sourceDir, targetDir, files, force = false) {
 
     if (await fs.pathExists(sourcePath)) {
       if (await fs.pathExists(targetPath) && !force) {
-        console.log(chalk.gray(`  ⏭️  Skipping ${file} (already exists)`));
+        console.log(chalk.gray(`  Skipping ${file} (already exists)`));
         continue;
       }
 
       await fs.ensureDir(path.dirname(targetPath));
       await fs.copy(sourcePath, targetPath, { overwrite: force });
-      console.log(chalk.green(`  ✓ ${file}`));
+      console.log(chalk.green(`  + ${file}`));
     }
   }
 }
 
 async function copyDirectory(sourceDir, targetDir, force = false) {
   if (!(await fs.pathExists(sourceDir))) {
-    console.log(chalk.gray(`  ⏭️  Directory not found: ${sourceDir}`));
+    console.log(chalk.gray(`  Directory not found: ${sourceDir}`));
     return;
   }
 
@@ -171,12 +171,12 @@ async function copyDirectory(sourceDir, targetDir, force = false) {
       await copyDirectory(sourcePath, targetPath, force);
     } else {
       if (await fs.pathExists(targetPath) && !force) {
-        console.log(chalk.gray(`  ⏭️  Skipping ${path.relative(process.cwd(), targetPath)} (already exists)`));
+        console.log(chalk.gray(`  Skipping ${path.relative(process.cwd(), targetPath)} (already exists)`));
         continue;
       }
 
       await fs.copy(sourcePath, targetPath, { overwrite: force });
-      console.log(chalk.green(`  ✓ ${path.relative(process.cwd(), targetPath)}`));
+      console.log(chalk.green(`  + ${path.relative(process.cwd(), targetPath)}`));
     }
   }
 }

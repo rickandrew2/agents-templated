@@ -19,3 +19,14 @@ tests/
 
 # Documentation for development only
 .cursorrules
+
+# Package development documentation (exclude from published package)
+NPM_2FA_SETUP.md
+PUBLISHING_GUIDE.md
+GET_STARTED.md
+NPM_PACKAGE_GUIDE.md
+setup-templates.ps1
+
+# Git files
+.gitignore
+.gitattributes
