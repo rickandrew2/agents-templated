@@ -1,51 +1,33 @@
 # Technology-Agnostic Development Template
 
-A flexible, enterprise-grade development template that adapts to any modern technology stack while maintaining security-first development patterns, comprehensive testing, and excellent developer experience.
+A flexible, enterprise-grade development template that adapts to any modern technology stack while maintaining security-first development patterns, comprehensive testing, and excellent developer experience. Built with AI assistant integration for Cursor, GitHub Copilot, and other AI coding tools.
 
-## 🎯 Purpose
+## Overview
 
-This template provides a **proven agent-based development structure** that can be adapted to any technology stack:
-- **Frontend**: React, Vue, Angular, Svelte, or traditional server-side rendering
-- **Backend**: Node.js, Python, Go, Rust, Java, or any modern backend framework  
-- **Database**: SQL, NoSQL, or cloud-native database solutions
-- **Authentication**: Self-managed or Authentication as a Service
-- **Deployment**: Any cloud provider or hosting solution
+This template provides a proven agent-based development structure that works with any technology stack. It includes comprehensive rules, patterns, and guidelines that help both developers and AI assistants maintain consistent, secure, and high-quality code across different projects.
 
-## 🏗️ Architecture
+## Key Features
 
-### Agent-Based Development
-This template uses specialized agents for different aspects of development:
+- **Technology-Agnostic**: Works with React, Vue, Angular, Node.js, Python, Go, Rust, or any modern stack
+- **AI Assistant Ready**: Pre-configured for Cursor, GitHub Copilot, and other AI coding tools
+- **Security-First**: Built-in OWASP Top 10 protection patterns and security guidelines
+- **Comprehensive Testing**: Testing strategy with unit, integration, and E2E coverage targets
+- **Agent-Based Architecture**: Specialized agents for frontend, backend, database, testing, and security
+- **Type-Safe Patterns**: Strong typing and validation patterns across the stack
+- **Accessibility Compliant**: WCAG 2.1 AA standards built into development patterns
 
-- **FrontendAgent**: UI/UX development and design system implementation
-- **BackendAgent**: API development, business logic, and server-side concerns  
-- **DatabaseAgent**: Schema design, migrations, and data access patterns
-- **TestAgent**: Comprehensive testing strategy across all layers
-- **SecurityAgent**: Security-first development and compliance
-- **ReviewerAgent**: Code review and quality assurance
+## Quick Start
 
-### Core Principles
-- ✅ **Security-first development** with OWASP Top 10 protection
-- ✅ **Type safety** across the entire application stack
-- ✅ **Comprehensive testing** with unit, integration, and E2E coverage
-- ✅ **Accessibility** compliance with WCAG 2.1 AA standards
-- ✅ **Performance optimization** with monitoring and optimization patterns
-- ✅ **Developer experience** with hot reload, debugging, and quality gates
+### 1. Clone the Template
 
-## 🚀 Quick Start
-
-### 1. Clone and Clean
 ```bash
-# Clone the template
 git clone <this-repo> my-project
 cd my-project
-
-# Remove technology-specific files (optional - see cleanup guide below)
-rm package*.json *.config.* tsconfig.json
-rm -rf app/ components/ lib/ public/ test/ node_modules/ .next/
 ```
 
-### 2. Choose Your Stack
-Select your preferred technologies:
+### 2. Choose Your Technology Stack
+
+This template adapts to your preferred technologies:
 
 **Frontend Options:**
 - React/Next.js, Vue/Nuxt, Angular, Svelte/SvelteKit, or traditional SSR
@@ -56,31 +38,24 @@ Select your preferred technologies:
 **Database Options:**
 - PostgreSQL/MySQL with ORM, MongoDB/NoSQL, or cloud solutions like Supabase
 
-### 3. Adapt the Template
-Update the configuration files for your chosen stack:
+### 3. Configure AI Assistants
 
-```bash
-# Update agent rules for your technology choices
-# Edit agents/rules/*.mdc files
-code agents/rules/core.mdc
+The template includes configuration files for multiple AI assistants:
 
-# Customize the cursor rules for your stack
-code .cursorrules
-
-# Update project guidelines
-code CLAUDE.md
-```
+- **Cursor**: Uses `.cursorrules` and `agents/rules/*.mdc` files (auto-loaded)
+- **GitHub Copilot**: Uses `.github/copilot-instructions.md` (auto-loaded)
+- **Other AI Tools**: Reference `AI_INSTRUCTIONS.md` in your prompts
 
 ### 4. Initialize Your Project
+
 Set up your chosen technologies:
 
 ```bash
 # Example for Node.js + React
 npm init -y
 npm install react next typescript
-# ... install your chosen dependencies
 
-# Example for Python + Django  
+# Example for Python + Django
 pip install django djangorestframework
 django-admin startproject myproject .
 
@@ -89,76 +64,110 @@ go mod init myproject
 go get github.com/gin-gonic/gin
 ```
 
-## 📁 Directory Structure
+## Directory Structure
 
-### Current Structure
 ```
-├── agents/                    # Agent rules and skills (create this)
-│   ├── rules/                # Development rules and patterns
-│   │   ├── core.mdc         # Core architecture guidelines  
-│   │   ├── security.mdc     # Security patterns and requirements
-│   │   └── style.mdc        # Code style and formatting rules
-│   └── skills/              # Reusable agent skills and capabilities
-├── AGENTS.md                 # Agent responsibilities and usage guide
-├── CLAUDE.md                 # Project guidelines and architecture
-├── .cursorrules             # Cursor AI assistant configuration
-├── .gitignore               # Git ignore patterns (generalized)
-├── .editorconfig            # Editor configuration (universal)
-└── README.md                # This file
-```
-
-### After Adding Your Stack
-Your structure will adapt to your chosen technologies:
-
-```bash
-# React/Next.js example
-├── agents/
-├── src/ or app/             # Your source code
-├── public/                  # Static assets  
-├── package.json            # Node.js dependencies
-├── tsconfig.json           # TypeScript configuration
-└── next.config.js          # Framework configuration
-
-# Django example  
-├── agents/
-├── myproject/              # Django project
-├── apps/                   # Django apps
-├── requirements.txt        # Python dependencies
-├── manage.py              # Django management
-└── settings/              # Django settings
-
-# Go example
-├── agents/  
-├── cmd/                   # Application entrypoints
-├── internal/              # Private application code
-├── pkg/                   # Public library code
-├── go.mod                 # Go module file
-└── main.go               # Main application file
+├── agents/                          # Agent rules and skills
+│   ├── rules/                      # Development rules and patterns
+│   │   ├── core.mdc               # Core architecture guidelines
+│   │   ├── security.mdc           # Security patterns and requirements
+│   │   ├── testing.mdc            # Testing strategy and patterns
+│   │   ├── frontend.mdc           # Frontend development patterns
+│   │   ├── database.mdc           # Database design and patterns
+│   │   └── style.mdc              # Code style and formatting rules
+│   └── skills/                     # Reusable agent skills
+│       ├── web-design-guidelines/  # Web interface guidelines skill
+│       └── find-skills/           # Skill discovery utilities
+├── .github/
+│   └── copilot-instructions.md    # GitHub Copilot configuration
+├── AGENTS.md                       # Agent responsibilities and usage guide
+├── CLAUDE.md                       # Project guidelines and architecture
+├── AI_INSTRUCTIONS.md              # Universal AI assistant instructions
+├── .cursorrules                    # Cursor AI assistant configuration
+├── .aiderignore                    # Aider AI assistant ignore patterns
+├── .editorconfig                   # Editor configuration
+├── .gitignore                      # Git ignore patterns
+└── README.md                       # This file
 ```
 
-## 🛠️ Configuration Files
+## Core Configuration Files
 
-### Core Template Files (Keep)
-- `AGENTS.md` - Agent responsibilities and delegation patterns
-- `CLAUDE.md` - Project guidelines and architecture decisions  
-- `.cursorrules` - AI assistant configuration and development rules
-- `.gitignore` - Version control ignore patterns (update as needed)
-- `.editorconfig` - Universal editor configuration
+### Documentation Files
 
-### Technology-Specific Files (Add as needed)
-- **JavaScript/TypeScript**: `package.json`, `tsconfig.json`, `eslint.config.js`
-- **Python**: `requirements.txt` or `pyproject.toml`, `setup.py`
-- **Go**: `go.mod`, `go.sum`
-- **Rust**: `Cargo.toml`, `Cargo.lock`
-- **Java**: `pom.xml` or `build.gradle`
+- **`CLAUDE.md`** - Overall project guidelines, architecture principles, and technology stack selection
+- **`AGENTS.md`** - Agent delegation patterns, responsibilities, and when to use each agent
+- **`AI_INSTRUCTIONS.md`** - Universal instructions for any AI assistant (reference explicitly)
 
-## 🔒 Security Patterns
+### AI Assistant Configuration
 
-This template enforces security-first development:
+- **`.cursorrules`** - Cursor-specific rules (auto-loaded by Cursor)
+- **`.github/copilot-instructions.md`** - GitHub Copilot instructions (auto-loaded)
+- **`agents/rules/*.mdc`** - Detailed rules with `alwaysApply: true` for auto-loading in Cursor
 
-### Input Validation
+### Rule Files
+
+- **`agents/rules/core.mdc`** - Core architecture principles and best practices
+- **`agents/rules/security.mdc`** - Security patterns, OWASP Top 10 protection
+- **`agents/rules/testing.mdc`** - Testing strategy, coverage targets, patterns
+- **`agents/rules/frontend.mdc`** - Frontend development patterns and accessibility
+- **`agents/rules/database.mdc`** - Database schema design and query optimization
+- **`agents/rules/style.mdc`** - Code style guidelines and formatting rules
+
+## Agent-Based Development
+
+This template uses specialized agents for different aspects of development:
+
+### FrontendAgent
+Handles UI/UX development, component creation, design system implementation, and accessibility compliance.
+
+### BackendAgent
+Manages API development, business logic, authentication, authorization, rate limiting, and security middleware.
+
+### DatabaseAgent
+Owns database schema design, migrations, query optimization, and data access patterns.
+
+### TestAgent
+Implements comprehensive testing strategy across unit, integration, E2E, accessibility, and security testing.
+
+### SecurityAgent
+Ensures security-first development with input validation, authentication patterns, authorization checks, and OWASP compliance.
+
+### ReviewerAgent
+Performs code reviews focusing on correctness, security, performance, test coverage, and accessibility.
+
+## Core Principles
+
+### Security-First Development
+- Validate all inputs at application boundaries with schema validation
+- Authenticate and authorize every protected endpoint
+- Rate limit public endpoints to prevent abuse
+- Sanitize outputs to prevent injection attacks
+- Never expose sensitive data in error messages or logs
+
+### Testing Strategy
+- **Unit Tests**: 80% coverage for business logic
+- **Integration Tests**: 15% coverage for API endpoints and database operations
+- **E2E Tests**: 5% coverage for critical user journeys
+- **Accessibility Tests**: WCAG 2.1 AA compliance for all UI
+
+### Type Safety
+- Use strong typing systems available in your chosen language
+- Implement runtime validation for all external/user-provided data
+- Validate at boundaries: API endpoints, form submissions, configuration
+- Generate types from schemas when possible (OpenAPI, GraphQL, database schemas)
+
+### Code Quality
+- Maintain consistent patterns throughout the codebase
+- Follow established code style guidelines
+- Ensure proper error handling and logging
+- Keep documentation updated with code changes
+
+## Security Patterns
+
+### Input Validation Example
+
 ```typescript
-// Example with Zod (TypeScript)
+// TypeScript with Zod
 import { z } from 'zod'
 
 const userSchema = z.object({
@@ -168,7 +177,7 @@ const userSchema = z.object({
 ```
 
 ```python
-# Example with Pydantic (Python)
+# Python with Pydantic
 from pydantic import BaseModel, EmailStr
 
 class User(BaseModel):
@@ -176,15 +185,10 @@ class User(BaseModel):
     password: str
 ```
 
-### Authentication Patterns
-- Secure session management with appropriate token expiration
-- Multi-factor authentication for sensitive operations
-- Role-based access control with proper middleware
-- Secure password hashing and storage
+### Rate Limiting Example
 
-### Rate Limiting
 ```javascript
-// Example rate limiting pattern
+// Node.js with express-rate-limit
 const rateLimit = require('express-rate-limit')
 
 const authLimiter = rateLimit({
@@ -194,14 +198,15 @@ const authLimiter = rateLimit({
 })
 ```
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
-### Test Coverage Targets
+### Coverage Targets
 - **Unit Tests**: 80% coverage for business logic
 - **Integration Tests**: 15% coverage for API endpoints and database operations
 - **E2E Tests**: 5% coverage for critical user journeys
 
 ### Testing Tools by Technology
+
 **JavaScript/TypeScript:**
 - Unit/Integration: Jest, Vitest, or framework-specific test runners
 - E2E: Playwright, Cypress, or Selenium
@@ -217,101 +222,83 @@ const authLimiter = rateLimit({
 - E2E: Selenium, Playwright
 - HTTP: httptest package
 
-## 📋 Agent Usage Examples
+## AI Assistant Integration
+
+### Cursor
+Rules are automatically loaded from:
+- `.cursorrules` file
+- `agents/rules/*.mdc` files with `alwaysApply: true`
+- `AGENTS.md` and `CLAUDE.md` (via workspace rules)
+
+### GitHub Copilot
+Instructions are automatically loaded from:
+- `.github/copilot-instructions.md`
+
+### Other AI Assistants
+Reference `AI_INSTRUCTIONS.md` explicitly in your prompts:
+- "Follow the patterns in `AI_INSTRUCTIONS.md`"
+- "Check `AGENTS.md` for agent delegation"
+- "Apply security patterns from `agents/rules/security.mdc`"
+
+## Usage Examples
 
 ### Frontend Development
-```bash
-# Delegate UI work to FrontendAgent
+```
 "Create a responsive navigation component with accessibility support"
 "Redesign the user profile page following our design system"
 "Implement the login form with proper validation"
 ```
 
-### Backend Development  
-```bash
-# Delegate API work to BackendAgent
+### Backend Development
+```
 "Create a secure user registration endpoint with rate limiting"
 "Implement JWT authentication middleware"
 "Add password reset functionality with email verification"
 ```
 
 ### Database Operations
-```bash
-# Delegate database work to DatabaseAgent
+```
 "Design a user roles and permissions schema"
 "Create a migration to add audit logging"
 "Optimize the user query to prevent N+1 problems"
 ```
 
-## 🚀 Deployment Patterns
+## Documentation
 
-### Environment Configuration
-```bash
-# Environment variables pattern
-DATABASE_URL=postgres://user:pass@localhost:5432/dbname
-JWT_SECRET=your-secret-key
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-```
-
-### Docker Support
-```dockerfile
-# Example Dockerfile pattern
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-### CI/CD Pipeline
-```yaml
-# Example GitHub Actions
-name: CI/CD Pipeline
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run tests
-        run: npm test
-      - name: Security audit
-        run: npm audit
-      - name: Accessibility tests
-        run: npm run test:a11y
-```
-
-## 🔄 Maintenance
-
-### Regular Updates
-- **Dependencies**: Update regularly with proper testing
-- **Security**: Apply security patches immediately  
-- **Performance**: Monitor and optimize based on metrics
-- **Documentation**: Keep current with code changes
-
-### Quality Gates
-- All code must pass linting and formatting checks
-- Test coverage must meet minimum thresholds
-- Security scans must pass without high-severity issues
-- Accessibility tests must pass for user-facing features
-
-## 📚 Documentation
+### Getting Started
+1. Review `CLAUDE.md` for architecture and technology selection guidance
+2. Check `AGENTS.md` for agent responsibilities and delegation patterns
+3. Reference `agents/rules/*.mdc` files for detailed implementation patterns
+4. Configure your AI assistant using the appropriate configuration file
 
 ### Additional Resources
 - **Architecture**: See `CLAUDE.md` for detailed architecture guidelines
-- **Agent Usage**: See `AGENTS.md` for detailed agent responsibilities  
+- **Agent Usage**: See `AGENTS.md` for detailed agent responsibilities
 - **Security**: See `agents/rules/security.mdc` for security patterns
+- **Testing**: See `agents/rules/testing.mdc` for testing strategy
 - **Code Style**: See `agents/rules/style.mdc` for formatting rules
 
-### Getting Help
-1. **Check the agent files** in `agents/rules/*.mdc` for implementation patterns
-2. **Review `CLAUDE.md`** for architecture and technology selection guidance
-3. **Use the agents** defined in `AGENTS.md` for specialized development tasks
-4. **Follow security patterns** to maintain enterprise-grade security standards
+## Quality Gates
+
+All code must meet these standards:
+- Pass linting and formatting checks
+- Meet minimum test coverage thresholds (80% unit, 15% integration, 5% E2E)
+- Pass security scans without high-severity issues
+- Pass accessibility tests for user-facing features
+- Follow established patterns and conventions
+
+## Contributing
+
+When contributing to this template:
+1. Maintain technology-agnostic patterns
+2. Update relevant rule files in `agents/rules/`
+3. Keep documentation synchronized with code changes
+4. Follow security and testing patterns
+5. Ensure AI assistant configurations remain compatible
+
+## License
+
+[Add your license here]
 
 ---
 
