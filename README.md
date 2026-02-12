@@ -139,7 +139,9 @@ await agentsTemplated.install('./my-project', {
 });
 ```
 
-## Directory Structure
+## What Gets Installed
+
+When you run `agents-templated init`, you get:
 
 ```
 ├── agents/                          # Agent rules and skills
@@ -158,11 +160,8 @@ await agentsTemplated.install('./my-project', {
 ├── AGENTS.md                       # Agent responsibilities and usage guide
 ├── CLAUDE.md                       # Project guidelines and architecture
 ├── AI_INSTRUCTIONS.md              # Universal AI assistant instructions
-├── .cursorrules                    # Cursor AI assistant configuration
-├── .aiderignore                    # Aider AI assistant ignore patterns
-├── .editorconfig                   # Editor configuration
-├── .gitignore                      # Git ignore patterns
-└── README.md                       # This file
+├── .gitignore                      # Pre-configured Git ignore patterns
+└── README.md                       # Project documentation
 ```
 
 ## Core Configuration Files

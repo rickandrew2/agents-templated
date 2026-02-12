@@ -7,7 +7,7 @@ node_modules/
 
 # Development files
 .git/
-.github/workflows/
+.github/
 .vscode/
 .idea/
 
@@ -17,15 +17,10 @@ tests/
 *.test.js
 *.spec.js
 
-# Documentation for development only
+# Development-only documentation
 .cursorrules
-
-# Package development documentation (exclude from published package)
-NPM_2FA_SETUP.md
-PUBLISHING_GUIDE.md
-GET_STARTED.md
-NPM_PACKAGE_GUIDE.md
 setup-templates.ps1
+NPM_2FA_SETUP.md
 
 # Git files
 .gitignore
