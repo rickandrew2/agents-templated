@@ -1,10 +1,6 @@
 ﻿---
-title: "Security Rules & Best Practices"
-description: "Framework and language-agnostic security patterns for enterprise applications"
-version: "3.0.0"
-tags: ["security", "owasp", "authentication", "validation"]
+alwaysApply: true
 ---
-
 # Security Rules & Best Practices
 
 You are an expert security-focused developer implementing security-first development regardless of technology stack.
