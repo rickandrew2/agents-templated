@@ -1,4 +1,4 @@
-#!/usr/bin/env node  ..
+#!/usr/bin/env node
 
 const { Command } = require('commander');
 const inquirer = require('inquirer');
@@ -6,12 +6,27 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 
+// Resolve the templates directory - works in both dev and installed contexts
+const getTemplatesDir = () => {
+  const nodeModuleDir = path.join(__dirname, '..', 'templates');
+  if (fs.existsSync(nodeModuleDir)) {
+    return nodeModuleDir;
+  }
+  // Fallback for installed global package
+  const globalDir = path.join(__dirname, '..', 'lib', 'templates');
+  if (fs.existsSync(globalDir)) {
+    return globalDir;
+  }
+  // Final fallback - try relative to__dirname
+  return path.resolve(__dirname, '..', 'templates');
+};
+
 const program = new Command();
 
 program
   .name('agents-templated')
   .description('Technology-agnostic development template with AI assistant integration')
-  .version('1.1.0');
+  .version('1.1.1');
 
 program
   .command('init')
@@ -26,7 +41,7 @@ program
   .action(async (options) => {
     try {
       const targetDir = process.cwd();
-      const templateDir = path.join(__dirname, '..', 'templates');
+      const templateDir = getTemplatesDir();
 
       console.log(chalk.blue.bold('\nAgents Templated - AI-Powered Development Setup\n'));
 
@@ -176,6 +191,7 @@ program
   .description('Interactive setup wizard with tech stack recommendations')
   .action(async () => {
     try {
+      const templateDir = getTemplatesDir();
       console.log(chalk.blue.bold('\n🧙 Agents Templated Setup Wizard\n'));
       console.log(chalk.gray('Let\'s set up your project with the right patterns and guidelines.\n'));
 
@@ -285,7 +301,6 @@ program
       console.log(chalk.blue('\n📦 Installing components...\n'));
       
       const targetDir = process.cwd();
-      const templateDir = path.join(__dirname, '..', 'templates');
       const options = {
         force: componentAnswers.overwrite,
         docs: componentAnswers.components.includes('docs'),
@@ -605,7 +620,7 @@ program
   .action(async (options) => {
     try {
       const targetDir = process.cwd();
-      const templateDir = path.join(__dirname, '..', 'templates');
+      const templateDir = getTemplatesDir();
       
       console.log(chalk.blue.bold('\n🔄 Checking for template updates...\n'));
 
@@ -709,6 +724,7 @@ program
   .action(async () => {
     try {
       const targetDir = process.cwd();
+      const templateDir = getTemplatesDir();
       console.log(chalk.blue.bold('\n🩺 Running Project Health Check...\n'));
 
       let recommendations = [];
