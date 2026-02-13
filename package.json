@@ -4,7 +4,7 @@
   "description": "Technology-agnostic development template with AI assistant integration, security-first patterns, and comprehensive testing guidelines",
   "main": "index.js",
   "bin": {
-    "agents-templated": "./bin/cli.js"
+    "agents-templated": "bin/cli.js"
   },
   "scripts": {
     "test": "jest",
@@ -29,7 +29,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rickandrew2/agents-templated.git"
+    "url": "git+https://github.com/rickandrew2/agents-templated.git"
   },
   "engines": {
     "node": ">=14.0.0"
