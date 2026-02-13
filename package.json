@@ -1,13 +1,16 @@
 {
   "name": "agents-templated",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Technology-agnostic development template with AI assistant integration, security-first patterns, and comprehensive testing guidelines",
   "main": "index.js",
   "bin": {
-    "agents-templated": "bin/cli.js"
+    "agents-templated": "./bin/cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --maxWorkers=2"
   },
   "keywords": [
     "template",
@@ -22,11 +25,11 @@
     "scaffold",
     "cli"
   ],
-  "author": "Your Name",
+  "author": "Rick Andrew",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/agents-templated.git"
+    "url": "https://github.com/rickandrew2/agents-templated.git"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -34,14 +37,19 @@
   "files": [
     "bin",
     "templates",
+    "templates/presets",
     "index.js",
     "README.md",
     "LICENSE"
   ],
   "dependencies": {
+    "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "fs-extra": "^11.2.0",
-    "chalk": "^4.1.2",
     "inquirer": "^8.2.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0"
   }
 }

@@ -1,0 +1,40 @@
+{
+  "name": "FastAPI",
+  "description": "Modern Python API with FastAPI",
+  "techStack": {
+    "backend": "Python (FastAPI)",
+    "database": "PostgreSQL or MongoDB",
+    "language": "Python"
+  },
+  "components": ["docs", "rules", "skills", "github"],
+  "recommendedPackages": [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "python-dotenv",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "python-jose",
+    "passlib",
+    "bcrypt",
+    "pytest",
+    "pytest-asyncio",
+    "httpx"
+  ],
+  "gitignore": [
+    "# Python",
+    "__pycache__/",
+    "*.py[cod]",
+    "*$py.class",
+    "*.so",
+    ".env",
+    "venv/",
+    "env/",
+    "*.log"
+  ],
+  "scripts": {
+    "dev": "uvicorn main:app --reload",
+    "test": "pytest",
+    "test:cov": "pytest --cov=app"
+  }
+}

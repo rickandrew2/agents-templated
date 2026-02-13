@@ -1,0 +1,48 @@
+{
+  "name": "Django + React",
+  "description": "Django REST Framework backend with React frontend",
+  "techStack": {
+    "frontend": "React",
+    "backend": "Python (Django/FastAPI)",
+    "database": "PostgreSQL",
+    "language": "Python + TypeScript"
+  },
+  "components": ["docs", "rules", "skills", "github"],
+  "recommendedPackages": {
+    "python": [
+      "django",
+      "djangorestframework",
+      "django-cors-headers",
+      "psycopg2-binary",
+      "python-dotenv",
+      "pydantic",
+      "pytest",
+      "pytest-django"
+    ],
+    "npm": [
+      "react",
+      "react-dom",
+      "typescript",
+      "vite",
+      "axios",
+      "@types/react",
+      "@types/react-dom"
+    ]
+  },
+  "gitignore": [
+    "# Django",
+    "*.pyc",
+    "__pycache__/",
+    "db.sqlite3",
+    "/media",
+    "/static",
+    "*.log",
+    ".env",
+    "venv/",
+    "env/"
+  ],
+  "structure": {
+    "backend": "Django backend directory",
+    "frontend": "React frontend directory"
+  }
+}

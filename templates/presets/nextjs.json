@@ -1,0 +1,40 @@
+{
+  "name": "Next.js Full-stack",
+  "description": "Next.js with TypeScript, React, and Tailwind CSS",
+  "techStack": {
+    "frontend": "React / Next.js",
+    "backend": "Node.js (Next.js API Routes)",
+    "database": "PostgreSQL or Supabase",
+    "language": "TypeScript"
+  },
+  "components": ["docs", "rules", "skills", "github"],
+  "recommendedPackages": [
+    "next",
+    "react",
+    "react-dom",
+    "typescript",
+    "@types/react",
+    "@types/node",
+    "tailwindcss",
+    "postcss",
+    "autoprefixer",
+    "zod",
+    "next-auth"
+  ],
+  "gitignore": [
+    "# Next.js",
+    "/.next/",
+    "/out/",
+    "/.vercel",
+    "next-env.d.ts",
+    "*.tsbuildinfo"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  }
+}

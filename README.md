@@ -13,13 +13,62 @@ This template provides proven development patterns and guidelines that work with
 
 ## Key Features
 
-- **Technology-Agnostic Templates**: Provides patterns and structure that work with any tech stack (React, Vue, Django, Go, etc.)
+- **⚡ Quick Start Presets** (NEW in v1.1.0): Fast-track setup with popular tech stack presets
+- **🧙 Interactive Wizard** (NEW in v1.1.0): Guided setup with personalized recommendations
+- **✅ Project Validation** (NEW in v1.1.0): Automated checks for configuration and best practices
+- **🔄 Template Updates** (NEW in v1.1.0): Keep your templates in sync with latest improvements
+- **Technology-Agnostic Templates**: Provides patterns and structure that work with any tech stack
 - **AI Assistant Ready**: Pre-configured instructions for Cursor, GitHub Copilot, and other AI coding tools
 - **Security-First Patterns**: Built-in OWASP Top 10 protection patterns and security guidelines
 - **Testing Strategy**: Defined testing approach with unit, integration, and E2E coverage targets
 - **Agent-Based Architecture**: Guides for specialized agents (frontend, backend, database, testing, security)
 - **Type-Safe Development**: Type validation patterns applicable to any language
 - **Accessibility Guidelines**: WCAG 2.1 AA compliance patterns built into development guides
+
+## What's New in v1.1.0
+
+### 🚀 Quick Start Presets
+Get started instantly with pre-configured setups for popular tech stacks:
+```bash
+agents-templated init --preset=nextjs        # Next.js full-stack app
+agents-templated init --preset=express-api   # Express.js REST API
+agents-templated init --preset=django-react  # Django + React
+agents-templated init --preset=fastapi       # FastAPI backend
+agents-templated init --preset=go-api        # Go API server
+```
+
+Each preset includes:
+- Recommended package lists
+- Tech stack-specific configuration
+- Optimized .gitignore patterns
+- Customized agent rules
+
+### 🧙 Interactive Setup Wizard
+New guided setup experience:
+```bash
+agents-templated wizard
+```
+- Choose your project type (fullstack, frontend, backend, etc.)
+- Select frameworks and databases
+- Get personalized package recommendations
+- Install only what you need
+
+### ✅ Validation & Health Checks
+Ensure your project follows best practices:
+```bash
+agents-templated validate    # Quick validation of setup
+agents-templated doctor      # Comprehensive health check
+```
+
+### 🔄 Keep Templates Updated
+Stay current with latest improvements:
+```bash
+agents-templated update              # Apply updates
+agents-templated update --check-only # Check without installing
+```
+
+### 🧪 Comprehensive Testing
+All features now include automated tests with Jest for reliability.
 
 ## Quick Start
 
@@ -58,6 +107,16 @@ cd my-project
 ### CLI Usage
 
 ```bash
+# Quick start with presets (NEW in v1.1.0)
+agents-templated init --preset=nextjs         # Next.js full-stack
+agents-templated init --preset=django-react   # Django + React
+agents-templated init --preset=express-api    # Express.js API
+agents-templated init --preset=fastapi        # FastAPI
+agents-templated init --preset=go-api         # Go API
+
+# Interactive setup wizard (NEW in v1.1.0)
+agents-templated wizard
+
 # Install all components
 agents-templated init --all
 
@@ -70,7 +129,15 @@ agents-templated init --github      # GitHub Copilot config
 # Force overwrite existing files
 agents-templated init --all --force
 
-# List available components
+# Project validation (NEW in v1.1.0)
+agents-templated validate           # Check setup and configuration
+agents-templated doctor             # Comprehensive health check
+
+# Update templates (NEW in v1.1.0)
+agents-templated update             # Apply template updates
+agents-templated update --check-only # Check for updates only
+
+# List available components and presets
 agents-templated list
 ```
 

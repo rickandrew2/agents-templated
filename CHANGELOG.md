@@ -1,4 +1,90 @@
-# Version 1.0.1 - Professional Update
+# Changelog
+
+## Version 1.1.0 - Feature-Rich Release (February 13, 2026)
+
+### 🎉 Major New Features
+
+#### Quick Start Presets
+- **5 Pre-configured Tech Stack Presets**:
+  - `nextjs` - Next.js with TypeScript, React, and Tailwind CSS
+  - `django-react` - Django REST Framework backend with React frontend
+  - `express-api` - RESTful API with Express.js and TypeScript
+  - `fastapi` - Modern Python API with FastAPI
+  - `go-api` - High-performance API with Go and Gin
+- Each preset includes recommended packages, gitignore patterns, and npm scripts
+- Usage: `agents-templated init --preset=<name>`
+
+#### Interactive Setup Wizard
+- New `agents-templated wizard` command for guided setup
+- Step-by-step project type selection (fullstack, frontend, backend, etc.)
+- Framework and database selection with context-aware prompts
+- Personalized package recommendations based on your choices
+- Smart component installation suggestions
+
+#### Project Validation & Health Checks
+- **validate command**: Quick validation of project setup and configuration
+  - Checks for required files (AGENTS.MD, agent rules, etc.)
+  - Validates agent rules syntax
+  - Verifies AI assistant configurations
+  - Provides actionable recommendations
+- **doctor command**: Comprehensive health check with detailed diagnostics
+  - Security pattern verification
+  - Testing strategy validation
+  - Configuration completeness checks
+  - Quick tips and best practices
+
+#### Template Update System
+- New `agents-templated update` command to keep templates in sync
+- Checks for file differences between local and latest templates
+- Interactive update process with backup creation
+- `--check-only` flag to preview available updates
+- Automatic backup files (`.backup` extension) before applying updates
+
+#### Comprehensive Testing
+- Full Jest test suite added for all core functionality
+- Test commands in package.json:
+  - `npm test` - Run all tests
+  - `npm run test:watch` - Watch mode for development
+  - `npm run test:coverage` - Coverage reports
+  - `npm run test:ci` - CI-optimized testing
+- Tests cover file operations, CLI commands, and edge cases
+
+### 🔧 Improvements
+
+#### Enhanced CLI
+- Updated `list` command to show both components and presets
+- Better error messages with actionable suggestions
+- Improved console output with clearer formatting
+- Version bumped to 1.1.0 across all files
+
+#### Package Updates
+- Added Jest and testing dependencies
+- Updated scripts in package.json for testing
+- Included `templates/presets` directory in published package
+- Better file organization and structure
+
+#### Documentation
+- Updated README with all new features
+- Added "What's New in v1.1.0" section
+- Enhanced CLI usage examples with presets
+- Better quick start documentation
+
+### 📦 Breaking Changes
+None - fully backward compatible with v1.0.x
+
+### 🐛 Bug Fixes
+- Improved file path handling across different operating systems
+- Better error handling in file copy operations
+- Fixed edge cases in component installation
+
+### 📝 Developer Experience
+- Added comprehensive test coverage for maintainability
+- Better code organization with separated concerns
+- Improved error handling and user feedback
+
+---
+
+## Version 1.0.1 - Professional Update
 
 ## Changes Made
 

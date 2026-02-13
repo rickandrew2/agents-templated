@@ -1,0 +1,37 @@
+{
+  "name": "Go API",
+  "description": "High-performance API with Go and Gin",
+  "techStack": {
+    "backend": "Go",
+    "database": "PostgreSQL",
+    "language": "Go"
+  },
+  "components": ["docs", "rules", "skills", "github"],
+  "recommendedPackages": [
+    "github.com/gin-gonic/gin",
+    "github.com/lib/pq",
+    "github.com/joho/godotenv",
+    "github.com/golang-jwt/jwt",
+    "github.com/stretchr/testify",
+    "gorm.io/gorm",
+    "gorm.io/driver/postgres"
+  ],
+  "gitignore": [
+    "# Go",
+    "*.exe",
+    "*.exe~",
+    "*.dll",
+    "*.so",
+    "*.dylib",
+    "*.test",
+    "*.out",
+    "/vendor/",
+    ".env"
+  ],
+  "structure": {
+    "cmd": "Application entry points",
+    "pkg": "Public libraries",
+    "internal": "Private application code",
+    "api": "API definitions"
+  }
+}
