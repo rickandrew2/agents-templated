@@ -13,17 +13,17 @@ This template provides proven development patterns and guidelines that work with
 
 ## Key Features
 
-- **⚡ Quick Start Presets** (NEW in v1.1.0): Fast-track setup with popular tech stack presets
-- **🧙 Interactive Wizard** (NEW in v1.1.0): Guided setup with personalized recommendations
-- **✅ Project Validation** (NEW in v1.1.0): Automated checks for configuration and best practices
-- **🔄 Template Updates** (NEW in v1.1.0): Keep your templates in sync with latest improvements
-- **Technology-Agnostic Templates**: Provides patterns and structure that work with any tech stack
-- **AI Assistant Ready**: Pre-configured instructions for Cursor, GitHub Copilot, and other AI coding tools
-- **Security-First Patterns**: Built-in OWASP Top 10 protection patterns and security guidelines
-- **Testing Strategy**: Defined testing approach with unit, integration, and E2E coverage targets
-- **Agent-Based Architecture**: Guides for specialized agents (frontend, backend, database, testing, security)
-- **Type-Safe Development**: Type validation patterns applicable to any language
-- **Accessibility Guidelines**: WCAG 2.1 AA compliance patterns built into development guides
+- **Quick Start Presets** (v1.1.0): Fast-track setup with popular tech stack presets
+- **Interactive Wizard** (v1.1.0): Guided setup with personalized recommendations
+- **Project Validation** (v1.1.0): Automated checks for configuration and best practices
+- **Template Updates** (v1.1.0): Keep your templates in sync with latest improvements
+- **Technology-Agnostic**: Patterns and structure that work with any tech stack
+- **AI Assistant Ready**: Pre-configured for Cursor, GitHub Copilot, and other AI coding tools
+- **Security-First**: Built-in OWASP Top 10 protection patterns and security guidelines
+- **Testing Strategy**: Defined approach with unit, integration, and E2E coverage targets
+- **Agent-Based Architecture**: Specialized agents for frontend, backend, database, testing, security
+- **Type-Safe Development**: Validation patterns applicable to any language
+- **Accessibility Guidelines**: WCAG 2.1 AA compliance patterns built-in
 
 ## What's New in v1.1.0
 
@@ -38,175 +38,172 @@ agents-templated init --preset=go-api        # Go API server
 ```
 
 Each preset includes:
-- Recommended package lists
-- Tech stack-specific configuration
+- Recommended package lists for your tech stack
+- Stack-specific configuration templates
 - Optimized .gitignore patterns
-- Customized agent rules
+- Pre-configured agent rules
 
 ### 🧙 Interactive Setup Wizard
-New guided setup experience:
+
+Guided setup experience with smart recommendations:
+
 ```bash
 agents-templated wizard
 ```
-- Choose your project type (fullstack, frontend, backend, etc.)
-- Select frameworks and databases
-- Get personalized package recommendations
-- Install only what you need
+
+**Features:**
+- Choose project type: fullstack, frontend, backend, CLI, package, or custom
+- Select frameworks and databases interactively
+- Receive personalized package recommendations
+- Install only the components you need
+- Get next-step guidance tailored to your stack
 
 ### ✅ Validation & Health Checks
+
 Ensure your project follows best practices:
+
 ```bash
 agents-templated validate    # Quick validation of setup
-agents-templated doctor      # Comprehensive health check
+agents-templated doctor      # Comprehensive health check with recommendations
 ```
 
+**Checks include:**
+- Required documentation files present
+- Agent rules properly configured
+- AI assistant configurations valid
+- Security patterns implemented
+- Testing structure in place
+
 ### 🔄 Keep Templates Updated
+
 Stay current with latest improvements:
+
 ```bash
-agents-templated update              # Apply updates
+agents-templated update              # Apply updates with backup
 agents-templated update --check-only # Check without installing
 ```
 
+**Features:**
+- Automatic backup creation before updates
+- Preview changes before applying
+- Selective file updates
+- Preserves your customizations
+
 ### 🧪 Comprehensive Testing
-All features now include automated tests with Jest for reliability.
 
-## Quick Start
+All core functionality includes automated tests:
+- 10+ unit tests covering install operations
+- Jest test framework with coverage reporting
+- Tested on Windows, macOS, and Linux
+- CI/CD ready with `npm run test:ci`
 
-### Installation Options
+## 🚀 Quick Start
 
-**Option 1: NPM Package (Recommended for Existing Projects)**
+### Installation
 
-Install globally and use in any project:
+**Global Installation (Recommended)**
 
 ```bash
-# Install globally
 npm install -g agents-templated
-
-# Use in any existing project
-cd your-existing-project
-agents-templated init
+cd your-project
+agents-templated init --preset=nextjs  # or use wizard
 ```
 
-Or install locally per project:
+**Local Installation (Per Project)**
 
 ```bash
-# Install as dev dependency
 npm install --save-dev agents-templated
-
-# Initialize templates
-npx agents-templated init
+npx agents-templated init --preset=nextjs
 ```
 
-**Option 2: Clone Template (New Projects)**
+**Using npx (No Installation)**
 
 ```bash
-git clone <this-repo> my-project
-cd my-project
+cd your-project
+npx agents-templated@latest init --preset=nextjs
 ```
 
-### CLI Usage
+### 📋 CLI Commands
 
+**Setup Commands:**
 ```bash
-# Quick start with presets (NEW in v1.1.0)
+# Quick start with presets
 agents-templated init --preset=nextjs         # Next.js full-stack
 agents-templated init --preset=django-react   # Django + React
 agents-templated init --preset=express-api    # Express.js API
 agents-templated init --preset=fastapi        # FastAPI
 agents-templated init --preset=go-api         # Go API
 
-# Interactive setup wizard (NEW in v1.1.0)
-agents-templated wizard
+# Interactive wizard
+agents-templated wizard                       # Guided setup
 
-# Install all components
-agents-templated init --all
+# Manual component selection
+agents-templated init --all                   # All components
+agents-templated init --docs                  # Documentation only
+agents-templated init --rules                 # Agent rules only
+agents-templated init --skills                # Skills only
+agents-templated init --github                # GitHub Copilot config
 
-# Install specific components
-agents-templated init --docs        # Documentation only
-agents-templated init --rules       # Agent rules only
-agents-templated init --skills      # Skills only
-agents-templated init --github      # GitHub Copilot config
-
-# Force overwrite existing files
-agents-templated init --all --force
-
-# Project validation (NEW in v1.1.0)
-agents-templated validate           # Check setup and configuration
-agents-templated doctor             # Comprehensive health check
-
-# Update templates (NEW in v1.1.0)
-agents-templated update             # Apply template updates
-agents-templated update --check-only # Check for updates only
-
-# List available components and presets
-agents-templated list
+# Force overwrite
+agents-templated init --all --force           # Overwrite existing files
 ```
 
-### Step 2: Choose Your Technology Stack
+**Maintenance Commands:**
+```bash
+# Validation
+agents-templated validate                     # Quick setup validation
+agents-templated doctor                       # Comprehensive health check
 
-After running `agents-templated init`, select and install your preferred technologies. The template works with **any** modern stack:
+# Updates
+agents-templated update                       # Apply template updates
+agents-templated update --check-only          # Check without installing
 
-**Frontend Options:**
+# Information
+agents-templated list                         # Show components and presets
+```
+
+### Install Your Technology Stack
+
+After initializing the template, install your chosen framework and dependencies. The template provides patterns but does **not** install packages for you.
+
+**Frontend:**
 - React/Next.js, Vue/Nuxt, Angular, Svelte/SvelteKit, or traditional SSR
 
-**Backend Options:**
-- Node.js (Express/Fastify), Python (Django/FastAPI), Go, Rust, Java/Spring
+**Backend:**
+- Node.js (Express/Fastify/Nest.js), Python (Django/FastAPI/Flask), Go, Rust, Java/Spring Boot, Ruby on Rails, PHP (Laravel)
 
-**Database Options:**
-- PostgreSQL/MySQL with ORM, MongoDB/NoSQL, or cloud solutions like Supabase
+**Database:**
+- PostgreSQL, MySQL, MongoDB, SQLite, or cloud solutions (Supabase, Firebase, PlanetScale)
 
-**Note:** You must install these packages yourself—the template doesn't include them.
-
-### Configure AI Assistants
-
-The template includes configuration files for multiple AI assistants:
-
-- **Cursor**: Uses `.cursorrules` and `agents/rules/*.mdc` files (auto-loaded)
-- **GitHub Copilot**: Uses `.github/copilot-instructions.md` (auto-loaded)
-- **Other AI Tools**: Reference `AI_INSTRUCTIONS.md` in your prompts
-
-### Step 3: Install Your Technology Stack
-
-Once the template is initialized, install your chosen framework and dependencies:
-
+**Example installations:**
 ```bash
-# Example for Node.js + React
-npm init -y
-npm install react next typescript
+# Next.js
+npm install next react react-dom typescript
 
-# Example for Python + Django
-pip install django djangorestframework
-django-admin startproject myproject .
+# Django
+pip install django djangorestframework python-dotenv
 
-# Example for Go + Gin
-go mod init myproject
-go get github.com/gin-gonic/gin
+# Express API
+npm install express typescript zod prisma
 ```
 
-**Important:** `agents-templated init` only provides templates and patterns. You must install framework packages separately using npm, pip, go, or your tech stack's package manager.
+### 🤖 Configure AI Assistants
 
-## Programmatic API
+The template includes configuration files for multiple AI coding assistants:
 
-Use agents-templated programmatically in your build scripts:
+**Cursor:**
+- Auto-loads `.cursorrules` and `agents/rules/*.mdc` files
+- No additional configuration needed
 
-```javascript
-const agentsTemplated = require('agents-templated');
+**GitHub Copilot:**
+- Auto-loads `.github/copilot-instructions.md`
+- Works in VS Code,VS Code Insiders, and github.com
 
-// Install all components
-await agentsTemplated.install('./my-project', {
-  force: true
-});
+**Other AI Tools:**
+- Reference `AI_INSTRUCTIONS.md` explicitly in your prompts
+- Copy relevant rules from `agents/rules/` as needed
 
-// Install specific components
-await agentsTemplated.install('./my-project', {
-  docs: true,
-  rules: true,
-  skills: false,
-  github: true,
-  force: false
-});
-```
-
-## What Gets Installed
+## \ud83d\udce6 What Gets Installed
 
 When you run `agents-templated init`, you get:
 
@@ -231,30 +228,46 @@ When you run `agents-templated init`, you get:
 └── README.md                       # Project documentation
 ```
 
-## Core Configuration Files
+## \ud83d\udce6 Programmatic API
 
-### Documentation Files
+Use agents-templated programmatically in build scripts or automation:
 
-- **`CLAUDE.md`** - Overall project guidelines, architecture principles, and technology stack selection
-- **`AGENTS.md`** - Agent delegation patterns, responsibilities, and when to use each agent
-- **`AI_INSTRUCTIONS.md`** - Universal instructions for any AI assistant (reference explicitly)
+```javascript
+const agentsTemplated = require('agents-templated');
 
-### AI Assistant Configuration
+// Install all components
+await agentsTemplated.install('./my-project', {
+  force: true
+});
 
-- **`.cursorrules`** - Cursor-specific rules (auto-loaded by Cursor)
-- **`.github/copilot-instructions.md`** - GitHub Copilot instructions (auto-loaded)
-- **`agents/rules/*.mdc`** - Detailed rules with `alwaysApply: true` for auto-loading in Cursor
+// Install specific components
+await agentsTemplated.install('./my-project', {
+  docs: true,
+  rules: true,
+  skills: false,
+  github: true,
+  force: false
+});
+```
 
-### Rule Files
+## \ud83d\udcda Core Configuration Files
+\ud83e\udd16 Agent-Based Development
 
-- **`agents/rules/core.mdc`** - Core architecture principles and best practices
-- **`agents/rules/security.mdc`** - Security patterns, OWASP Top 10 protection
-- **`agents/rules/testing.mdc`** - Testing strategy, coverage targets, patterns
-- **`agents/rules/frontend.mdc`** - Frontend development patterns and accessibility
-- **`agents/rules/database.mdc`** - Database schema design and query optimization
-- **`agents/rules/style.mdc`** - Code style guidelines and formatting rules
+This template uses specialized agents for different aspects of development:
 
-## Agent-Based Development
+**FrontendAgent:**\nHandles UI/UX development, component creation, design system implementation, and accessibility compliance.
+
+**BackendAgent:**\nManages API development, business logic, authentication, authorization, rate limiting, and security middleware.
+
+**DatabaseAgent:**\nOwns database schema design, migrations, query optimization, and data access patterns.
+
+**TestAgent:**\nImplements comprehensive testing strategy across unit, integration, E2E, accessibility, and security testing.
+
+**SecurityAgent:**\nEnsures security-first development with input validation, authentication patterns, authorization checks, and OWASP compliance.
+
+**ReviewerAgent:**\nPerforms code reviews focusing on correctness, security, performance, test coverage, and accessibility.
+
+## \ud83d\udd12 Agent-Based Development
 
 This template uses specialized agents for different aspects of development:
 
@@ -309,7 +322,7 @@ Performs code reviews focusing on correctness, security, performance, test cover
 
 ```typescript
 // TypeScript with Zod
-import { z } from 'zod'
+imp\ud83d\udd12 ort { z } from 'zod'
 
 const userSchema = z.object({
   email: z.string().email().toLowerCase(),
@@ -345,7 +358,7 @@ const authLimiter = rateLimit({
 - **Unit Tests**: 80% coverage for business logic
 - **Integration Tests**: 15% coverage for API endpoints and database operations
 - **E2E Tests**: 5% coverage for critical user journeys
-
+\ud83e\uddea 
 ### Testing Tools by Technology
 
 **JavaScript/TypeScript:**
@@ -369,7 +382,7 @@ const authLimiter = rateLimit({
 Rules are automatically loaded from:
 - `.cursorrules` file
 - `agents/rules/*.mdc` files with `alwaysApply: true`
-- `AGENTS.md` and `CLAUDE.md` (via workspace rules)
+- `\ud83e\udd16 AGENTS.md` and `CLAUDE.md` (via workspace rules)
 
 ### GitHub Copilot
 Instructions are automatically loaded from:
@@ -381,7 +394,7 @@ Reference `AI_INSTRUCTIONS.md` explicitly in your prompts:
 - "Check `AGENTS.md` for agent delegation"
 - "Apply security patterns from `agents/rules/security.mdc`"
 
-## Usage Examples
+## \ud83d\udcdd Usage Examples
 
 ### Frontend Development
 ```

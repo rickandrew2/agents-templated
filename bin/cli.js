@@ -26,7 +26,7 @@ const program = new Command();
 program
   .name('agents-templated')
   .description('Technology-agnostic development template with AI assistant integration')
-  .version('1.1.1');
+  .version('1.1.2');
 
 program
   .command('init')
