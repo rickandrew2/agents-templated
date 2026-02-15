@@ -26,10 +26,10 @@ async function install(targetDir, options = {}) {
   // Documentation files
   if (installAll || options.docs) {
     files.push(
-      'AGENTS.MD',
-      'CLAUDE.md',
-      'AI_INSTRUCTIONS.md',
-      'README.md'
+      'agent-docs/AGENTS.MD',
+      'agent-docs/ARCHITECTURE.md',
+      'agent-docs/AI_INSTRUCTIONS.md',
+      'agent-docs/README.md'
     );
   }
 
@@ -68,15 +68,15 @@ async function install(targetDir, options = {}) {
     );
   }
 
-  // AI Agent instructions (Cursor, Copilot, VSCode, Gemini)
+  // AI Agent instructions (Cursor, Copilot, Claude, Gemini)
   if (installAll || options.github) {
     await fs.ensureDir(path.join(targetDir, '.github'));
     
     // Copy all AI agent config files
     const agentConfigs = [
       '.cursorrules',
-      '.vscode-ai-rules.md',
-      '.gemini-instructions.md'
+      'CLAUDE.md',
+      'GEMINI.md'
     ];
     
     for (const config of agentConfigs) {

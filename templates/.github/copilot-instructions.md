@@ -4,8 +4,9 @@ This project follows enterprise-grade, technology-agnostic development patterns.
 
 ## Quick Start
 
-- **Project Guidelines**: See `CLAUDE.md`
-- **Agent Patterns**: See `AGENTS.md`
+- **AI Guide**: See `agent-docs/AI_INSTRUCTIONS.md` for comprehensive instructions
+- **Architecture**: See `agent-docs/ARCHITECTURE.md` for project guidelines
+- **Agent Patterns**: See `agent-docs/AGENTS.md` for delegation patterns
 - **Detailed Rules**: See `agents/rules/*.mdc` files
 
 ## Always Apply
@@ -21,7 +22,7 @@ This project follows enterprise-grade, technology-agnostic development patterns.
 
 ## Agent Delegation
 
-When implementing features, follow agent patterns from `AGENTS.md`:
+When implementing features, follow agent patterns from `agent-docs/AGENTS.md`:
 - **UI/Design** → FrontendAgent patterns (`agents/rules/frontend.mdc`)
 - **API/Logic** → BackendAgent patterns (`agents/rules/security.mdc`)
 - **Database** → DatabaseAgent patterns (`agents/rules/database.mdc`)
@@ -40,8 +41,9 @@ When implementing features, follow agent patterns from `AGENTS.md`:
 
 ## Reference Files
 
-- `CLAUDE.md` - Architecture and technology stack guidance
-- `AGENTS.md` - Agent responsibilities and delegation
+- `agent-docs/AI_INSTRUCTIONS.md` - Primary AI assistant guide
+- `agent-docs/ARCHITECTURE.md` - Architecture and technology stack guidance
+- `agent-docs/AGENTS.md` - Agent responsibilities and delegation
 - `agents/rules/core.mdc` - Core principles
 - `agents/rules/security.mdc` - Security patterns (CRITICAL)
 - `agents/rules/testing.mdc` - Testing strategy (CRITICAL)

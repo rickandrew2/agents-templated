@@ -1,5 +1,51 @@
 # Changelog
 
+## Version 1.2.1 - File Structure Reorganization (February 15, 2026)
+
+### 🗂️ Breaking Changes
+
+**File Structure Reorganization for Clarity:**
+
+- **Documentation moved to `agent-docs/`** directory for better organization
+  - `AGENTS.MD` → `agent-docs/AGENTS.MD`
+  - `CLAUDE.md` → `agent-docs/ARCHITECTURE.md` (renamed to avoid confusion)
+  - `AI_INSTRUCTIONS.md` → `agent-docs/AI_INSTRUCTIONS.md`
+  - `README.md` → `agent-docs/README.md` (for distributed projects)
+
+- **AI Agent config files standardized:**
+  - **Claude AI**: Created `CLAUDE.md` (root level, auto-discovered)
+  - **Google Gemini**: Renamed `.gemini-instructions.md` → `GEMINI.md` (uppercase for consistency)
+  - **Removed**: `.vscode-ai-rules.md` (redundant with `AI_INSTRUCTIONS.md`)
+  - **Kept**: `.cursorrules`, `.github/copilot-instructions.md` (established conventions)
+
+- **All AI configs now reference:**
+  - `agent-docs/AI_INSTRUCTIONS.md` as the primary entry point
+  - `agent-docs/ARCHITECTURE.md` for project architecture and guidelines
+  - `agent-docs/AGENTS.md` for agent delegation patterns
+
+### 🐛 Bug Fixes
+
+- **Fixed wizard command**: Now generates all 4 AI agent config files (Cursor, Copilot, Claude, Gemini)
+- Previously wizard only created `.github/copilot-instructions.md`, missing other agents
+- Updated component selection text in wizard to reflect multi-agent support
+- Updated `list` command description to show all AI agent instructions
+
+### 📝 Migration Guide
+
+For existing v1.2.0 projects:
+```bash
+# Backup your customizations
+cp CLAUDE.md CLAUDE.backup.md
+cp .gemini-instructions.md gemini.backup.md
+
+# Re-initialize with new structure
+npx agents-templated@1.2.1 init --force --all
+
+# Merge your customizations back if needed
+```
+
+---
+
 ## Version 1.2.0 - Multi-IDE AI Agent Support (February 15, 2026)
 
 ### 🚀 Major Features
@@ -9,15 +55,15 @@
 - **Native support for 4 AI agents**:
   - **Cursor IDE** (`.cursorrules`) - Full development environment
   - **GitHub Copilot** (`.github/copilot-instructions.md`) - Code completion and generation
-  - **VSCode AI Extensions** (`.vscode-ai-rules.md`) - Copilot Chat and other VSCode AI tools
-  - **Google Gemini** (`.gemini-instructions.md`) - Gemini AI integration
+  - **Claude AI** (`CLAUDE.md`) - Advanced reasoning and code generation
+  - **Google Gemini** (`GEMINI.md`) - Gemini AI integration
 - All agents auto-discover their configuration files in the project
 - All agents read from the same unified `agents/rules/` and `agents/skills/` directories
 - No agent-specific duplication—one source of truth for all AI assistance
 
 #### Enhanced CLI
 - Updated `init` command now copies **all 4 AI agent config files** by default
-- Updated component selection to show "AI Agent instructions (Cursor, Copilot, VSCode, Gemini)"
+- Updated component selection to show "AI Agent instructions (Cursor, Copilot, Claude, Gemini)"
 - All configs point to shared `agents/rules/` and `agents/skills/` directories
 - Simplified setup: `npx agents-templated init` creates everything needed
 

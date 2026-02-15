@@ -4,7 +4,7 @@ This project follows enterprise-grade, technology-agnostic development patterns.
 
 ## Primary Documentation (Always Reference)
 
-- **`CLAUDE.md`** - Overall project guidelines, architecture principles, and technology stack selection
+- **`ARCHITECTURE.md`** - Overall project guidelines, architecture principles, and technology stack selection
 - **`AGENTS.md`** - Agent delegation patterns, responsibilities, and when to use each agent
 
 ## Detailed Rules (Reference When Relevant)
@@ -24,7 +24,7 @@ When implementing features, always check the relevant rule file:
 When implementing any feature:
 
 1. **Check `AGENTS.md`** to determine which agent pattern applies (FrontendAgent, BackendAgent, DatabaseAgent, etc.)
-2. **Reference `CLAUDE.md`** for overall architecture and technology stack guidance
+2. **Reference `ARCHITECTURE.md`** for overall architecture and technology stack guidance
 3. **Apply relevant rules** from `agents/rules/*.mdc` files based on the task
 4. **Always apply security patterns** from `agents/rules/security.mdc`
 5. **Always apply testing patterns** from `agents/rules/testing.mdc`
@@ -48,7 +48,7 @@ When implementing any feature:
 - **Type safety**: Use strong typing, validate at boundaries
 - **Performance**: Monitor bundle/binary size, implement lazy loading
 - **Accessibility**: WCAG 2.1 AA compliance for user-facing components
-- **Documentation**: Keep README, CLAUDE.md, and AGENTS.md updated
+- **Documentation**: Keep README, ARCHITECTURE.md, and AGENTS.md updated
 
 ## Architecture Principles
 
@@ -83,7 +83,7 @@ When implementing any feature:
 ## When in Doubt
 
 1. Check `AGENTS.md` for agent delegation guidance
-2. Review `CLAUDE.md` for architecture decisions
+2. Review `ARCHITECTURE.md` for architecture decisions
 3. Reference the specific `agents/rules/*.mdc` file for detailed patterns
 4. Always prioritize security and testing requirements
 

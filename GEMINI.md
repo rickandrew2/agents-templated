@@ -8,8 +8,9 @@ This project uses enterprise-grade, technology-agnostic development patterns for
 
 ## Quick Start
 
-- **Project Guidelines**: See `CLAUDE.md`
-- **Agent Patterns**: See `AGENTS.md`
+- **AI Guide**: See `agent-docs/AI_INSTRUCTIONS.md` for comprehensive instructions
+- **Architecture**: See `agent-docs/ARCHITECTURE.md` for project guidelines
+- **Agent Patterns**: See `agent-docs/AGENTS.md` for delegation patterns
 - **Detailed Rules**: See `agents/rules/*.mdc` files
 - **Available Skills**: See `agents/skills/` directory
 
@@ -99,8 +100,9 @@ These patterns apply regardless of your tech stack. Adapt them to your chosen fr
 
 | File | Purpose | When to Use |
 |------|---------|------------|
-| `CLAUDE.md` | Architecture and technology stack decisions | Need architectural guidance |
-| `AGENTS.md` | Agent responsibilities and delegation | Deciding who should implement a feature |
+| `agent-docs/AI_INSTRUCTIONS.md` | Primary AI assistant guide | Always start here |
+| `agent-docs/ARCHITECTURE.md` | Architecture and technology stack decisions | Need architectural guidance |
+| `agent-docs/AGENTS.md` | Agent responsibilities and delegation | Deciding who should implement a feature |
 | `agents/rules/core.mdc` | Core development principles | General development questions |
 | `agents/rules/security.mdc` | Security patterns and implementations | Building secure features |
 | `agents/rules/testing.mdc` | Testing strategy and best practices | Writing tests or test strategy |
@@ -111,8 +113,9 @@ These patterns apply regardless of your tech stack. Adapt them to your chosen fr
 
 ## Workflow Recommendations
 
-1. **Read CLAUDE.md** first to understand the overall architecture
-2. **Check AGENTS.md** to identify which agent should lead the implementation
+1. **Read agent-docs/AI_INSTRUCTIONS.md** for comprehensive AI assistance guidance
+2. **Read agent-docs/ARCHITECTURE.md** to understand the overall architecture
+3. **Check agent-docs/AGENTS.md** to identify which agent should lead the implementation
 3. **Reference the appropriate rule file** for implementation patterns
 4. **Look in agents/skills/** for domain-specific guidance
 5. **Follow all critical rules** without exception
@@ -127,4 +130,4 @@ These patterns apply regardless of your tech stack. Adapt them to your chosen fr
 
 ---
 
-For best results with Gemini AI assistance, reference the appropriate rules files and provide the relevant context from `CLAUDE.md` and `AGENTS.md` in your prompts.
+For best results with Gemini AI assistance, reference the appropriate rules files and provide the relevant context from `agent-docs/AI_INSTRUCTIONS.md`, `agent-docs/ARCHITECTURE.md`, and `agent-docs/AGENTS.md` in your prompts.

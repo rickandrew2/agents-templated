@@ -22,9 +22,9 @@ describe('agents-templated API', () => {
       await install(tempDir, {});
 
       // Check documentation files
-      expect(await fs.pathExists(path.join(tempDir, 'AGENTS.MD'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, 'CLAUDE.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, 'AI_INSTRUCTIONS.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs/AGENTS.MD'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs/ARCHITECTURE.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs/AI_INSTRUCTIONS.md'))).toBe(true);
 
       // Check rules
       expect(await fs.pathExists(path.join(tempDir, 'agents/rules/core.mdc'))).toBe(true);
@@ -36,16 +36,16 @@ describe('agents-templated API', () => {
       // Check all AI agent config files
       expect(await fs.pathExists(path.join(tempDir, '.cursorrules'))).toBe(true);
       expect(await fs.pathExists(path.join(tempDir, '.github/copilot-instructions.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, '.vscode-ai-rules.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, '.gemini-instructions.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'CLAUDE.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'GEMINI.md'))).toBe(true);
     });
 
     test('should install only documentation when docs option is true', async () => {
       await install(tempDir, { docs: true });
 
       // Check documentation files exist
-      expect(await fs.pathExists(path.join(tempDir, 'AGENTS.MD'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, 'CLAUDE.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs/AGENTS.MD'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs/ARCHITECTURE.md'))).toBe(true);
 
       // Check rules don't exist
       expect(await fs.pathExists(path.join(tempDir, 'agents/rules/core.mdc'))).toBe(false);
@@ -59,7 +59,7 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, 'agents/rules/security.mdc'))).toBe(true);
 
       // Check documentation doesn't exist
-      expect(await fs.pathExists(path.join(tempDir, 'AGENTS.MD'))).toBe(false);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs/AGENTS.MD'))).toBe(false);
     });
 
     test('should install only skills when skills option is true', async () => {
@@ -69,26 +69,27 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, 'agents/skills/find-skills/SKILL.md'))).toBe(true);
 
       // Check documentation doesn't exist
-      expect(await fs.pathExists(path.join(tempDir, 'AGENTS.MD'))).toBe(false);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs'))).toBe(false);
     });
 
-    test('should install GitHub Copilot instructions and all AI agent configs when github option is true', async () => {
+    test('should install AI agent configs (Cursor, Copilot, Claude, Gemini) when github option is true', async () => {
       await install(tempDir, { github: true });
 
       // Check all AI agent config files exist
       expect(await fs.pathExists(path.join(tempDir, '.cursorrules'))).toBe(true);
       expect(await fs.pathExists(path.join(tempDir, '.github/copilot-instructions.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, '.vscode-ai-rules.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, '.gemini-instructions.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'CLAUDE.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'GEMINI.md'))).toBe(true);
 
       // Check documentation doesn't exist
-      expect(await fs.pathExists(path.join(tempDir, 'AGENTS.MD'))).toBe(false);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs'))).toBe(false);
     });
 
     test('should not overwrite existing files without force option', async () => {
-      const testFile = path.join(tempDir, 'AGENTS.MD');
+      const testFile = path.join(tempDir, 'agent-docs/AGENTS.MD');
       const originalContent = '# Original Content';
       
+      await fs.ensureDir(path.join(tempDir, 'agent-docs'));
       await fs.writeFile(testFile, originalContent);
       await install(tempDir, { docs: true, force: false });
 
@@ -97,9 +98,10 @@ describe('agents-templated API', () => {
     });
 
     test('should overwrite existing files with force option', async () => {
-      const testFile = path.join(tempDir, 'AGENTS.MD');
+      const testFile = path.join(tempDir, 'agent-docs/AGENTS.MD');
       const originalContent = '# Original Content';
       
+      await fs.ensureDir(path.join(tempDir, 'agent-docs'));
       await fs.writeFile(testFile, originalContent);
       await install(tempDir, { docs: true, force: true });
 
@@ -112,7 +114,7 @@ describe('agents-templated API', () => {
       await install(tempDir, { docs: true, rules: true, force: false });
 
       // Check documentation exists
-      expect(await fs.pathExists(path.join(tempDir, 'AGENTS.MD'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs/AGENTS.MD'))).toBe(true);
 
       // Check rules exist
       expect(await fs.pathExists(path.join(tempDir, 'agents/rules/core.mdc'))).toBe(true);
@@ -132,7 +134,7 @@ describe('agents-templated API', () => {
       const nonExistentDir = path.join(tempDir, 'nested/new/dir');
       
       await expect(install(nonExistentDir, { docs: true })).resolves.not.toThrow();
-      expect(await fs.pathExists(path.join(nonExistentDir, 'AGENTS.MD'))).toBe(true);
+      expect(await fs.pathExists(path.join(nonExistentDir, 'agent-docs/AGENTS.MD'))).toBe(true);
     });
   });
 });
