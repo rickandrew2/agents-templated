@@ -68,14 +68,32 @@ async function install(targetDir, options = {}) {
     );
   }
 
-  // GitHub Copilot instructions
+  // AI Agent instructions (Cursor, Copilot, VSCode, Gemini)
   if (installAll || options.github) {
     await fs.ensureDir(path.join(targetDir, '.github'));
-    const sourcePath = path.join(templateDir, '.github', 'copilot-instructions.md');
-    const targetPath = path.join(targetDir, '.github', 'copilot-instructions.md');
     
-    if (await fs.pathExists(sourcePath)) {
-      await fs.copy(sourcePath, targetPath, { overwrite: options.force });
+    // Copy all AI agent config files
+    const agentConfigs = [
+      '.cursorrules',
+      '.vscode-ai-rules.md',
+      '.gemini-instructions.md'
+    ];
+    
+    for (const config of agentConfigs) {
+      const sourcePath = path.join(templateDir, config);
+      const targetPath = path.join(targetDir, config);
+      
+      if (await fs.pathExists(sourcePath)) {
+        await fs.copy(sourcePath, targetPath, { overwrite: options.force });
+      }
+    }
+    
+    // Copy GitHub Copilot instructions
+    const sourceGithubPath = path.join(templateDir, '.github', 'copilot-instructions.md');
+    const targetGithubPath = path.join(targetDir, '.github', 'copilot-instructions.md');
+    
+    if (await fs.pathExists(sourceGithubPath)) {
+      await fs.copy(sourceGithubPath, targetGithubPath, { overwrite: options.force });
     }
   }
 }

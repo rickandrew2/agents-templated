@@ -17,6 +17,7 @@ When implementing features, always check the relevant rule file:
 - **`agents/rules/frontend.mdc`** - Frontend development patterns, component architecture, accessibility
 - **`agents/rules/database.mdc`** - Database schema design, migrations, query optimization
 - **`agents/rules/style.mdc`** - Code style guidelines, formatting rules, naming conventions
+- **`agents/rules/workflows.mdc`** - Development workflow (validate, doctor, pre-commit)
 
 ## Usage Workflow
 

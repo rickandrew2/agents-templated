@@ -4,10 +4,10 @@ This is a **technology-agnostic development template** with enterprise-grade pat
 These guidelines are for both humans and AI assistants working with any technology stack.
 
 - High-level **project and architecture** guidelines live here in `CLAUDE.md`.
-- **Agent responsibilities** and MCP integration are documented in `AGENTS.md`.
+- **Agent responsibilities** and MCP integration are documented in `AGENTS.MD`.
 - **Detailed implementation rules** live in `agents/rules/*.mdc` files.
 
-Read this file first to understand the architecture, then consult `AGENTS.md` for agent delegation.
+Read this file first to understand the architecture, then consult `AGENTS.MD` for agent delegation.
 
 ---
 
@@ -234,7 +234,7 @@ Review the options above and select technologies that fit your:
 - Set up deployment pipelines and environment management
 
 ### 4. Follow Agent Patterns
-- Use the agents defined in `AGENTS.md` for specialized tasks
+- Use the agents defined in `AGENTS.MD` for specialized tasks
 - Maintain consistency with established patterns
 - Regular code reviews using `ReviewerAgent` patterns
 - Document architectural decisions as you build
@@ -254,5 +254,8 @@ Review the options above and select technologies that fit your:
 - **Framework versions**: Planned upgrades with migration strategies
 - **Security patches**: Immediate application of critical security updates
 - **Performance improvements**: Adoption of new optimization techniques
+
+### How We Improve This Package (Maintainers)
+When improving the agents-templated package itself, maintainers use **NotebookLM** (research and best-practice discourse) and **Context7** (up-to-date library and framework docs) to gather insights. Use both to improve the **system itself**—templates, rules, and skills—by querying Cursor rules best practices, agent-rules patterns, and template/scaffolding guides, then refining rules, skills, and template content. Run the audit dimensions (docs, rules, CLI, presets, validate/doctor, tests), prioritize changes, then validate with `agents-templated validate` and `doctor`. See the README section "Improvement and Maintenance" for the full process.
 
 This template provides a solid foundation while remaining flexible for any technology stack you choose to implement.

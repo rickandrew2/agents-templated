@@ -97,6 +97,70 @@ All core functionality includes automated tests:
 - Tested on Windows, macOS, and Linux
 - CI/CD ready with `npm run test:ci`
 
+## 🤖 Multi-AI Agent Support (v1.2.0)
+
+**Agents Templated v1.2.0 now supports 4 major AI agents with auto-discovered configuration files:**
+
+### Supported AI Agents
+
+| Agent | Config File | Auto-Discovery | Best For |
+|-------|-------------|-----------------|----------|
+| **Cursor IDE** | `.cursorrules` | ✅ Auto-loaded | Full IDE with native agent support |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | ✅ Auto-loaded | Code completion and generation in any editor |
+| **VSCode AI Extensions** | `.vscode-ai-rules.md` | ✅ Auto-loaded | Copilot Chat and other VSCode AI tools |
+| **Google Gemini** | `.gemini-instructions.md` | ✅ Auto-loaded | Google Gemini API and IDE plugins |
+
+### How It Works
+
+1. **Run `npx agents-templated init`** to create all 4 config files
+2. **Each AI agent auto-discovers its config file** in the project root
+3. **All agents read from the same ruleset**: `agents/rules/` and `agents/skills/`
+4. **No duplication**: Rules and guidelines live in one place
+
+### Example: Setup and Use
+
+```bash
+# Initialize project with all 4 AI agent configs
+npx agents-templated init --preset=nextjs
+
+# Or choose components manually
+npx agents-templated init --all
+
+# Now open your project in any AI-enabled editor:
+# - Open in Cursor → .cursorrules loads automatically
+# - Open in VSCode with Copilot Chat → .vscode-ai-rules.md loads automatically
+# - Use Gemini API → .gemini-instructions.md loads automatically
+# - Use GitHub Copilot → .github/copilot-instructions.md loads automatically
+```
+
+### Unified Rules System
+
+All 4 AI agents read from the same source of truth:
+
+```
+agents/
+├── rules/
+│   ├── core.mdc              # Core development principles
+│   ├── security.mdc          # Security patterns (CRITICAL)
+│   ├── testing.mdc           # Testing strategy
+│   ├── frontend.mdc          # Frontend patterns
+│   ├── database.mdc          # Database patterns
+│   └── style.mdc             # Code style guidelines
+└── skills/
+    ├── find-skills/          # Domain-specific guidance
+    └── web-design-guidelines/
+```
+
+Every AI agent, regardless of the tool, follows the same:
+- Security patterns (OWASP Top 10)
+- Testing strategy (80/15/5)
+- Code quality standards
+- Architecture principles
+
+### Adding New Agents in the Future
+
+Future v1.3+ can add more agents by simply creating new config files that point to the same `agents/rules/` directory. The unified architecture makes this trivial—no duplicate rules needed.
+
 ## 🚀 Quick Start
 
 ### Installation

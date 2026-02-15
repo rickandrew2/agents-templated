@@ -8,6 +8,7 @@
     "language": "TypeScript"
   },
   "components": ["docs", "rules", "skills", "github"],
+  "supportedAgents": ["cursor", "copilot", "vscode", "gemini"],
   "recommendedPackages": [
     "next",
     "react",

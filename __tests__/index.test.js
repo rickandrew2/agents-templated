@@ -33,8 +33,11 @@ describe('agents-templated API', () => {
       // Check skills
       expect(await fs.pathExists(path.join(tempDir, 'agents/skills/find-skills/SKILL.md'))).toBe(true);
 
-      // Check GitHub Copilot instructions
+      // Check all AI agent config files
+      expect(await fs.pathExists(path.join(tempDir, '.cursorrules'))).toBe(true);
       expect(await fs.pathExists(path.join(tempDir, '.github/copilot-instructions.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.vscode-ai-rules.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.gemini-instructions.md'))).toBe(true);
     });
 
     test('should install only documentation when docs option is true', async () => {
@@ -69,11 +72,14 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, 'AGENTS.MD'))).toBe(false);
     });
 
-    test('should install only GitHub config when github option is true', async () => {
+    test('should install GitHub Copilot instructions and all AI agent configs when github option is true', async () => {
       await install(tempDir, { github: true });
 
-      // Check GitHub Copilot instructions exist
+      // Check all AI agent config files exist
+      expect(await fs.pathExists(path.join(tempDir, '.cursorrules'))).toBe(true);
       expect(await fs.pathExists(path.join(tempDir, '.github/copilot-instructions.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.vscode-ai-rules.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.gemini-instructions.md'))).toBe(true);
 
       // Check documentation doesn't exist
       expect(await fs.pathExists(path.join(tempDir, 'AGENTS.MD'))).toBe(false);

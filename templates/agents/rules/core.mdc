@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Core Project Guidelines"
 description: "Enterprise-grade architecture and best practices for technology-agnostic development"
 alwaysApply: true
@@ -150,6 +150,14 @@ This template is technology-agnostic. Choose your stack based on:
 - **Critical patches** - immediate application of security updates
 - **Feature adoption** - stay current with language/framework improvements
 - **Deprecation management** - handle deprecated APIs and patterns
+
+## Documentation and Research
+
+When deciding what to recommend or implement:
+
+- **Local rules** (this file and other `agents/rules/*.mdc`): Use as the primary source for architecture, security, testing, and style. Follow these when the stack is generic or already covered.
+- **Context7 MCP**: Use for **up-to-date library and framework documentation**. When suggesting or implementing patterns for a specific stack (e.g. Next.js, Express, React), query Context7 (`resolve-library-id` then `query-docs`) so recommendations match current APIs and official guidance.
+- **NotebookLM MCP**: Use for **research and best-practice discourse** (e.g. OWASP, building-systems advice, template design). Query when adding or changing guidelines, or when the audit/planning needs external best practices. Not for real-time API docs—use Context7 for that.
 
 ## Communication & Collaboration
 

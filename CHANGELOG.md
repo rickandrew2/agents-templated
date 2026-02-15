@@ -1,5 +1,46 @@
 # Changelog
 
+## Version 1.2.0 - Multi-IDE AI Agent Support (February 15, 2026)
+
+### 🚀 Major Features
+
+#### Multi-AI Agent Support
+- **Unified AI agent configuration** - One ruleset for all AI agents
+- **Native support for 4 AI agents**:
+  - **Cursor IDE** (`.cursorrules`) - Full development environment
+  - **GitHub Copilot** (`.github/copilot-instructions.md`) - Code completion and generation
+  - **VSCode AI Extensions** (`.vscode-ai-rules.md`) - Copilot Chat and other VSCode AI tools
+  - **Google Gemini** (`.gemini-instructions.md`) - Gemini AI integration
+- All agents auto-discover their configuration files in the project
+- All agents read from the same unified `agents/rules/` and `agents/skills/` directories
+- No agent-specific duplication—one source of truth for all AI assistance
+
+#### Enhanced CLI
+- Updated `init` command now copies **all 4 AI agent config files** by default
+- Updated component selection to show "AI Agent instructions (Cursor, Copilot, VSCode, Gemini)"
+- All configs point to shared `agents/rules/` and `agents/skills/` directories
+- Simplified setup: `npx agents-templated init` creates everything needed
+
+#### Preset Updates
+- All 5 presets updated with `supportedAgents` metadata field
+  - Presets now document: Cursor ✓ | Copilot ✓ | VSCode ✓ | Gemini ✓
+  - Backward compatible—existing projects continue to work
+  - New projects benefit from unified agent support
+
+### 📝 Documentation
+- Updated README with "Multi-AI Agent Support" section
+- Clarified that all agents read from same rules/skills directories
+- Added example configs for each AI agent
+- Documented auto-discovery behavior
+
+### 🔄 Backward Compatibility
+- **Fully backward compatible** with v1.1.x
+- Existing projects continue to work without changes
+- v1.2.0 is an additive release—no breaking changes
+- New config files are optional (existing `.cursorrules` still works)
+
+---
+
 ## Version 1.1.0 - Feature-Rich Release (February 13, 2026)
 
 ### 🎉 Major New Features

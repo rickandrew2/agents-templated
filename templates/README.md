@@ -1,4 +1,4 @@
-﻿# Technology-Agnostic Development Template
+# Technology-Agnostic Development Template
 
 This template has been installed by the agents-templated npm package.
 
@@ -30,6 +30,11 @@ agents-templated init --github    # GitHub Copilot config only
 # List available components
 agents-templated list
 ```
+
+## Rules and Skills
+
+- **Rules** (`agents/rules/*.mdc`): Markdown files with YAML frontmatter (`description`, `globs`, `alwaysApply`). Cursor and other tools use them to know when to apply each rule. Adapt the content to your stack.
+- **Skills** (`agents/skills/*/SKILL.md`): Extend agent capabilities (e.g. find-skills, web-design-guidelines). Each has a name, description, and when to use.
 
 ## Getting Started
 

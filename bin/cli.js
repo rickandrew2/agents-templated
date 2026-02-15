@@ -25,8 +25,8 @@ const program = new Command();
 
 program
   .name('agents-templated')
-  .description('Technology-agnostic development template with AI assistant integration')
-  .version('1.1.2');
+  .description('Technology-agnostic development template with multi-AI agent support')
+  .version('1.2.0');
 
 program
   .command('init')
@@ -105,7 +105,7 @@ program
               { name: 'Documentation files (AGENTS.MD, CLAUDE.md, etc.)', value: 'docs' },
               { name: 'Agent rules (agents/rules/*.mdc)', value: 'rules' },
               { name: 'Skills (agents/skills/*)', value: 'skills' },
-              { name: 'GitHub Copilot instructions', value: 'github' }
+              { name: 'AI Agent instructions (Cursor, Copilot, VSCode, Gemini)', value: 'github' }
             ],
             default: ['all']
           },
@@ -164,13 +164,20 @@ program
         );
       }
 
-      // Install GitHub Copilot instructions
+      // Install AI Agent instructions (Cursor, Copilot, VSCode, Gemini)
       if (installAll || choices.includes('github')) {
-        console.log(chalk.yellow('Installing GitHub Copilot instructions...'));
+        console.log(chalk.yellow('Installing AI agent instructions...'));
         await fs.ensureDir(path.join(targetDir, '.github'));
         await copyFiles(templateDir, targetDir, [
-          '.github/copilot-instructions.md'
+          '.cursorrules',
+          '.github/copilot-instructions.md',
+          '.vscode-ai-rules.md',
+          '.gemini-instructions.md'
         ], options.force);
+        console.log(chalk.gray('  ✓ Cursor (.cursorrules)'));
+        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md)'));
+        console.log(chalk.gray('  ✓ VSCode (.vscode-ai-rules.md)'));
+        console.log(chalk.gray('  ✓ Google Gemini (.gemini-instructions.md)'));
       }
 
       console.log(chalk.green.bold('\nInstallation complete!\n'));

@@ -1,0 +1,70 @@
+# Cursor Rules - Technology-Agnostic Development Template
+# This is a flexible development template that adapts to any technology stack with enterprise-grade patterns.
+# Detailed rules are in agents/rules/*.mdc files - refer to those for implementation patterns.
+
+## Developer Identity & Communication
+- AI assistant should provide clear, step-by-step solutions with actionable examples
+- Focus on security, performance, and maintainability in all recommendations
+- Adapt patterns to the chosen technology stack
+
+## Core Principles
+- **Security-first development**: Always validate inputs, authenticate users, implement appropriate rate limiting
+- **Type safety**: Use strong typing systems available in chosen language/framework
+- **Performance optimization**: Monitor resource usage, implement caching, optimize assets
+- **Testing strategy**: Comprehensive testing at unit, integration, and E2E levels
+- **Accessibility**: WCAG 2.1 AA compliance for all user-facing interfaces
+- **Documentation**: Keep project documentation updated and comprehensive
+
+## Architecture Principles
+- **Technology-agnostic**: This template adapts to your chosen stack
+- **Security patterns**: Input validation, authentication, authorization, rate limiting
+- **Performance patterns**: Caching, lazy loading, bundle optimization
+- **Testing patterns**: Unit (80%), Integration (15%), E2E (5%) coverage target
+- **Feature-oriented structure**: Group by domain/feature, not just technical layer
+
+## Security Requirements (CRITICAL)
+- **Input validation**: All user inputs MUST be validated with appropriate schema validation
+- **Authentication**: Implement secure authentication flows with session management
+- **Rate limiting**: Public endpoints MUST have rate limiting protection
+- **Authorization**: Role-based access control with proper middleware
+- **Error handling**: Never expose sensitive data in error responses
+- **Database access**: Use ORM/ODM patterns, avoid raw queries unless performance-critical
+
+## Code Quality Standards
+- **Type Safety**: Use strict typing, avoid loose type usage
+- **Performance**: Monitor bundle/binary size, implement lazy loading patterns
+- **Accessibility**: WCAG 2.1 AA compliance for user-facing components
+- **Testing**: All business logic and user flows must have appropriate tests
+- **Documentation**: Keep README, CLAUDE.md, and AGENTS.md updated
+
+## Technology Stack Adaptation
+Choose your stack and apply these patterns consistently:
+
+### Frontend Options
+- **React/Next.js/Vue/Svelte**: Component-based with proper state management
+- **Angular**: Component + service architecture with TypeScript
+- **Traditional**: Server-side rendering with progressive enhancement
+
+### Backend Options  
+- **Node.js**: Express, Fastify, or framework API routes
+- **Python**: Django, FastAPI, Flask with proper ORM patterns
+- **Other**: Adapt patterns to your chosen backend technology
+
+### Database Options
+- **SQL**: PostgreSQL, MySQL with ORM (Prisma, TypeORM, SQLAlchemy)
+- **NoSQL**: MongoDB, DynamoDB with ODM patterns
+- **Cloud**: Supabase, Firebase, managed database services
+
+## Agent Delegation (See AGENTS.md for details)
+- **UI/Design work** → FrontendAgent
+- **API/Business logic** → BackendAgent  
+- **Database/Schema** → DatabaseAgent
+- **Testing implementation** → TestAgent
+- **Security reviews** → SecurityAgent
+- **Code quality** → ReviewerAgent
+
+## Usage Instructions
+1. Choose your technology stack
+2. Adapt the patterns in agents/rules/*.mdc to your chosen technologies
+3. Update this .cursorrules file with stack-specific details
+4. Begin development following the established patterns
