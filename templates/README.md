@@ -25,44 +25,54 @@ Agents Templated scaffolds your project with:
 
 ## 🚀 Quick Start
 
-### 1. Install (choose one method)
+### 1. Run the Interactive Wizard (Recommended)
 
 ```bash
-# Using npx (no installation needed)
-npx agents-templated@latest init --preset=nextjs
-
-# Or install globally
-npm install -g agents-templated
-agents-templated init --preset=nextjs
-
-# Or use the interactive wizard
+# Using npx (no installation needed) - RECOMMENDED
 npx agents-templated@latest wizard
+
+# Or install globally first
+npm install -g agents-templated
+agents-templated wizard
 ```
 
-### 2. Choose Your Preset
+**Or use a preset for fast setup:**
 
 ```bash
-npx agents-templated init --preset=nextjs        # Next.js full-stack
-npx agents-templated init --preset=express-api   # Express.js REST API
-npx agents-templated init --preset=django-react  # Django + React
-npx agents-templated init --preset=fastapi       # FastAPI backend
-npx agents-templated init --preset=go-api        # Go API server
+# Initialize with a specific preset
+npx agents-templated@latest init --preset=nextjs        # Next.js
+npx agents-templated@latest init --preset=express-api   # Express
+npx agents-templated@latest init --preset=django-react  # Django
+npx agents-templated@latest init --preset=fastapi       # FastAPI
+npx agents-templated@latest init --preset=go-api        # Go
+
+# Or install all components without a preset
+npx agents-templated@latest init --all
 ```
 
-### 3. Install Your Tech Stack
+### 2. Install Your Tech Stack
+
+After initializing, install your chosen framework:
 
 ```bash
-# Example: Next.js
-npm install next react react-dom typescript
+# Frontend
+npm install next react react-dom              # Next.js
+npm install vue nuxt                          # Nuxt
+npm install @angular/core @angular/cli        # Angular
 
-# Example: Django
-pip install django djangorestframework python-dotenv
+# Backend
+npm install express typescript zod            # Express
+pip install django djangorestframework        # Django
+pip install fastapi uvicorn pydantic          # FastAPI
+go mod init your-project                      # Go
 
-# Example: Express API
-npm install express typescript zod prisma
+# Database
+npm install prisma @prisma/client             # Prisma ORM
+pip install sqlalchemy alembic                # SQLAlchemy
+npm install mongoose                          # Mongoose (MongoDB)
 ```
 
-### 4. Start Coding with AI
+### 3. Start Coding with AI
 
 Your AI assistant will auto-load the configurations and follow enterprise patterns automatically!
 
