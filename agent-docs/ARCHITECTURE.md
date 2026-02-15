@@ -6,8 +6,18 @@ These guidelines are for both humans and AI assistants working with any technolo
 - High-level **project and architecture** guidelines live here in `CLAUDE.md`.
 - **Agent responsibilities** and MCP integration are documented in `AGENTS.MD`.
 - **Detailed implementation rules** live in `agents/rules/*.mdc` files.
+- **Custom skills** for domain-specific tasks are organized in `agents/skills/` (see [Skills Guide](../agents/skills/README.md)).
 
 Read this file first to understand the architecture, then consult `AGENTS.MD` for agent delegation.
+
+### Rules vs Skills
+
+- **Rules** (`agents/rules/*.mdc`): Define *how to behave* - patterns, principles, and standards for your team
+- **Skills** (`agents/skills/`): Define *how to execute specific tasks* - domain-specific workflows and specialized knowledge
+
+For example:
+- **Rule**: "Validate all user inputs at application boundaries" (principle)
+- **Skill**: "FastAPI patterns for request validation, error handling, and testing" (execution)
 
 ---
 

@@ -118,7 +118,6 @@ your-project/
 ├── agent-docs/                      # 📚 Comprehensive documentation
 │   ├── AGENTS.md                   # AI assistant guide
 │   ├── ARCHITECTURE.md             # Project architecture & tech stack
-│   ├── AGENTS.MD                   # Agent delegation patterns
 │   └── README.md                   # Human-readable setup guide
 │
 ├── agents/                          # 🤖 AI Agent rules and skills
@@ -130,8 +129,9 @@ your-project/
 │   │   ├── database.mdc           # Database patterns
 │   │   └── style.mdc              # Code style guidelines
 │   └── skills/
-│       ├── web-design-guidelines/ # UI/UX patterns
-│       └── find-skills/           # Skill discovery
+│       ├── find-skills/           # Skill discovery helper
+│       ├── README.md              # Guide for creating custom skills
+│       └── [your-custom-skills]/  # Your project-specific skills
 │
 ├── .github/
 │   └── copilot-instructions.md    # GitHub Copilot config
@@ -220,15 +220,49 @@ Open your AI assistant and it will automatically load the appropriate config:
 - **Claude**: Reads `CLAUDE.md`
 - **Gemini**: Reads `GEMINI.md`
 
-### 3. Read the Documentation
+### 3. Create Custom Skills (Optional)
+
+Extend your AI agents with domain-specific skills for your project:
+
+```bash
+# View the skills guide
+cat agents/skills/README.md
+```
+
+Create a new skill folder in `agents/skills/`:
+
+```markdown
+agents/skills/my-custom-skill/SKILL.md
+---
+name: my-custom-skill
+description: Custom patterns for my project domain
+---
+
+# My Custom Skill
+
+Use this skill when working with [your domain].
+
+## Recommended Patterns
+
+- Pattern 1: Description
+- Pattern 2: Description
+
+## Example
+
+Code and examples...
+```
+
+Skills define *how to execute specific tasks*, complementing rules that define *how to behave*. See [agents/skills/README.md](agents/skills/README.md) for detailed guidance.
+
+### 4. Read the Documentation
 
 - **[AGENTS.md](AGENTS.md)** – AI assistant guide
 - **[agent-docs/ARCHITECTURE.md](agent-docs/ARCHITECTURE.md)** – Project architecture & tech stack guidance
-- **[AGENTS.md](AGENTS.md)** – Working with AI assistants guide
+- **[agents/skills/README.md](agents/skills/README.md)** – Custom skills guide
 - **[agents/rules/security.mdc](agents/rules/security.mdc)** – Security patterns (CRITICAL)
 - **[agents/rules/testing.mdc](agents/rules/testing.mdc)** – Testing strategy
 
-### 4. Start Building
+### 5. Start Building
 
 Tell your AI assistant what to build:
 
