@@ -4,8 +4,8 @@ This project follows enterprise-grade, technology-agnostic development patterns.
 
 ## Primary Documentation (Always Reference)
 
-- **`CLAUDE.md`** - Overall project guidelines, architecture principles, and technology stack selection
-- **`AGENTS.md`** - Agent delegation patterns, responsibilities, and when to use each agent
+- **`AGENTS.md`** - This file! AI instructions for working with AI assistants
+- **`agent-docs/ARCHITECTURE.md`** - Overall project guidelines, architecture principles, and technology stack selection
 
 ## Detailed Rules (Reference When Relevant)
 
@@ -23,11 +23,10 @@ When implementing features, always check the relevant rule file:
 
 When implementing any feature:
 
-1. **Check `AGENTS.md`** to determine which agent pattern applies (FrontendAgent, BackendAgent, DatabaseAgent, etc.)
-2. **Reference `CLAUDE.md`** for overall architecture and technology stack guidance
-3. **Apply relevant rules** from `agents/rules/*.mdc` files based on the task
-4. **Always apply security patterns** from `agents/rules/security.mdc`
-5. **Always apply testing patterns** from `agents/rules/testing.mdc`
+1. **Reference `agent-docs/ARCHITECTURE.md`** for overall architecture and technology stack guidance
+2. **Apply relevant rules** from `agents/rules/*.mdc` files based on the task
+3. **Always apply security patterns** from `agents/rules/security.mdc`
+4. **Always apply testing patterns** from `agents/rules/testing.mdc`
 
 ## Critical Rules (Always Apply)
 
@@ -48,7 +47,7 @@ When implementing any feature:
 - **Type safety**: Use strong typing, validate at boundaries
 - **Performance**: Monitor bundle/binary size, implement lazy loading
 - **Accessibility**: WCAG 2.1 AA compliance for user-facing components
-- **Documentation**: Keep README, CLAUDE.md, and AGENTS.md updated
+- **Documentation**: Keep README and agent-docs/ARCHITECTURE.md updated
 
 ## Architecture Principles
 
@@ -61,31 +60,26 @@ When implementing any feature:
 ## Quick Reference
 
 ### For UI/Design Work
-→ Reference `AGENTS.md` → FrontendAgent section
 → Apply `agents/rules/frontend.mdc` patterns
-→ Ensure accessibility compliance
+→ Ensure WCAG 2.1 AA accessibility compliance
 
 ### For API/Business Logic
-→ Reference `AGENTS.md` → BackendAgent section
 → Apply `agents/rules/security.mdc` for authentication/validation
 → Apply `agents/rules/testing.mdc` for test coverage
 
 ### For Database Work
-→ Reference `AGENTS.md` → DatabaseAgent section
 → Apply `agents/rules/database.mdc` patterns
-→ Use ORM/ODM patterns, avoid raw queries
+→ Use ORM/ODM patterns, avoid raw SQL
 
 ### For Security Reviews
-→ Reference `AGENTS.md` → SecurityAgent section
 → Apply `agents/rules/security.mdc` comprehensively
 → Check OWASP Top 10 compliance
 
 ## When in Doubt
 
-1. Check `AGENTS.md` for agent delegation guidance
-2. Review `CLAUDE.md` for architecture decisions
-3. Reference the specific `agents/rules/*.mdc` file for detailed patterns
-4. Always prioritize security and testing requirements
+1. Review `agent-docs/ARCHITECTURE.md` for architecture decisions
+2. Reference the specific `agents/rules/*.mdc` file for detailed patterns
+3. Always prioritize security and testing requirements
 
 ---
 

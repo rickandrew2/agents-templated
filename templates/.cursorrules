@@ -35,7 +35,7 @@
 - **Performance**: Monitor bundle/binary size, implement lazy loading patterns
 - **Accessibility**: WCAG 2.1 AA compliance for user-facing components
 - **Testing**: All business logic and user flows must have appropriate tests
-- **Documentation**: Keep README, agent-docs/ARCHITECTURE.md, and agent-docs/AGENTS.md updated
+- **Documentation**: Keep README, agent-docs/ARCHITECTURE.md, and AGENTS.md updated
 
 ## Technology Stack Adaptation
 Choose your stack and apply these patterns consistently:
@@ -55,7 +55,7 @@ Choose your stack and apply these patterns consistently:
 - **NoSQL**: MongoDB, DynamoDB with ODM patterns
 - **Cloud**: Supabase, Firebase, managed database services
 
-## Agent Delegation (See agent-docs/AGENTS.md for details)
+## Agent Delegation (See AGENTS.md for details)
 - **UI/Design work** → FrontendAgent
 - **API/Business logic** → BackendAgent  
 - **Database/Schema** → DatabaseAgent

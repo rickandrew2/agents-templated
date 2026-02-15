@@ -26,9 +26,8 @@ async function install(targetDir, options = {}) {
   // Documentation files
   if (installAll || options.docs) {
     files.push(
-      'agent-docs/AGENTS.MD',
+      'AGENTS.md',
       'agent-docs/ARCHITECTURE.md',
-      'agent-docs/AI_INSTRUCTIONS.md',
       'agent-docs/README.md'
     );
   }

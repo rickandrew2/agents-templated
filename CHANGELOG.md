@@ -1,5 +1,31 @@
 # Changelog
 
+## Version 1.2.3 - Critical Bug Fixes and Documentation Cleanup (February 15, 2026)
+
+### 🐛 Critical Bug Fixes
+
+- **Fixed CLI: CLAUDE.md and GEMINI.md not being generated**
+  - Root cause: CLI still referenced deleted files (.vscode-ai-rules.md, .gemini-instructions.md)
+  - Both `init` and `wizard` commands now correctly copy CLAUDE.md and GEMINI.md
+  - Users running v1.2.2 should upgrade immediately
+
+- **Fixed validate command**: Now correctly checks for AGENTS.md at root level
+- **Updated file references**: All CLI console messages now point to correct file locations
+
+### 🗂️ Documentation Reorganization
+
+- **Consolidated AGENTS.md to root**: Single source of truth for AI assistant instructions
+- **Removed duplicated agent-docs/AGENTS.MD**: Content simplified and centralized
+- **Updated all cross-references**: Cleaner documentation navigation
+- **CLI now copies 5 AI config files**: .cursorrules, copilot-instructions.md, AGENTS.md, CLAUDE.md, GEMINI.md
+
+### 🧪 Test Updates
+
+- Updated test expectations to check root AGENTS.md instead of agent-docs version
+- Tests verify correct file generation by CLI
+
+---
+
 ## Version 1.2.2 - Documentation Improvements (February 15, 2026)
 
 ### 📝 Documentation

@@ -162,27 +162,27 @@ program
         );
       }
 
-      // Install AI Agent instructions (Cursor, Copilot, VSCode, Gemini)
+      // Install AI Agent instructions (Cursor, Copilot, Claude, Gemini)
       if (installAll || choices.includes('github')) {
         console.log(chalk.yellow('Installing AI agent instructions...'));
         await fs.ensureDir(path.join(targetDir, '.github'));
         await copyFiles(templateDir, targetDir, [
           '.cursorrules',
           '.github/copilot-instructions.md',
-          '.vscode-ai-rules.md',
-          '.gemini-instructions.md'
+          'CLAUDE.md',
+          'GEMINI.md'
         ], options.force);
         console.log(chalk.gray('  ✓ Cursor (.cursorrules)'));
         console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md)'));
-        console.log(chalk.gray('  ✓ VSCode (.vscode-ai-rules.md)'));
-        console.log(chalk.gray('  ✓ Google Gemini (.gemini-instructions.md)'));
+        console.log(chalk.gray('  ✓ Claude (CLAUDE.md)'));
+        console.log(chalk.gray('  ✓ Google Gemini (GEMINI.md)'));
       }
 
       console.log(chalk.green.bold('\nInstallation complete!\n'));
       console.log(chalk.cyan('Next steps:'));
-          console.log(chalk.white('  1. Review agent-docs/AI_INSTRUCTIONS.md for AI assistance guide'));
+      console.log(chalk.white('  1. Review AGENTS.md for generic AI assistant guide'));
       console.log(chalk.white('  2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
-      console.log(chalk.white('  3. Review agent-docs/AGENTS.MD for agent patterns'));
+      console.log(chalk.white('  3. Review AGENTS.md for AI assistant guide'));
       console.log(chalk.white('  4. Configure your AI assistant (Cursor, Copilot, etc.)'));
       console.log(chalk.white('  5. Adapt the rules to your technology stack\n'));
 
@@ -353,13 +353,15 @@ program
         await copyFiles(templateDir, targetDir, [
           '.cursorrules',
           '.github/copilot-instructions.md',
-          '.vscode-ai-rules.md',
-          '.gemini-instructions.md'
+          'AGENTS.md',
+          'CLAUDE.md',
+          'GEMINI.md'
         ], options.force);
         console.log(chalk.gray('  ✓ Cursor (.cursorrules)'));
         console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md)'));
-        console.log(chalk.gray('  ✓ VSCode (.vscode-ai-rules.md)'));
-        console.log(chalk.gray('  ✓ Google Gemini (.gemini-instructions.md)'));
+        console.log(chalk.gray('  ✓ Generic AI (AGENTS.md)'));
+        console.log(chalk.gray('  ✓ Claude (CLAUDE.md)'));
+        console.log(chalk.gray('  ✓ Google Gemini (GEMINI.md)'));
       }
 
       // Step 4: Show recommendations
@@ -371,9 +373,9 @@ program
       if (techStack.database) console.log(chalk.white(`   Database: ${techStack.database}`));
       
       console.log(chalk.cyan('\n📚 Next Steps:\n'));
-      console.log(chalk.white('   1. Review agent-docs/AI_INSTRUCTIONS.md for AI assistance guide'));
+      console.log(chalk.white('   1. Review AGENTS.md for AI assistant guide'));
       console.log(chalk.white('   2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
-      console.log(chalk.white('   3. Review agent-docs/AGENTS.MD for agent patterns'));
+      console.log(chalk.white('   3. Review AGENTS.md for AI assistant guide'));
       console.log(chalk.white('   3. Customize agents/rules/*.mdc for your tech stack'));
       
       if (techStack.frontend || techStack.backend) {
@@ -452,7 +454,13 @@ program
       let passed = [];
 
       // Check documentation files
-      const docFiles = ['AGENTS.MD', 'ARCHITECTURE.md', 'AI_INSTRUCTIONS.md'];
+      if (await fs.pathExists(path.join(targetDir, 'AGENTS.md'))) {
+        passed.push(`✓ AGENTS.md found`);
+      } else {
+        warnings.push(`⚠ AGENTS.md missing - run 'agents-templated init --docs'`);
+      }
+
+      const docFiles = ['ARCHITECTURE.md'];
       const docsDir = path.join(targetDir, 'agent-docs');
       
       if (await fs.pathExists(docsDir)) {
@@ -655,9 +663,9 @@ program
       // List potential updates
       const updates = [];
       const checkFiles = [
-        { file: 'agent-docs/AGENTS.MD', component: 'docs' },
+        { file: 'AGENTS.md', component: 'root' },
         { file: 'agent-docs/ARCHITECTURE.md', component: 'docs' },
-        { file: 'agent-docs/AI_INSTRUCTIONS.md', component: 'docs' },
+        { file: 'AGENTS.md', component: 'root' },
         { file: 'agents/rules/security.mdc', component: 'rules' },
         { file: 'agents/rules/testing.mdc', component: 'rules' },
         { file: 'agents/rules/core.mdc', component: 'rules' },

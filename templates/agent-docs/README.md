@@ -8,7 +8,7 @@ Depending on what you installed, you may have:
 
 - **AGENTS.MD**: Agent patterns and delegation guide
 - **ARCHITECTURE.md**: Project guidelines and architecture
-- **AI_INSTRUCTIONS.md**: Instructions for AI assistants
+- **AGENTS.md**: Instructions for AI assistants
 - **agents/rules/**: Development rules and patterns (6 files)
 - **agents/skills/**: Reusable agent skills
 - **CLAUDE.md**: Claude AI configuration
@@ -41,7 +41,7 @@ agents-templated list
 
 ## Getting Started
 
-1. Review AI_INSTRUCTIONS.md for AI assistance guidance
+1. Review AGENTS.md for AI assistance guidance
 2. Review ARCHITECTURE.md for overall project guidelines
 3. Review AGENTS.MD for agent patterns
 4. Adapt the rules to your specific technology stack

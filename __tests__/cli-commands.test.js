@@ -35,13 +35,13 @@ describe('CLI commands', () => {
       const output = runCLI('validate', tempDir);
       expect(output).toContain('Validating');
       expect(output).toContain('missing');
-      expect(output).not.toContain('agent-docs/AGENTS.MD found');
+      expect(output).not.toContain('AGENTS.md found');
     });
 
     test('should report passed checks when required files are present', async () => {
       await install(tempDir, { docs: true, rules: true, github: true });
       const output = runCLI('validate', tempDir);
-      expect(output).toContain('agent-docs/AGENTS.MD found');
+      expect(output).toContain('AGENTS.md found');
       expect(output).toContain('agents/rules/security.mdc found');
       expect(output).toContain('Passed Checks');
     });

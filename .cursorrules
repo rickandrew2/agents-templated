@@ -55,7 +55,7 @@ Choose your stack and apply these patterns consistently:
 - **NoSQL**: MongoDB, DynamoDB with ODM patterns
 - **Cloud**: Supabase, Firebase, managed database services
 
-## Agent Delegation (See agent-docs/AGENTS.md for details)
+## AI Assistance (See AGENTS.md for details)
 - **UI/Design work** → FrontendAgent
 - **API/Business logic** → BackendAgent  
 - **Database/Schema** → DatabaseAgent

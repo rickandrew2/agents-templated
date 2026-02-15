@@ -120,7 +120,7 @@ When you run `agents-templated init`, you get:
 ```
 your-project/
 ├── agent-docs/                      # 📚 Comprehensive documentation
-│   ├── AI_INSTRUCTIONS.md          # Primary AI assistant guide
+│   ├── AGENTS.md                   # AI assistant guide
 │   ├── ARCHITECTURE.md             # Project architecture & tech stack
 │   ├── AGENTS.MD                   # Agent delegation patterns
 │   └── README.md                   # Human-readable setup guide
@@ -226,9 +226,9 @@ Open your AI assistant and it will automatically load the appropriate config:
 
 ### 3. Read the Documentation
 
-- **[agent-docs/AI_INSTRUCTIONS.md](agent-docs/AI_INSTRUCTIONS.md)** – Primary AI assistant guide
+- **[AGENTS.md](AGENTS.md)** – AI assistant guide
 - **[agent-docs/ARCHITECTURE.md](agent-docs/ARCHITECTURE.md)** – Project architecture & tech stack guidance
-- **[agent-docs/AGENTS.MD](agent-docs/AGENTS.MD)** – Agent delegation patterns
+- **[AGENTS.md](AGENTS.md)** – AI assistant guide
 - **[agents/rules/security.mdc](agents/rules/security.mdc)** – Security patterns (CRITICAL)
 - **[agents/rules/testing.mdc](agents/rules/testing.mdc)** – Testing strategy
 
@@ -276,7 +276,7 @@ Your AI will follow the enterprise patterns automatically!
 | **TestAgent** | Unit, integration, E2E, accessibility testing |
 | **SecurityAgent** | Input validation, authentication, OWASP compliance |
 
-**Reference**: [agent-docs/AGENTS.MD](agent-docs/AGENTS.MD)
+**Reference**: [AGENTS.md](AGENTS.md)
 
 ---
 
