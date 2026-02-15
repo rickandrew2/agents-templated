@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 1.2.2 - Documentation Improvements (February 15, 2026)
+
+### 📝 Documentation
+
+- **Removed Next.js bias from README**: Previously appeared as the "default" choice in examples
+- **Promoted interactive wizard as primary method**: Now recommended first in Quick Start
+- **Equal representation of all presets**: All 5 presets (Next.js, Express, Django, FastAPI, Go) shown equally
+- **Technology-agnostic positioning**: Better reflects that the package works with any stack
+- **Added comprehensive overview paragraph**: Explains what Agents Templated is at a glance
+
+No functional changes - documentation-only release.
+
+---
+
 ## Version 1.2.1 - File Structure Reorganization (February 15, 2026)
 
 ### 🗂️ Breaking Changes
