@@ -86,16 +86,38 @@ Consider creating skills for:
 
 ## Using Skills in Your Project
 
-Once you've created a skill:
+Skills can be referenced in all your AI assistant configuration files:
 
-1. **Reference in `.cursorrules`**:
-   ```
-   When the user asks about [domain], use the [skill-name] skill
-   ```
+### Cursor IDE (`.cursorrules`)
+```
+When the user asks about [domain], use the [skill-name] skill from agents/skills/[skill-name]/SKILL.md
+```
 
-2. **Document in agent guidelines**:
-   - Add to `AGENTS.md` for public skills
-   - Add to `CLAUDE.md` or `GEMINI.md` for AI-specific skills
+### Claude (`CLAUDE.md`)
+```markdown
+## When Working on [Domain]
+
+Reference the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md` for patterns and guidance.
+```
+
+### Google Gemini (`GEMINI.md`)
+```markdown
+## When Working on [Domain]
+
+Reference the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md` for patterns and guidance.
+```
+
+### GitHub Copilot (`.github/copilot-instructions.md`)
+```markdown
+When helping with [domain-specific task], reference the [skill-name] skill from `agents/skills/[skill-name]/SKILL.md`
+```
+
+### Documentation (`AGENTS.md`)
+```markdown
+- When working with [domain], see the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md`
+```
+
+**All AI assistants support skill references.** Keep your team aligned by linking to skill files across your configuration files.
 
 3. **Share with your team**:
    - Commit to version control

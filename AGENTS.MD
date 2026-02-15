@@ -6,6 +6,7 @@ This project follows enterprise-grade, technology-agnostic development patterns.
 
 - **`AGENTS.md`** - This file! AI instructions for working with AI assistants
 - **`agent-docs/ARCHITECTURE.md`** - Overall project guidelines, architecture principles, and technology stack selection
+- **`agents/skills/`** - Custom skills for domain-specific tasks in your project
 
 ## Detailed Rules (Reference When Relevant)
 
@@ -23,10 +24,11 @@ When implementing features, always check the relevant rule file:
 
 When implementing any feature:
 
-1. **Reference `agent-docs/ARCHITECTURE.md`** for overall architecture and technology stack guidance
-2. **Apply relevant rules** from `agents/rules/*.mdc` files based on the task
-3. **Always apply security patterns** from `agents/rules/security.mdc`
-4. **Always apply testing patterns** from `agents/rules/testing.mdc`
+1. **Check for custom skills**: Review `agents/skills/` for domain-specific guidance
+2. **Reference `agent-docs/ARCHITECTURE.md`** for overall architecture and technology stack guidance
+3. **Apply relevant rules** from `agents/rules/*.mdc` files based on the task
+4. **Always apply security patterns** from `agents/rules/security.mdc`
+5. **Always apply testing patterns** from `agents/rules/testing.mdc`
 
 ## Critical Rules (Always Apply)
 

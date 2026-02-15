@@ -6,7 +6,7 @@ This project uses enterprise-grade, technology-agnostic development patterns for
 
 - **AI Guide**: See `AGENTS.md` for comprehensive instructions
 - **Architecture**: See `agent-docs/ARCHITECTURE.md` for project guidelines
-- **AI Guide**: See `AGENTS.md` for AI assistant patterns
+- **Custom Skills**: See `agents/skills/` directory for domain-specific extensions
 - **Detailed Rules**: See `agents/rules/*.mdc` files
 
 ## Always Apply

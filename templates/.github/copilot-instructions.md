@@ -4,9 +4,9 @@ This project follows enterprise-grade, technology-agnostic development patterns.
 
 ## Quick Start
 
-- **AI Guide**: See `agent-docs/AI_INSTRUCTIONS.md` for comprehensive instructions
+- **AI Guide**: See `AGENTS.md` for comprehensive instructions
 - **Architecture**: See `agent-docs/ARCHITECTURE.md` for project guidelines
-- **Agent Patterns**: See `agent-docs/AGENTS.md` for delegation patterns
+- **Custom Skills**: See `agents/skills/` directory for domain-specific extensions
 - **Detailed Rules**: See `agents/rules/*.mdc` files
 
 ## Always Apply
