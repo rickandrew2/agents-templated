@@ -5,6 +5,7 @@ const inquirer = require('inquirer');
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const { version } = require('../package.json');
 
 // Resolve the templates directory - works in both dev and installed contexts
 const getTemplatesDir = () => {
@@ -26,7 +27,7 @@ const program = new Command();
 program
   .name('agents-templated')
   .description('Technology-agnostic development template with multi-AI agent support')
-  .version('1.2.1');
+  .version(version);
 
 program
   .command('init')
@@ -641,6 +642,11 @@ async function copyDirectory(sourceDir, targetDir, force = false) {
 program
   .command('update')
   .description('Check for and apply template updates')
+  .option('-a, --all', 'Update all components (docs, rules, skills, github)')
+  .option('-d, --docs', 'Update documentation files only')
+  .option('-r, --rules', 'Update agent rules only')
+  .option('-s, --skills', 'Update skills only')
+  .option('-g, --github', 'Update AI agent instruction files only')
   .option('-c, --check-only', 'Only check for updates, don\'t install')
   .option('-f, --force', 'Force overwrite files during update')
   .action(async (options) => {
@@ -657,6 +663,63 @@ program
       if (!hasTemplates) {
         console.log(chalk.yellow('No templates detected in this directory.'));
         console.log(chalk.gray('Run "agents-templated init" first.\n'));
+        process.exit(0);
+      }
+
+      const hasComponentSelection = options.all || options.docs || options.rules || options.skills || options.github;
+
+      // Component refresh mode: update selected parts directly without stack/wizard prompts
+      if (hasComponentSelection) {
+        const selectedComponents = [];
+        if (options.all || options.docs) selectedComponents.push('docs');
+        if (options.all || options.rules) selectedComponents.push('rules');
+        if (options.all || options.skills) selectedComponents.push('skills');
+        if (options.all || options.github) selectedComponents.push('github');
+
+        console.log(chalk.blue('📦 Updating selected components...\n'));
+
+        if (selectedComponents.includes('docs')) {
+          console.log(chalk.yellow('Updating documentation files...'));
+          await fs.ensureDir(path.join(targetDir, 'agent-docs'));
+          await copyDirectory(
+            path.join(templateDir, 'agent-docs'),
+            path.join(targetDir, 'agent-docs'),
+            true
+          );
+        }
+
+        if (selectedComponents.includes('rules')) {
+          console.log(chalk.yellow('Updating agent rules...'));
+          await fs.ensureDir(path.join(targetDir, 'agents', 'rules'));
+          await copyDirectory(
+            path.join(templateDir, 'agents', 'rules'),
+            path.join(targetDir, 'agents', 'rules'),
+            true
+          );
+        }
+
+        if (selectedComponents.includes('skills')) {
+          console.log(chalk.yellow('Updating skills...'));
+          await fs.ensureDir(path.join(targetDir, 'agents', 'skills'));
+          await copyDirectory(
+            path.join(templateDir, 'agents', 'skills'),
+            path.join(targetDir, 'agents', 'skills'),
+            true
+          );
+        }
+
+        if (selectedComponents.includes('github')) {
+          console.log(chalk.yellow('Updating AI agent instructions...'));
+          await fs.ensureDir(path.join(targetDir, '.github'));
+          await copyFiles(templateDir, targetDir, [
+            '.cursorrules',
+            '.github/copilot-instructions.md',
+            'CLAUDE.md',
+            'GEMINI.md'
+          ], true);
+        }
+
+        console.log(chalk.green.bold('\n✅ Selected component updates applied successfully!\n'));
         process.exit(0);
       }
 

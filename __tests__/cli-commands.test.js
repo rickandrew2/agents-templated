@@ -85,5 +85,19 @@ describe('CLI commands', () => {
       await install(tempDir, { docs: true });
       expect(() => runCLI('update --check-only', tempDir)).not.toThrow();
     });
+
+    test('update --skills should refresh skills directly without interactive wizard flow', async () => {
+      await install(tempDir, { skills: true });
+
+      const skillFile = path.join(tempDir, 'agents', 'skills', 'find-skills', 'SKILL.md');
+      await fs.writeFile(skillFile, 'OUTDATED_SKILL_CONTENT');
+
+      const output = runCLI('update --skills', tempDir);
+      const refreshedContent = await fs.readFile(skillFile, 'utf-8');
+
+      expect(output).toContain('Updating selected components');
+      expect(refreshedContent).not.toBe('OUTDATED_SKILL_CONTENT');
+      expect(refreshedContent).toContain('find-skills');
+    });
   });
 });
