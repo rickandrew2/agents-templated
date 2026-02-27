@@ -130,6 +130,7 @@ your-project/
 │   │   └── style.mdc              # Code style guidelines
 │   └── skills/
 │       ├── find-skills/           # Skill discovery helper
+│       ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
 │       ├── README.md              # Guide for creating custom skills
 │       └── [your-custom-skills]/  # Your project-specific skills
 │

@@ -57,6 +57,8 @@ To create a new skill for your specific domain:
 agents/skills/
 ├── find-skills/
 │   └── SKILL.md              # Meta-skill for discovering skills
+├── ui-ux-pro-max/
+│   └── SKILL.md              # Premium UI/UX implementation patterns
 ├── my-custom-skill/
 │   └── SKILL.md              # Your custom skill
 └── README.md                 # This file

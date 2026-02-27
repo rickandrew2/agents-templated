@@ -428,7 +428,7 @@ program
     console.log(chalk.blue.bold('\nAvailable Components:\n'));
     console.log(chalk.yellow('docs') + '    - Documentation files (agent-docs/ directory)');
     console.log(chalk.yellow('rules') + '   - Agent rules (core, database, frontend, security, testing, style)');
-    console.log(chalk.yellow('skills') + '  - Agent skills (find-skills, web-design-guidelines)');
+    console.log(chalk.yellow('skills') + '  - Agent skills (find-skills, ui-ux-pro-max)');
     console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, VSCode, Gemini)');
     console.log(chalk.yellow('all') + '     - All components');
     
@@ -657,7 +657,7 @@ program
       console.log(chalk.blue.bold('\n🔄 Checking for template updates...\n'));
 
       // Check if templates are installed
-      const hasTemplates = await fs.pathExists(path.join(targetDir, 'AGENTS.MD')) ||
+      const hasTemplates = await fs.pathExists(path.join(targetDir, 'AGENTS.md')) ||
                          await fs.pathExists(path.join(targetDir, 'agents'));
 
       if (!hasTemplates) {
@@ -728,10 +728,12 @@ program
       const checkFiles = [
         { file: 'AGENTS.md', component: 'root' },
         { file: 'agent-docs/ARCHITECTURE.md', component: 'docs' },
-        { file: 'AGENTS.md', component: 'root' },
         { file: 'agents/rules/security.mdc', component: 'rules' },
         { file: 'agents/rules/testing.mdc', component: 'rules' },
         { file: 'agents/rules/core.mdc', component: 'rules' },
+        { file: 'agents/skills/README.md', component: 'skills' },
+        { file: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
+        { file: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' },
         { file: '.github/copilot-instructions.md', component: 'github' }
       ];
 

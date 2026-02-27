@@ -32,6 +32,7 @@ describe('agents-templated API', () => {
 
       // Check skills
       expect(await fs.pathExists(path.join(tempDir, 'agents/skills/find-skills/SKILL.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agents/skills/ui-ux-pro-max/SKILL.md'))).toBe(true);
 
       // Check all AI agent config files
       expect(await fs.pathExists(path.join(tempDir, '.cursorrules'))).toBe(true);
@@ -67,6 +68,7 @@ describe('agents-templated API', () => {
 
       // Check skills exist
       expect(await fs.pathExists(path.join(tempDir, 'agents/skills/find-skills/SKILL.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agents/skills/ui-ux-pro-max/SKILL.md'))).toBe(true);
 
       // Check documentation doesn't exist
       expect(await fs.pathExists(path.join(tempDir, 'agent-docs'))).toBe(false);

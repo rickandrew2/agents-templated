@@ -90,14 +90,17 @@ describe('CLI commands', () => {
       await install(tempDir, { skills: true });
 
       const skillFile = path.join(tempDir, 'agents', 'skills', 'find-skills', 'SKILL.md');
+      const uiSkillFile = path.join(tempDir, 'agents', 'skills', 'ui-ux-pro-max', 'SKILL.md');
       await fs.writeFile(skillFile, 'OUTDATED_SKILL_CONTENT');
 
       const output = runCLI('update --skills', tempDir);
       const refreshedContent = await fs.readFile(skillFile, 'utf-8');
+      const uiSkillContent = await fs.readFile(uiSkillFile, 'utf-8');
 
       expect(output).toContain('Updating selected components');
       expect(refreshedContent).not.toBe('OUTDATED_SKILL_CONTENT');
       expect(refreshedContent).toContain('find-skills');
+      expect(uiSkillContent).toContain('ui-ux-pro-max');
     });
   });
 });
