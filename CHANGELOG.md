@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 1.2.10 - Wizard Prompt Simplification Fix (February 28, 2026)
+
+### 🐛 Fixes
+
+- Removed legacy tech-stack interview prompts from `agents-templated wizard`
+  - No more project-type / frontend / backend / database questionnaire
+  - Wizard now focuses on component selection + overwrite preference only
+- Removed outdated package recommendation output tied to legacy wizard flow
+
+### ✅ Validation
+
+- CLI test suite passes after the wizard flow update
+
+---
+
 ## Version 1.2.9 - Deterministic Command System and Hardening Workflow (February 28, 2026)
 
 ### 🚀 Major Features

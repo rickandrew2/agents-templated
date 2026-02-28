@@ -41,7 +41,7 @@ describe('CLI commands', () => {
     test('should report passed checks when required files are present', async () => {
       await install(tempDir, { docs: true, rules: true, github: true });
       const output = runCLI('validate', tempDir);
-      expect(output).toContain('AGENTS.md found');
+      expect(output).toMatch(/AGENTS\.MD found|AGENTS\.md found/);
       expect(output).toContain('agents/rules/security.mdc found');
       expect(output).toContain('Passed Checks');
     });

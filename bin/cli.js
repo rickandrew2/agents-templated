@@ -181,9 +181,9 @@ program
 
       console.log(chalk.green.bold('\nInstallation complete!\n'));
       console.log(chalk.cyan('Next steps:'));
-      console.log(chalk.white('  1. Review AGENTS.md for generic AI assistant guide'));
+      console.log(chalk.white('  1. Review AGENTS.MD for generic AI assistant guide'));
       console.log(chalk.white('  2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
-      console.log(chalk.white('  3. Review AGENTS.md for AI assistant guide'));
+      console.log(chalk.white('  3. Review AGENTS.MD for AI assistant guide'));
       console.log(chalk.white('  4. Configure your AI assistant (Cursor, Copilot, etc.)'));
       console.log(chalk.white('  5. Adapt the rules to your technology stack\n'));
 
@@ -195,89 +195,69 @@ program
 
 program
   .command('wizard')
-  .description('Interactive setup wizard with tech stack recommendations')
+  .description('Interactive setup wizard')
   .action(async () => {
     try {
       const templateDir = getTemplatesDir();
+      const targetDir = process.cwd();
       console.log(chalk.blue.bold('\n🧙 Agents Templated Setup Wizard\n'));
       console.log(chalk.gray('Let\'s set up your project with the right patterns and guidelines.\n'));
 
-      // Step 1: Tech stack selection
-      const stackAnswers = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'category',
-          message: 'What type of project is this?',
-          choices: [
-            { name: '🌐 Full-stack Web Application', value: 'fullstack' },
-            { name: '⚛️  Frontend Only', value: 'frontend' },
-            { name: '🔧 Backend API', value: 'backend' },
-            { name: '📦 NPM Package/Library', value: 'package' },
-            { name: '🤖 CLI Tool', value: 'cli' },
-            { name: '🎯 Custom/Other', value: 'custom' }
-          ]
+      const hasExistingSetup = await hasInstalledTemplates(targetDir);
+      if (hasExistingSetup) {
+        console.log(chalk.cyan('Detected an existing agents-templated setup in this project.\n'));
+
+        const modeAnswer = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'mode',
+            message: 'How would you like to proceed?',
+            choices: [
+              { name: 'Update existing setup (recommended)', value: 'update' },
+              { name: 'Run full setup flow', value: 'setup' }
+            ],
+            default: 'update'
+          }
+        ]);
+
+        if (modeAnswer.mode === 'update') {
+          const updateAnswers = await inquirer.prompt([
+            {
+              type: 'checkbox',
+              name: 'components',
+              message: 'Select components to update:',
+              choices: [
+                { name: 'All components', value: 'all', checked: true },
+                { name: 'Documentation (agent-docs/)', value: 'docs' },
+                { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules' },
+                { name: 'Skills (reusable agent capabilities)', value: 'skills' },
+                { name: 'AI Agent instructions (Cursor, Copilot, VSCode, Gemini)', value: 'github' }
+              ],
+              validate: (answer) => {
+                if (answer.length === 0) {
+                  return 'You must choose at least one component.';
+                }
+                return true;
+              }
+            },
+            {
+              type: 'confirm',
+              name: 'overwrite',
+              message: 'Overwrite existing files while updating?',
+              default: true
+            }
+          ]);
+
+          console.log(chalk.blue('\n📦 Updating selected components...\n'));
+          await updateSelectedComponents(targetDir, templateDir, updateAnswers.components, updateAnswers.overwrite);
+
+          console.log(chalk.green.bold('\n✅ Update complete!\n'));
+          console.log(chalk.gray('Tip: run "agents-templated validate" to verify your setup.\n'));
+          return;
         }
-      ]);
-
-      let techStack = {};
-      
-      if (stackAnswers.category === 'fullstack' || stackAnswers.category === 'frontend') {
-        const frontendAnswers = await inquirer.prompt([
-          {
-            type: 'list',
-            name: 'framework',
-            message: 'Which frontend framework?',
-            choices: [
-              'React / Next.js',
-              'Vue / Nuxt',
-              'Angular',
-              'Svelte / SvelteKit',
-              'Vanilla JS / HTML',
-              'Other'
-            ]
-          }
-        ]);
-        techStack.frontend = frontendAnswers.framework;
       }
 
-      if (stackAnswers.category === 'fullstack' || stackAnswers.category === 'backend') {
-        const backendAnswers = await inquirer.prompt([
-          {
-            type: 'list',
-            name: 'framework',
-            message: 'Which backend framework?',
-            choices: [
-              'Node.js (Express/Fastify)',
-              'Python (Django/FastAPI)',
-              'Go',
-              'Rust',
-              'Java / Spring Boot',
-              'Ruby on Rails',
-              'PHP (Laravel)',
-              'Other'
-            ]
-          },
-          {
-            type: 'list',
-            name: 'database',
-            message: 'Which database?',
-            choices: [
-              'PostgreSQL',
-              'MySQL / MariaDB',
-              'MongoDB',
-              'SQLite',
-              'Supabase',
-              'Firebase',
-              'None / Not sure yet',
-              'Other'
-            ]
-          }
-        ]);
-        techStack.backend = backendAnswers.framework;
-        techStack.database = backendAnswers.database;
-      }
-
-      // Step 2: Component selection
+      // Component selection
       const componentAnswers = await inquirer.prompt([
         {
           type: 'checkbox',
@@ -307,7 +287,6 @@ program
       // Step 3: Install components
       console.log(chalk.blue('\n📦 Installing components...\n'));
       
-      const targetDir = process.cwd();
       const options = {
         force: componentAnswers.overwrite,
         docs: componentAnswers.components.includes('docs'),
@@ -354,60 +333,25 @@ program
         await copyFiles(templateDir, targetDir, [
           '.cursorrules',
           '.github/copilot-instructions.md',
-          'AGENTS.md',
+          'AGENTS.MD',
           'CLAUDE.md',
           'GEMINI.md'
         ], options.force);
         console.log(chalk.gray('  ✓ Cursor (.cursorrules)'));
         console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md)'));
-        console.log(chalk.gray('  ✓ Generic AI (AGENTS.md)'));
+        console.log(chalk.gray('  ✓ Generic AI (AGENTS.MD)'));
         console.log(chalk.gray('  ✓ Claude (CLAUDE.md)'));
         console.log(chalk.gray('  ✓ Google Gemini (GEMINI.md)'));
       }
 
-      // Step 4: Show recommendations
+      // Show summary and next steps
       console.log(chalk.green.bold('\n✅ Installation complete!\n'));
       
-      console.log(chalk.blue('📋 Your Project Setup:\n'));
-      if (techStack.frontend) console.log(chalk.white(`   Frontend: ${techStack.frontend}`));
-      if (techStack.backend) console.log(chalk.white(`   Backend:  ${techStack.backend}`));
-      if (techStack.database) console.log(chalk.white(`   Database: ${techStack.database}`));
-      
       console.log(chalk.cyan('\n📚 Next Steps:\n'));
-      console.log(chalk.white('   1. Review AGENTS.md for AI assistant guide'));
+      console.log(chalk.white('   1. Review AGENTS.MD for AI assistant guide'));
       console.log(chalk.white('   2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
-      console.log(chalk.white('   3. Review AGENTS.md for AI assistant guide'));
-      console.log(chalk.white('   3. Customize agents/rules/*.mdc for your tech stack'));
-      
-      if (techStack.frontend || techStack.backend) {
-        console.log(chalk.cyan('\n📦 Recommended Packages:\n'));
-        
-        if (techStack.frontend?.includes('React')) {
-          console.log(chalk.white('   npm install react react-dom next typescript'));
-          console.log(chalk.white('   npm install -D @types/react @types/node'));
-        } else if (techStack.frontend?.includes('Vue')) {
-          console.log(chalk.white('   npm install vue nuxt typescript'));
-        } else if (techStack.frontend?.includes('Svelte')) {
-          console.log(chalk.white('   npm install svelte @sveltejs/kit typescript'));
-        }
-        
-        if (techStack.backend?.includes('Node.js')) {
-          console.log(chalk.white('   npm install express zod dotenv'));
-          console.log(chalk.white('   npm install -D @types/express'));
-        } else if (techStack.backend?.includes('Python')) {
-          console.log(chalk.white('   pip install django djangorestframework pydantic'));
-        } else if (techStack.backend?.includes('Go')) {
-          console.log(chalk.white('   go get github.com/gin-gonic/gin'));
-        }
-
-        if (techStack.database?.includes('PostgreSQL')) {
-          console.log(chalk.white('   npm install @prisma/client (or) npm install pg'));
-        } else if (techStack.database?.includes('MongoDB')) {
-          console.log(chalk.white('   npm install mongoose'));
-        } else if (techStack.database?.includes('Supabase')) {
-          console.log(chalk.white('   npm install @supabase/supabase-js'));
-        }
-      }
+      console.log(chalk.white('   3. Review AGENTS.MD for AI assistant guide'));
+      console.log(chalk.white('   4. Customize agents/rules/*.mdc for your tech stack'));
       
       console.log(chalk.cyan('\n🔒 Security Reminder:\n'));
       console.log(chalk.white('   • Review agents/rules/security.mdc'));
@@ -455,10 +399,12 @@ program
       let passed = [];
 
       // Check documentation files
-      if (await fs.pathExists(path.join(targetDir, 'AGENTS.md'))) {
-        passed.push(`✓ AGENTS.md found`);
+      if (await fs.pathExists(path.join(targetDir, 'AGENTS.MD'))) {
+        passed.push(`✓ AGENTS.MD found`);
+      } else if (await fs.pathExists(path.join(targetDir, 'AGENTS.md'))) {
+        passed.push(`✓ AGENTS.md found (legacy filename)`);
       } else {
-        warnings.push(`⚠ AGENTS.md missing - run 'agents-templated init --docs'`);
+        warnings.push(`⚠ AGENTS.MD missing - run 'agents-templated init --docs'`);
       }
 
       const docFiles = ['ARCHITECTURE.md'];
@@ -639,6 +585,60 @@ async function copyDirectory(sourceDir, targetDir, force = false) {
   }
 }
 
+async function hasInstalledTemplates(targetDir) {
+  return await fs.pathExists(path.join(targetDir, 'AGENTS.MD')) ||
+    await fs.pathExists(path.join(targetDir, 'AGENTS.md')) ||
+    await fs.pathExists(path.join(targetDir, 'agents'));
+}
+
+async function updateSelectedComponents(targetDir, templateDir, selectedComponents, overwrite = true) {
+  const components = selectedComponents.includes('all')
+    ? ['docs', 'rules', 'skills', 'github']
+    : selectedComponents;
+
+  if (components.includes('docs')) {
+    console.log(chalk.yellow('Updating documentation files...'));
+    await fs.ensureDir(path.join(targetDir, 'agent-docs'));
+    await copyDirectory(
+      path.join(templateDir, 'agent-docs'),
+      path.join(targetDir, 'agent-docs'),
+      overwrite
+    );
+  }
+
+  if (components.includes('rules')) {
+    console.log(chalk.yellow('Updating agent rules...'));
+    await fs.ensureDir(path.join(targetDir, 'agents', 'rules'));
+    await copyDirectory(
+      path.join(templateDir, 'agents', 'rules'),
+      path.join(targetDir, 'agents', 'rules'),
+      overwrite
+    );
+  }
+
+  if (components.includes('skills')) {
+    console.log(chalk.yellow('Updating skills...'));
+    await fs.ensureDir(path.join(targetDir, 'agents', 'skills'));
+    await copyDirectory(
+      path.join(templateDir, 'agents', 'skills'),
+      path.join(targetDir, 'agents', 'skills'),
+      overwrite
+    );
+  }
+
+  if (components.includes('github')) {
+    console.log(chalk.yellow('Updating AI agent instructions...'));
+    await fs.ensureDir(path.join(targetDir, '.github'));
+    await copyFiles(templateDir, targetDir, [
+      '.cursorrules',
+      '.github/copilot-instructions.md',
+      'AGENTS.MD',
+      'CLAUDE.md',
+      'GEMINI.md'
+    ], overwrite);
+  }
+}
+
 program
   .command('update')
   .description('Check for and apply template updates')
@@ -657,8 +657,7 @@ program
       console.log(chalk.blue.bold('\n🔄 Checking for template updates...\n'));
 
       // Check if templates are installed
-      const hasTemplates = await fs.pathExists(path.join(targetDir, 'AGENTS.md')) ||
-                         await fs.pathExists(path.join(targetDir, 'agents'));
+      const hasTemplates = await hasInstalledTemplates(targetDir);
 
       if (!hasTemplates) {
         console.log(chalk.yellow('No templates detected in this directory.'));
@@ -678,46 +677,7 @@ program
 
         console.log(chalk.blue('📦 Updating selected components...\n'));
 
-        if (selectedComponents.includes('docs')) {
-          console.log(chalk.yellow('Updating documentation files...'));
-          await fs.ensureDir(path.join(targetDir, 'agent-docs'));
-          await copyDirectory(
-            path.join(templateDir, 'agent-docs'),
-            path.join(targetDir, 'agent-docs'),
-            true
-          );
-        }
-
-        if (selectedComponents.includes('rules')) {
-          console.log(chalk.yellow('Updating agent rules...'));
-          await fs.ensureDir(path.join(targetDir, 'agents', 'rules'));
-          await copyDirectory(
-            path.join(templateDir, 'agents', 'rules'),
-            path.join(targetDir, 'agents', 'rules'),
-            true
-          );
-        }
-
-        if (selectedComponents.includes('skills')) {
-          console.log(chalk.yellow('Updating skills...'));
-          await fs.ensureDir(path.join(targetDir, 'agents', 'skills'));
-          await copyDirectory(
-            path.join(templateDir, 'agents', 'skills'),
-            path.join(targetDir, 'agents', 'skills'),
-            true
-          );
-        }
-
-        if (selectedComponents.includes('github')) {
-          console.log(chalk.yellow('Updating AI agent instructions...'));
-          await fs.ensureDir(path.join(targetDir, '.github'));
-          await copyFiles(templateDir, targetDir, [
-            '.cursorrules',
-            '.github/copilot-instructions.md',
-            'CLAUDE.md',
-            'GEMINI.md'
-          ], true);
-        }
+        await updateSelectedComponents(targetDir, templateDir, selectedComponents, true);
 
         console.log(chalk.green.bold('\n✅ Selected component updates applied successfully!\n'));
         process.exit(0);
@@ -725,28 +685,32 @@ program
 
       // List potential updates
       const updates = [];
+      const rootAgentsTargetFile = (await fs.pathExists(path.join(targetDir, 'AGENTS.MD')))
+        ? 'AGENTS.MD'
+        : ((await fs.pathExists(path.join(targetDir, 'AGENTS.md'))) ? 'AGENTS.md' : 'AGENTS.MD');
+
       const checkFiles = [
-        { file: 'AGENTS.md', component: 'root' },
-        { file: 'agent-docs/ARCHITECTURE.md', component: 'docs' },
-        { file: 'agents/rules/security.mdc', component: 'rules' },
-        { file: 'agents/rules/testing.mdc', component: 'rules' },
-        { file: 'agents/rules/core.mdc', component: 'rules' },
-        { file: 'agents/skills/README.md', component: 'skills' },
-        { file: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
-        { file: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' },
-        { file: '.github/copilot-instructions.md', component: 'github' }
+        { targetFile: rootAgentsTargetFile, templateFile: 'AGENTS.MD', component: 'root' },
+        { targetFile: 'agent-docs/ARCHITECTURE.md', templateFile: 'agent-docs/ARCHITECTURE.md', component: 'docs' },
+        { targetFile: 'agents/rules/security.mdc', templateFile: 'agents/rules/security.mdc', component: 'rules' },
+        { targetFile: 'agents/rules/testing.mdc', templateFile: 'agents/rules/testing.mdc', component: 'rules' },
+        { targetFile: 'agents/rules/core.mdc', templateFile: 'agents/rules/core.mdc', component: 'rules' },
+        { targetFile: 'agents/skills/README.md', templateFile: 'agents/skills/README.md', component: 'skills' },
+        { targetFile: 'agents/skills/find-skills/SKILL.md', templateFile: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
+        { targetFile: 'agents/skills/ui-ux-pro-max/SKILL.md', templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' },
+        { targetFile: '.github/copilot-instructions.md', templateFile: '.github/copilot-instructions.md', component: 'github' }
       ];
 
-      for (const {file, component} of checkFiles) {
-        const targetPath = path.join(targetDir, file);
-        const templatePath = path.join(templateDir, file);
+      for (const {targetFile, templateFile, component} of checkFiles) {
+        const targetPath = path.join(targetDir, targetFile);
+        const templatePath = path.join(templateDir, templateFile);
         
         if (await fs.pathExists(targetPath) && await fs.pathExists(templatePath)) {
           const targetContent = await fs.readFile(targetPath, 'utf8');
           const templateContent = await fs.readFile(templatePath, 'utf8');
           
           if (targetContent !== templateContent) {
-            updates.push({ file, component });
+            updates.push({ targetFile, templateFile, component });
           }
         }
       }
@@ -757,8 +721,8 @@ program
       }
 
       console.log(chalk.yellow(`Found ${updates.length} file(s) with updates available:\n`));
-      updates.forEach(({ file }) => {
-        console.log(chalk.white(`  📄 ${file}`));
+      updates.forEach(({ targetFile }) => {
+        console.log(chalk.white(`  📄 ${targetFile}`));
       });
       console.log('');
 
@@ -785,18 +749,18 @@ program
       // Apply updates
       console.log(chalk.blue('\n📦 Applying updates...\n'));
       
-      for (const { file } of updates) {
-        const targetPath = path.join(targetDir, file);
-        const templatePath = path.join(templateDir, file);
+      for (const { targetFile, templateFile } of updates) {
+        const targetPath = path.join(targetDir, targetFile);
+        const templatePath = path.join(templateDir, templateFile);
         
         // Backup original file
         const backupPath = `${targetPath}.backup`;
         await fs.copy(targetPath, backupPath);
-        console.log(chalk.gray(`  Backed up: ${file}.backup`));
+        console.log(chalk.gray(`  Backed up: ${targetFile}.backup`));
         
         // Copy new version
         await fs.copy(templatePath, targetPath, { overwrite: true });
-        console.log(chalk.green(`  ✓ Updated: ${file}`));
+        console.log(chalk.green(`  ✓ Updated: ${targetFile}`));
       }
 
       console.log(chalk.green.bold('\n✅ Updates applied successfully!\n'));
