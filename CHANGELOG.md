@@ -1,5 +1,50 @@
 # Changelog
 
+## Version 1.2.9 - Deterministic Command System and Hardening Workflow (February 28, 2026)
+
+### 🚀 Major Features
+
+#### Deterministic Slash Command Standard
+- Added a comprehensive deterministic slash-command protocol in `AGENTS.MD`
+- Introduced strict structured output requirements for command-mode execution
+- Added implicit intent routing mode (`slash-command-auto`) for non-slash prompts
+- Enforced strict handling for unknown/malformed slash commands (structured error + stop)
+
+#### Modular Command Contracts
+- Added new `agents/commands/` and template mirror with:
+  - Global schema (`SCHEMA.md`)
+  - Contracts for `/plan`, `/task`, `/scaffold`, `/fix`, `/refactor`, `/audit`, `/perf`, `/test`, `/pr`, `/release`, `/docs`
+- Added deterministic command references in assistant-facing docs (Copilot, Claude, Gemini)
+
+#### Workflow and Security Hardening Expansion
+- Added new rules:
+  - `agents/rules/intent-routing.mdc`
+  - `agents/rules/system-workflow.mdc`
+  - `agents/rules/hardening.mdc`
+- Extended security guidance with **Application Hardening & Obfuscation** section
+- Added hardening verification requirements to testing/workflow guidance
+- Updated `/audit` and `/release` contracts to require hardening evidence when risk profile requires it
+
+#### New Baseline Skills
+- Added reusable skills and template mirrors:
+  - `feature-delivery`
+  - `bug-triage`
+  - `app-hardening`
+- Updated skills README to include recommended baseline skills
+
+### 📝 Documentation and Consistency
+
+- Refreshed repository `README.md` overview to reflect current architecture and capabilities
+- Updated installed tree examples to include new rules, commands, and skills
+- Normalized active documentation references to `AGENTS.MD` for cross-platform consistency
+
+### ✅ Validation
+
+- Test suite passed before release (`19/19` tests)
+- Published to npm as `agents-templated@1.2.9`
+
+---
+
 ## Version 1.2.3 - Critical Bug Fixes and Documentation Cleanup (February 15, 2026)
 
 ### 🐛 Critical Bug Fixes
