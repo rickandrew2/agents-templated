@@ -34,6 +34,12 @@ Before committing, consider running (in order):
 3. **Tests** – At least the fast test suite (e.g. unit tests) so regressions are caught early.
 4. **Project validation** – For agents-templated projects, `agents-templated validate` can confirm setup is intact.
 
+For high-risk or distributed-client releases, add hardening-specific checks before merge/release:
+
+5. **Hardening profile selection** – Document threat model and selected profile from `agents/rules/hardening.mdc`.
+6. **Post-hardening verification** – Run functional regression and performance checks on hardened artifacts.
+7. **Artifact controls** – Verify restricted handling for symbol/mapping/debug artifacts and confirm rollback path.
+
 Do not commit with failing lint or tests unless the user explicitly requests a WIP commit (e.g. with `--no-verify` or a clear “work in progress” message).
 
 ## Commit Messages
@@ -46,4 +52,5 @@ Do not commit with failing lint or tests unless the user explicitly requests a W
 
 - Use **agents-templated validate** and **doctor** to maintain project setup and get recommendations.
 - Run **lint**, **type check**, and **tests** before committing when possible.
+- For hardening-required releases, include profile rationale, post-hardening verification evidence, and rollback readiness.
 - Write clear commit messages and reference issues where applicable.

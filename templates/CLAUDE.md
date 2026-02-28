@@ -4,7 +4,7 @@ This project uses enterprise-grade, technology-agnostic development patterns for
 
 ## Quick Start
 
-- **AI Guide**: See `AGENTS.md` for comprehensive instructions
+- **AI Guide**: See `AGENTS.MD` for comprehensive instructions
 - **Architecture**: See `agent-docs/ARCHITECTURE.md` for project guidelines
 - **Custom Skills**: See `agents/skills/` directory for domain-specific extensions
 - **Detailed Rules**: See `agents/rules/*.mdc` files
@@ -22,12 +22,20 @@ This project uses enterprise-grade, technology-agnostic development patterns for
 
 ## Agent Delegation
 
-When implementing features, reference `AGENTS.md`:
+When implementing features, reference `AGENTS.MD`:
 - **UI/Design** → FrontendAgent patterns (`agents/rules/frontend.mdc`)
 - **API/Logic** → BackendAgent patterns (`agents/rules/security.mdc`)
 - **Database** → DatabaseAgent patterns (`agents/rules/database.mdc`)
 - **Testing** → TestAgent patterns (`agents/rules/testing.mdc`)
 - **Security** → SecurityAgent patterns (`agents/rules/security.mdc`)
+
+## Deterministic Slash Commands
+
+- Slash command protocol is defined in `AGENTS.MD` under `Deterministic Slash Command System Standard`.
+- Modular command contracts are stored in `agents/commands/`.
+- Command mode is strict: unknown or malformed slash commands must return structured error output and stop.
+- No conversational fallback is allowed once slash-command mode is entered.
+- Destructive actions require explicit confirmation token format: `CONFIRM-DESTRUCTIVE:<target>`.
 
 ## Critical Rules
 
@@ -41,9 +49,10 @@ When implementing features, reference `AGENTS.md`:
 
 ## Reference Files
 
-- `AGENTS.md` - Primary AI assistant guide
+- `AGENTS.MD` - Primary AI assistant guide
 - `agent-docs/ARCHITECTURE.md` - Architecture and technology stack guidance
-- `AGENTS.md` - AI assistant guide and patterns
+- `AGENTS.MD` - AI assistant guide and patterns
+- `agents/commands/` - Deterministic slash command contracts
 - `agents/rules/core.mdc` - Core principles
 - `agents/rules/security.mdc` - Security patterns (CRITICAL)
 - `agents/rules/testing.mdc` - Testing strategy (CRITICAL)

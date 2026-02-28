@@ -7,7 +7,7 @@ These guidelines are for both humans and AI assistants working with any technolo
 - **Agent responsibilities** and MCP integration are documented in `AGENTS.MD`.
 - **Detailed implementation rules** live in `agents/rules/*.mdc` files.
 
-Read this file first to understand the architecture, then consult `AGENTS.md` for agent delegation.
+Read this file first to understand the architecture, then consult `AGENTS.MD` for agent delegation.
 
 ---
 

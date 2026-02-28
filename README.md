@@ -14,12 +14,28 @@
 Agents Templated scaffolds your project with:
 
 ✅ **AI Agent Configurations** – Auto-discovery files for 4 major AI coding assistants  
+✅ **Deterministic Command Contracts** – Structured slash-command protocol in `agents/commands/`  
 ✅ **Security-First Patterns** – OWASP Top 10 protection guidelines built-in  
+✅ **Hardening Guidance** – Risk-based hardening/obfuscation and release evidence gates  
 ✅ **Testing Strategy** – 80/15/5 coverage targets (unit/integration/e2e)  
 ✅ **Agent-Based Architecture** – Specialized patterns for frontend, backend, database, testing, security  
 ✅ **Technology-Agnostic** – Works with React, Django, Go, FastAPI, Next.js, or any stack you choose
 
 **Important:** This package does **NOT** install frameworks or libraries. It scaffolds the structure, patterns, and AI configurations—you install your chosen tech stack separately.
+
+### What’s New in This Version
+
+- Deterministic slash-command standard in `AGENTS.MD` and modular contracts in `agents/commands/`
+- Implicit natural-language routing support (`slash-command-auto`) for non-technical prompts
+- New workflow/routing/hardening rule set:
+  - `agents/rules/intent-routing.mdc`
+  - `agents/rules/system-workflow.mdc`
+  - `agents/rules/hardening.mdc`
+- New baseline skills:
+  - `agents/skills/feature-delivery/`
+  - `agents/skills/bug-triage/`
+  - `agents/skills/app-hardening/`
+- Release and audit contracts now require hardening evidence when risk profile requires it
 
 ---
 
@@ -49,10 +65,6 @@ npx agents-templated@latest init --preset=go-api        # Go
 # Or install all components without a preset
 npx agents-templated@latest init --all
 ```
-
-### 2. Install Your Tech Stack
-
-After initializing, install your chosen framework:
 
 ### 2. Install Your Tech Stack
 
@@ -89,7 +101,10 @@ Your AI assistant will auto-load the configurations and follow enterprise patter
 | 🚀 **Quick Start Presets** | 5 popular tech stack presets (Next.js, Express, Django, FastAPI, Go) |
 | 🧙 **Interactive Wizard** | Guided setup with personalized recommendations |
 | 🤖 **4 AI Agents Supported** | Cursor, GitHub Copilot, Claude, Google Gemini (auto-discovery) |
+| 🧭 **Deterministic Commands** | Slash-command contracts with strict structured outputs |
+| 💬 **Auto Intent Routing** | Non-slash prompts can map to command contracts (`slash-command-auto`) |
 | 🔒 **Security-First** | OWASP Top 10 protection patterns built-in |
+| 🛡️ **Hardening Workflow** | Risk-based hardening rules plus verification/release gates |
 | 🧪 **Testing Strategy** | 80/15/5 coverage targets (unit/integration/e2e) |
 | ✅ **Project Validation** | `validate` and `doctor` commands for health checks |
 | 🔄 **Template Updates** | Keep your templates in sync with `update` command |
@@ -109,7 +124,7 @@ Agents Templated automatically configures 4 major AI coding assistants:
 | **Claude** | `CLAUDE.md` | ✅ Auto-loads in Claude IDE/API |
 | **Gemini** | `GEMINI.md` | ✅ Auto-loads in Gemini IDE/API |
 
-**All agents follow the same rules:** `agents/rules/` directory contains unified patterns for security, testing, code style, and architecture. No duplication, one source of truth.
+**All agents follow the same standards:** `agents/rules/` contains behavior rules, and `agents/commands/` contains deterministic slash-command contracts.
 
 ---
 
@@ -120,7 +135,7 @@ When you run `agents-templated init`, you get:
 ```
 your-project/
 ├── agent-docs/                      # 📚 Comprehensive documentation
-│   ├── AGENTS.md                   # AI assistant guide
+│   ├── AGENTS.MD                   # AI assistant guide
 │   ├── ARCHITECTURE.md             # Project architecture & tech stack
 │   └── README.md                   # Human-readable setup guide
 │
@@ -131,9 +146,24 @@ your-project/
 │   │   ├── testing.mdc            # Testing strategy
 │   │   ├── frontend.mdc           # Frontend patterns
 │   │   ├── database.mdc           # Database patterns
-│   │   └── style.mdc              # Code style guidelines
+│   │   ├── style.mdc              # Code style guidelines
+│   │   ├── workflows.mdc          # Workflow and quality gates
+│   │   ├── intent-routing.mdc     # Intent-to-command routing policy
+│   │   ├── system-workflow.mdc    # End-to-end delivery lifecycle gates
+│   │   └── hardening.mdc          # Hardening and obfuscation guidance
+│   ├── commands/
+│   │   ├── SCHEMA.md              # Global slash-command response schema
+│   │   ├── plan.md                # /plan contract
+│   │   ├── fix.md                 # /fix contract
+│   │   ├── audit.md               # /audit contract
+│   │   ├── release.md             # /release contract
+│   │   ├── ...                    # Other command contracts
+│   │   └── README.md              # Commands directory guide
 │   └── skills/
 │       ├── find-skills/           # Skill discovery helper
+│       ├── feature-delivery/      # Scoped feature delivery workflow
+│       ├── bug-triage/            # Reproduction-first defect workflow
+│       ├── app-hardening/         # Hardening and release-evidence workflow
 │       ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
 │       ├── README.md              # Guide for creating custom skills
 │       └── [your-custom-skills]/  # Your project-specific skills
@@ -261,7 +291,7 @@ Skills define *how to execute specific tasks*, complementing rules that define *
 
 ### 4. Read the Documentation
 
-- **[AGENTS.md](AGENTS.md)** – AI assistant guide
+- **[AGENTS.MD](AGENTS.MD)** – AI assistant guide
 - **[agent-docs/ARCHITECTURE.md](agent-docs/ARCHITECTURE.md)** – Project architecture & tech stack guidance
 - **[agents/skills/README.md](agents/skills/README.md)** – Custom skills guide
 - **[agents/rules/security.mdc](agents/rules/security.mdc)** – Security patterns (CRITICAL)
@@ -311,7 +341,7 @@ Your AI will follow the enterprise patterns automatically!
 | **TestAgent** | Unit, integration, E2E, accessibility testing |
 | **SecurityAgent** | Input validation, authentication, OWASP compliance |
 
-**Reference**: [AGENTS.md](AGENTS.md)
+**Reference**: [AGENTS.MD](AGENTS.MD)
 
 ---
 

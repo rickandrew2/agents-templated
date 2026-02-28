@@ -253,6 +253,19 @@ Test: Database query optimization
 - Measure execution time
 - Assert completes efficiently
 
+## Hardening Verification Testing
+
+When hardening/obfuscation is enabled (see `agents/rules/hardening.mdc`), require additional validation on hardened artifacts.
+
+### Required Checks for Hardened Builds
+
+- Run core functional regression tests against hardened output, not only non-hardened builds.
+- Run performance checks and compare against accepted budgets (startup, latency, memory as applicable).
+- Validate crash/debug workflow with restricted symbol/mapping artifact access controls.
+- Confirm release evidence includes hardening profile rationale and rollback trigger/steps.
+
+If these checks are missing for a hardening-required profile, release readiness should be treated as blocked.
+
 ## Security Testing
 
 Test security requirements and threat scenarios.

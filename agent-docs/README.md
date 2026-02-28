@@ -4,7 +4,7 @@ This template is part of the agents-templated npm package.
 
 ## What's Included
 
-- **AGENTS.md**: Instructions for AI assistants
+- **AGENTS.MD**: Instructions for AI assistants
 - **ARCHITECTURE.md**: Project guidelines and architecture  
 - **agents/rules/**: Development rules and patterns (6 files)
 - **agents/skills/**: Reusable agent skills
@@ -42,7 +42,7 @@ All AI assistants support skill references. Create custom skills in `agents/skil
 
 ## Getting Started
 
-1. Review AGENTS.md for AI assistance guidance
+1. Review AGENTS.MD for AI assistance guidance
 2. Review ARCHITECTURE.md for overall project guidelines
 3. Adapt the rules to your specific technology stack
 4. Create custom skills in `agents/skills/` for your domain

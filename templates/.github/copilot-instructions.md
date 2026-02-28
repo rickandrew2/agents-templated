@@ -22,12 +22,20 @@ This project follows enterprise-grade, technology-agnostic development patterns.
 
 ## Agent Delegation
 
-When implementing features, follow agent patterns from `agent-docs/AGENTS.md`:
+When implementing features, follow agent patterns from `AGENTS.MD`:
 - **UI/Design** → FrontendAgent patterns (`agents/rules/frontend.mdc`)
 - **API/Logic** → BackendAgent patterns (`agents/rules/security.mdc`)
 - **Database** → DatabaseAgent patterns (`agents/rules/database.mdc`)
 - **Testing** → TestAgent patterns (`agents/rules/testing.mdc`)
 - **Security** → SecurityAgent patterns (`agents/rules/security.mdc`)
+
+## Deterministic Slash Commands
+
+- Slash command protocol is defined in `AGENTS.MD` under `Deterministic Slash Command System Standard`.
+- Modular command contracts are stored in `agents/commands/`.
+- Command mode is strict: unknown or malformed slash commands must return structured error output and stop.
+- No conversational fallback is allowed once slash-command mode is entered.
+- Destructive actions require explicit confirmation token format: `CONFIRM-DESTRUCTIVE:<target>`.
 
 ## Critical Rules
 
@@ -41,9 +49,9 @@ When implementing features, follow agent patterns from `agent-docs/AGENTS.md`:
 
 ## Reference Files
 
-- `agent-docs/AI_INSTRUCTIONS.md` - Primary AI assistant guide
+- `AGENTS.MD` - Primary AI assistant guide
 - `agent-docs/ARCHITECTURE.md` - Architecture and technology stack guidance
-- `agent-docs/AGENTS.md` - Agent responsibilities and delegation
+- `agents/commands/` - Deterministic slash command contracts
 - `agents/rules/core.mdc` - Core principles
 - `agents/rules/security.mdc` - Security patterns (CRITICAL)
 - `agents/rules/testing.mdc` - Testing strategy (CRITICAL)

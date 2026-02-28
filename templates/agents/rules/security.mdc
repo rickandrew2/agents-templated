@@ -241,6 +241,14 @@ No sensitive variables should ever be:
 - Included in client-side code
 - Transmitted in URLs
 
+## Application Hardening & Obfuscation
+
+- Treat obfuscation as **defense in depth**, not a replacement for authentication, authorization, secrets hygiene, or validation.
+- Apply hardening selectively by risk profile, especially for distributed clients (mobile/desktop/browser) and high-value IP logic.
+- Integrate hardening into build/release flow and require post-hardening functional regression and performance checks.
+- Protect symbol/mapping/debug artifacts with restricted access and secure retention policies.
+- Require reproducible builds and a clear rollback path for hardened releases.
+
 ## Security Checklist
 
 Before deploying to production:

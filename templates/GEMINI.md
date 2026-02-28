@@ -8,7 +8,7 @@ This project uses enterprise-grade, technology-agnostic development patterns for
 
 ## Quick Start
 
-- **AI Guide**: See `AGENTS.md` for comprehensive instructions
+- **AI Guide**: See `AGENTS.MD` for comprehensive instructions
 - **Architecture**: See `agent-docs/ARCHITECTURE.md` for project guidelines
 - **Custom Skills**: See `agents/skills/` directory for domain-specific extensions
 - **Detailed Rules**: See `agents/rules/*.mdc` files
@@ -63,6 +63,14 @@ This project follows an agent-based pattern where different roles handle differe
 
 When implementing features, identify which agent responsibility applies and refer to the appropriate rules file.
 
+## Deterministic Slash Commands
+
+- Slash command protocol is defined in `AGENTS.MD` under `Deterministic Slash Command System Standard`.
+- Modular command contracts are stored in `agents/commands/`.
+- Command mode is strict: unknown or malformed slash commands must return structured error output and stop.
+- No conversational fallback is allowed once slash-command mode is entered.
+- Destructive actions require explicit confirmation token format: `CONFIRM-DESTRUCTIVE:<target>`.
+
 ## Technology Stack Independence
 
 These patterns apply regardless of your tech stack. Adapt them to your chosen framework:
@@ -100,9 +108,10 @@ These patterns apply regardless of your tech stack. Adapt them to your chosen fr
 
 | File | Purpose | When to Use |
 |------|---------|------------|
-| `AGENTS.md` | Primary AI assistant guide | Always start here |
+| `AGENTS.MD` | Primary AI assistant guide | Always start here |
 | `agent-docs/ARCHITECTURE.md` | Architecture and technology stack decisions | Need architectural guidance |
-| `AGENTS.md` | AI assistant guide and patterns | How to work effectively with AI |
+| `AGENTS.MD` | AI assistant guide and patterns | How to work effectively with AI |
+| `agents/commands/` | Deterministic slash command contracts | Slash-command execution |
 | `agents/rules/core.mdc` | Core development principles | General development questions |
 | `agents/rules/security.mdc` | Security patterns and implementations | Building secure features |
 | `agents/rules/testing.mdc` | Testing strategy and best practices | Writing tests or test strategy |
@@ -113,9 +122,9 @@ These patterns apply regardless of your tech stack. Adapt them to your chosen fr
 
 ## Workflow Recommendations
 
-1. **Read AGENTS.md** for comprehensive AI assistance guidance
+1. **Read AGENTS.MD** for comprehensive AI assistance guidance
 2. **Read agent-docs/ARCHITECTURE.md** to understand the overall architecture
-3. **Reference AGENTS.md** for AI working patterns and guidance
+3. **Reference AGENTS.MD** for AI working patterns and guidance
 3. **Reference the appropriate rule file** for implementation patterns
 4. **Look in agents/skills/** for domain-specific guidance
 5. **Follow all critical rules** without exception
@@ -130,4 +139,4 @@ These patterns apply regardless of your tech stack. Adapt them to your chosen fr
 
 ---
 
-For best results with Gemini AI assistance, reference the appropriate context from `AGENTS.md`, `agent-docs/ARCHITECTURE.md`, and the relevant `agents/rules/*.mdc` files in your prompts.
+For best results with Gemini AI assistance, reference the appropriate context from `AGENTS.MD`, `agent-docs/ARCHITECTURE.md`, and the relevant `agents/rules/*.mdc` files in your prompts.

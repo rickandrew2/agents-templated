@@ -105,7 +105,7 @@ Agents Templated automatically configures 4 major AI coding assistants:
 | **Claude** | `CLAUDE.md` | ✅ Auto-loads in Claude IDE/API |
 | **Gemini** | `GEMINI.md` | ✅ Auto-loads in Gemini IDE/API |
 
-**All agents follow the same rules:** `agents/rules/` directory contains unified patterns for security, testing, code style, and architecture. No duplication, one source of truth.
+**All agents follow the same standards:** `agents/rules/` contains behavior rules, and `agents/commands/` contains deterministic slash-command contracts.
 
 ---
 
@@ -116,7 +116,7 @@ When you run `agents-templated init`, you get:
 ```
 your-project/
 ├── agent-docs/                      # 📚 Comprehensive documentation
-│   ├── AGENTS.md                   # AI assistant guide
+│   ├── AGENTS.MD                   # AI assistant guide
 │   ├── ARCHITECTURE.md             # Project architecture & tech stack
 │   └── README.md                   # Human-readable setup guide
 │
@@ -128,6 +128,14 @@ your-project/
 │   │   ├── frontend.mdc           # Frontend patterns
 │   │   ├── database.mdc           # Database patterns
 │   │   └── style.mdc              # Code style guidelines
+│   ├── commands/
+│   │   ├── SCHEMA.md              # Global slash-command response schema
+│   │   ├── plan.md                # /plan contract
+│   │   ├── fix.md                 # /fix contract
+│   │   ├── audit.md               # /audit contract
+│   │   ├── release.md             # /release contract
+│   │   ├── ...                    # Other command contracts
+│   │   └── README.md              # Commands directory guide
 │   └── skills/
 │       ├── find-skills/           # Skill discovery helper
 │       ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
@@ -257,7 +265,7 @@ Skills define *how to execute specific tasks*, complementing rules that define *
 
 ### 4. Read the Documentation
 
-- **[AGENTS.md](AGENTS.md)** – AI assistant guide
+- **[AGENTS.MD](AGENTS.MD)** – AI assistant guide
 - **[agent-docs/ARCHITECTURE.md](agent-docs/ARCHITECTURE.md)** – Project architecture & tech stack guidance
 - **[agents/skills/README.md](agents/skills/README.md)** – Custom skills guide
 - **[agents/rules/security.mdc](agents/rules/security.mdc)** – Security patterns (CRITICAL)
@@ -307,7 +315,7 @@ Your AI will follow the enterprise patterns automatically!
 | **TestAgent** | Unit, integration, E2E, accessibility testing |
 | **SecurityAgent** | Input validation, authentication, OWASP compliance |
 
-**Reference**: [AGENTS.md](AGENTS.md)
+**Reference**: [AGENTS.MD](AGENTS.MD)
 
 ---
 

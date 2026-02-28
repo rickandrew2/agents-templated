@@ -57,6 +57,12 @@ To create a new skill for your specific domain:
 agents/skills/
 ├── find-skills/
 │   └── SKILL.md              # Meta-skill for discovering skills
+├── feature-delivery/
+│   └── SKILL.md              # Systematic feature scoping and execution contracts
+├── bug-triage/
+│   └── SKILL.md              # Reproduction-first debugging and regression workflows
+├── app-hardening/
+│   └── SKILL.md              # Risk-based hardening and obfuscation guidance
 ├── ui-ux-pro-max/
 │   └── SKILL.md              # Premium UI/UX implementation patterns
 ├── my-custom-skill/
@@ -86,6 +92,12 @@ Consider creating skills for:
 | Design          | UI/UX, accessibility, design systems    |
 | Productivity    | Workflows, automation, git patterns      |
 
+## Recommended Baseline Skills
+
+- `feature-delivery`: Use when user asks are broad and you need objective, scope, acceptance criteria, and validation plan.
+- `bug-triage`: Use for defects and regressions requiring reproducible evidence, root-cause isolation, and minimal safe patches.
+- `app-hardening`: Use for high-risk/distributed runtimes to enforce hardening profile, obfuscation decisions, and release evidence.
+
 ## Using Skills in Your Project
 
 Skills can be referenced in all your AI assistant configuration files:
@@ -114,7 +126,7 @@ Reference the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md` for pa
 When helping with [domain-specific task], reference the [skill-name] skill from `agents/skills/[skill-name]/SKILL.md`
 ```
 
-### Documentation (`AGENTS.md`)
+### Documentation (`AGENTS.MD`)
 ```markdown
 - When working with [domain], see the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md`
 ```
