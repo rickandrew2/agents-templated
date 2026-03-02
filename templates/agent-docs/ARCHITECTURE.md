@@ -3,9 +3,10 @@
 This is a **technology-agnostic development template** with enterprise-grade patterns for security, testing, and developer experience.
 These guidelines are for both humans and AI assistants working with any technology stack.
 
-- High-level **project and architecture** guidelines live here in `CLAUDE.md`.
+- Canonical AI policy source lives in `instructions/source/core.md`.
 - **Agent responsibilities** and MCP integration are documented in `AGENTS.MD`.
-- **Detailed implementation rules** live in `agents/rules/*.mdc` files.
+- **Detailed implementation rules** live in `.github/instructions/rules/*.mdc` files.
+- **Custom skills** for domain-specific tasks are organized in `.github/skills/` (see [Skills Guide](../.github/skills/README.md)).
 
 Read this file first to understand the architecture, then consult `AGENTS.MD` for agent delegation.
 
@@ -222,9 +223,9 @@ Review the options above and select technologies that fit your:
 - **Timeline** and development velocity requirements
 
 ### 2. Adapt the Template
-- Update `agents/rules/*.mdc` files with technology-specific patterns
-- Modify `.cursorrules` to include your chosen stack details
-- Update this `CLAUDE.md` file with stack-specific guidelines
+- Update `.github/instructions/rules/*.mdc` files with technology-specific patterns
+- Keep `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.MD`, and `CLAUDE.md` as minimal wrappers that point to `instructions/source/core.md`
+- Update `instructions/source/core.md` with stack-specific guidelines
 - Create appropriate configuration files for your chosen tools
 
 ### 3. Implement Core Patterns

@@ -6,6 +6,20 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const { version } = require('../package.json');
+const {
+  LAYOUT,
+  resolveRulesDir,
+  resolveSkillsDir,
+  hasAnyLayout,
+  getLegacyMigrationPlan
+} = require('../lib/layout');
+const {
+  CORE_SOURCE_REL_PATH,
+  GENERATED_INSTRUCTION_PATHS,
+  KNOWN_ORPHAN_PATHS,
+  writeGeneratedInstructions,
+  validateInstructionDrift
+} = require('../lib/instructions');
 
 // Resolve the templates directory - works in both dev and installed contexts
 const getTemplatesDir = () => {
@@ -104,9 +118,9 @@ program
             choices: [
               { name: 'All components', value: 'all' },
               { name: 'Documentation files (agent-docs/)', value: 'docs' },
-              { name: 'Agent rules (agents/rules/*.mdc)', value: 'rules' },
-              { name: 'Skills (agents/skills/*)', value: 'skills' },
-              { name: 'AI Agent instructions (Cursor, Copilot, VSCode, Gemini)', value: 'github' }
+              { name: 'Agent rules (.github/instructions/rules/*.mdc)', value: 'rules' },
+              { name: 'Skills (.github/skills/*)', value: 'skills' },
+              { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' }
             ],
             default: ['all']
           },
@@ -136,18 +150,19 @@ program
       if (installAll || choices.includes('docs')) {
         console.log(chalk.yellow('Installing documentation files...'));
         const sourceDir = path.join(templateDir, 'agent-docs');
-        const targetDir = path.join(targetDir, 'agent-docs');
-        await fs.ensureDir(targetDir);
-        await copyDirectory(sourceDir, targetDir, options.force);
+        const targetDocsDir = path.join(targetDir, 'agent-docs');
+        await fs.ensureDir(targetDocsDir);
+        await copyDirectory(sourceDir, targetDocsDir, options.force);
+        await copyFiles(templateDir, targetDir, [CORE_SOURCE_REL_PATH], options.force);
       }
 
       // Install agent rules
       if (installAll || choices.includes('rules')) {
         console.log(chalk.yellow('Installing agent rules...'));
-        await fs.ensureDir(path.join(targetDir, 'agents', 'rules'));
+        await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.rulesDir));
         await copyDirectory(
           path.join(templateDir, 'agents', 'rules'),
-          path.join(targetDir, 'agents', 'rules'),
+          path.join(targetDir, LAYOUT.canonical.rulesDir),
           options.force
         );
       }
@@ -155,35 +170,30 @@ program
       // Install skills
       if (installAll || choices.includes('skills')) {
         console.log(chalk.yellow('Installing skills...'));
-        await fs.ensureDir(path.join(targetDir, 'agents', 'skills'));
+        await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.skillsDir));
         await copyDirectory(
           path.join(templateDir, 'agents', 'skills'),
-          path.join(targetDir, 'agents', 'skills'),
+          path.join(targetDir, LAYOUT.canonical.skillsDir),
           options.force
         );
       }
 
-      // Install AI Agent instructions (Cursor, Copilot, Claude, Gemini)
+      // Install AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)
       if (installAll || choices.includes('github')) {
         console.log(chalk.yellow('Installing AI agent instructions...'));
-        await fs.ensureDir(path.join(targetDir, '.github'));
-        await copyFiles(templateDir, targetDir, [
-          '.cursorrules',
-          '.github/copilot-instructions.md',
-          'CLAUDE.md',
-          'GEMINI.md'
-        ], options.force);
+        await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
+        await writeGeneratedInstructions(targetDir, templateDir, options.force);
         console.log(chalk.gray('  ✓ Cursor (.cursorrules)'));
-        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md)'));
-        console.log(chalk.gray('  ✓ Claude (CLAUDE.md)'));
-        console.log(chalk.gray('  ✓ Google Gemini (GEMINI.md)'));
+        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md shim)'));
+        console.log(chalk.gray('  ✓ Claude (CLAUDE.md shim)'));
+        console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD shim + canonical .github/instructions/AGENTS.md)'));
       }
 
       console.log(chalk.green.bold('\nInstallation complete!\n'));
       console.log(chalk.cyan('Next steps:'));
-      console.log(chalk.white('  1. Review AGENTS.MD for generic AI assistant guide'));
+      console.log(chalk.white('  1. Review instructions/source/core.md (canonical AI guide)'));
       console.log(chalk.white('  2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
-      console.log(chalk.white('  3. Review AGENTS.MD for AI assistant guide'));
+      console.log(chalk.white('  3. Review .github/instructions/ for generated tool-compatible files'));
       console.log(chalk.white('  4. Configure your AI assistant (Cursor, Copilot, etc.)'));
       console.log(chalk.white('  5. Adapt the rules to your technology stack\n'));
 
@@ -231,7 +241,7 @@ program
                 { name: 'Documentation (agent-docs/)', value: 'docs' },
                 { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules' },
                 { name: 'Skills (reusable agent capabilities)', value: 'skills' },
-                { name: 'AI Agent instructions (Cursor, Copilot, VSCode, Gemini)', value: 'github' }
+                { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' }
               ],
               validate: (answer) => {
                 if (answer.length === 0) {
@@ -267,7 +277,7 @@ program
             { name: 'Documentation (agent-docs/)', value: 'docs', checked: true },
             { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules', checked: true },
             { name: 'Skills (reusable agent capabilities)', value: 'skills', checked: true },
-            { name: 'AI Agent instructions (Cursor, Copilot, VSCode, Gemini)', value: 'github', checked: true }
+            { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github', checked: true }
           ],
           validate: (answer) => {
             if (answer.length === 0) {
@@ -302,15 +312,16 @@ program
         const targetDocsDir = path.join(targetDir, 'agent-docs');
         await fs.ensureDir(targetDocsDir);
         await copyDirectory(sourceDocsDir, targetDocsDir, options.force);
+        await copyFiles(templateDir, targetDir, [CORE_SOURCE_REL_PATH], options.force);
       }
 
       // Install agent rules
       if (options.rules) {
         console.log(chalk.yellow('Installing agent rules...'));
-        await fs.ensureDir(path.join(targetDir, 'agents', 'rules'));
+        await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.rulesDir));
         await copyDirectory(
           path.join(templateDir, 'agents', 'rules'),
-          path.join(targetDir, 'agents', 'rules'),
+          path.join(targetDir, LAYOUT.canonical.rulesDir),
           options.force
         );
       }
@@ -318,40 +329,33 @@ program
       // Install skills
       if (options.skills) {
         console.log(chalk.yellow('Installing skills...'));
-        await fs.ensureDir(path.join(targetDir, 'agents', 'skills'));
+        await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.skillsDir));
         await copyDirectory(
           path.join(templateDir, 'agents', 'skills'),
-          path.join(targetDir, 'agents', 'skills'),
+          path.join(targetDir, LAYOUT.canonical.skillsDir),
           options.force
         );
       }
 
-      // Install AI Agent instructions (Cursor, Copilot, VSCode, Gemini)
+      // Install AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)
       if (options.github) {
         console.log(chalk.yellow('Installing AI agent instructions...'));
-        await fs.ensureDir(path.join(targetDir, '.github'));
-        await copyFiles(templateDir, targetDir, [
-          '.cursorrules',
-          '.github/copilot-instructions.md',
-          'AGENTS.MD',
-          'CLAUDE.md',
-          'GEMINI.md'
-        ], options.force);
+        await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
+        await writeGeneratedInstructions(targetDir, templateDir, options.force);
         console.log(chalk.gray('  ✓ Cursor (.cursorrules)'));
-        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md)'));
-        console.log(chalk.gray('  ✓ Generic AI (AGENTS.MD)'));
-        console.log(chalk.gray('  ✓ Claude (CLAUDE.md)'));
-        console.log(chalk.gray('  ✓ Google Gemini (GEMINI.md)'));
+        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md shim)'));
+        console.log(chalk.gray('  ✓ Claude (CLAUDE.md shim)'));
+        console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD shim + canonical .github/instructions/AGENTS.md)'));
       }
 
       // Show summary and next steps
       console.log(chalk.green.bold('\n✅ Installation complete!\n'));
       
       console.log(chalk.cyan('\n📚 Next Steps:\n'));
-      console.log(chalk.white('   1. Review AGENTS.MD for AI assistant guide'));
+      console.log(chalk.white('   1. Review instructions/source/core.md (canonical AI guide)'));
       console.log(chalk.white('   2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
-      console.log(chalk.white('   3. Review AGENTS.MD for AI assistant guide'));
-      console.log(chalk.white('   4. Customize agents/rules/*.mdc for your tech stack'));
+      console.log(chalk.white('   3. Review .github/instructions/ for generated tool-compatible files'));
+      console.log(chalk.white('   4. Customize .github/instructions/rules/*.mdc for your tech stack'));
       
       console.log(chalk.cyan('\n🔒 Security Reminder:\n'));
       console.log(chalk.white('   • Review agents/rules/security.mdc'));
@@ -371,9 +375,9 @@ program
   .action(() => {
     console.log(chalk.blue.bold('\nAvailable Components:\n'));
     console.log(chalk.yellow('docs') + '    - Documentation files (agent-docs/ directory)');
-    console.log(chalk.yellow('rules') + '   - Agent rules (core, database, frontend, security, testing, style)');
-    console.log(chalk.yellow('skills') + '  - Agent skills (find-skills, ui-ux-pro-max)');
-    console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, VSCode, Gemini)');
+    console.log(chalk.yellow('rules') + '   - Agent rules (.github/instructions/rules/*.mdc)');
+    console.log(chalk.yellow('skills') + '  - Agent skills (.github/skills/*)');
+    console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)');
     console.log(chalk.yellow('all') + '     - All components');
     
     console.log(chalk.blue.bold('\n\nAvailable Presets:\n'));
@@ -398,13 +402,12 @@ program
       let warnings = [];
       let passed = [];
 
-      // Check documentation files
-      if (await fs.pathExists(path.join(targetDir, 'AGENTS.MD'))) {
-        passed.push(`✓ AGENTS.MD found`);
-      } else if (await fs.pathExists(path.join(targetDir, 'AGENTS.md'))) {
-        passed.push(`✓ AGENTS.md found (legacy filename)`);
+      // Check canonical source file
+      const coreSourcePath = path.join(targetDir, CORE_SOURCE_REL_PATH);
+      if (await fs.pathExists(coreSourcePath)) {
+        passed.push(`✓ ${CORE_SOURCE_REL_PATH} found`);
       } else {
-        warnings.push(`⚠ AGENTS.MD missing - run 'agents-templated init --docs'`);
+        warnings.push(`⚠ ${CORE_SOURCE_REL_PATH} missing - run 'agents-templated init --docs'`);
       }
 
       const docFiles = ['ARCHITECTURE.md'];
@@ -424,32 +427,70 @@ program
 
       // Check agent rules
       const ruleFiles = ['core.mdc', 'security.mdc', 'testing.mdc', 'frontend.mdc', 'database.mdc', 'style.mdc'];
-      const rulesDir = path.join(targetDir, 'agents', 'rules');
-      
+      const canonicalRulesDir = path.join(targetDir, LAYOUT.canonical.rulesDir);
+      const legacyRulesDir = path.join(targetDir, LAYOUT.legacy.rulesDirs[0]);
+      const rulesDir = path.join(targetDir, resolveRulesDir(targetDir));
+
+      if (!(await fs.pathExists(canonicalRulesDir)) && await fs.pathExists(legacyRulesDir)) {
+        issues.push(`✗ Legacy rules layout detected at ${LAYOUT.legacy.rulesDirs[0]} - run 'agents-templated update --all' to migrate`);
+      }
+
       if (await fs.pathExists(rulesDir)) {
+        const relativeRulesDir = path.relative(targetDir, rulesDir) || LAYOUT.canonical.rulesDir;
         for (const file of ruleFiles) {
           if (await fs.pathExists(path.join(rulesDir, file))) {
-            passed.push(`✓ agents/rules/${file} found`);
+            passed.push(`✓ ${relativeRulesDir}/${file} found`);
           } else {
-            warnings.push(`⚠ agents/rules/${file} missing`);
+            warnings.push(`⚠ ${relativeRulesDir}/${file} missing`);
           }
         }
       } else {
-        warnings.push(`⚠ agents/rules directory missing - run 'agents-templated init --rules'`);
+        warnings.push(`⚠ ${LAYOUT.canonical.rulesDir} directory missing - run 'agents-templated init --rules'`);
       }
 
       // Check skills
-      const skillsDir = path.join(targetDir, 'agents', 'skills');
-      if (await fs.pathExists(skillsDir)) {
-        const skills = await fs.readdir(skillsDir);
-        passed.push(`✓ ${skills.length} skills installed`);
-      } else {
-        warnings.push(`⚠ agents/skills directory missing - run 'agents-templated init --skills'`);
+      const canonicalSkillsDir = path.join(targetDir, LAYOUT.canonical.skillsDir);
+      const legacySkillsDir = path.join(targetDir, LAYOUT.legacy.skillsDirs[0]);
+      const skillsDir = path.join(targetDir, resolveSkillsDir(targetDir));
+
+      if (!(await fs.pathExists(canonicalSkillsDir)) && await fs.pathExists(legacySkillsDir)) {
+        issues.push(`✗ Legacy skills layout detected at ${LAYOUT.legacy.skillsDirs[0]} - run 'agents-templated update --all' to migrate`);
       }
 
-      // Check GitHub Copilot config
-      const copilotFile = path.join(targetDir, '.github', 'copilot-instructions.md');
-      if (await fs.pathExists(copilotFile)) {
+      if (await fs.pathExists(skillsDir)) {
+        const skills = await fs.readdir(skillsDir);
+        const relativeSkillsDir = path.relative(targetDir, skillsDir) || LAYOUT.canonical.skillsDir;
+        passed.push(`✓ ${skills.length} skills installed in ${relativeSkillsDir}`);
+      } else {
+        warnings.push(`⚠ ${LAYOUT.canonical.skillsDir} directory missing - run 'agents-templated init --skills'`);
+      }
+
+      // Check generated instruction files and drift
+      const hasInstructionFootprint =
+        await fs.pathExists(path.join(targetDir, '.github', 'instructions')) ||
+        await fs.pathExists(path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.claude)) ||
+        await fs.pathExists(path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.copilot)) ||
+        await fs.pathExists(path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.generic));
+
+      if (hasInstructionFootprint) {
+        const instructionDrift = await validateInstructionDrift(targetDir);
+        if (instructionDrift.missingCore) {
+          issues.push(`✗ Canonical instruction source missing - run 'agents-templated init --docs --github'`);
+        } else if (instructionDrift.driftFiles.length > 0) {
+          issues.push(`✗ Generated instruction files are out of sync: ${instructionDrift.driftFiles.join(', ')}`);
+        } else {
+          passed.push('✓ Generated instruction files are in sync with canonical source');
+        }
+        if (instructionDrift.orphanedPolicyFiles && instructionDrift.orphanedPolicyFiles.length > 0) {
+          issues.push(
+            `✗ Orphaned policy files detected (contain duplicated content, should be deleted): ` +
+            `${instructionDrift.orphanedPolicyFiles.join(', ')} — run 'agents-templated update --github' to remove`
+          );
+        }
+      }
+
+      const compatCopilotFile = path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.copilot);
+      if (await fs.pathExists(compatCopilotFile)) {
         passed.push(`✓ GitHub Copilot configuration found`);
       } else {
         warnings.push(`⚠ GitHub Copilot configuration missing - run 'agents-templated init --github'`);
@@ -586,9 +627,27 @@ async function copyDirectory(sourceDir, targetDir, force = false) {
 }
 
 async function hasInstalledTemplates(targetDir) {
-  return await fs.pathExists(path.join(targetDir, 'AGENTS.MD')) ||
-    await fs.pathExists(path.join(targetDir, 'AGENTS.md')) ||
-    await fs.pathExists(path.join(targetDir, 'agents'));
+  return await hasAnyLayout(targetDir) ||
+    await fs.pathExists(path.join(targetDir, CORE_SOURCE_REL_PATH)) ||
+    await fs.pathExists(path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.generic));
+}
+
+async function cleanupLegacyInstructionFiles(targetDir) {
+  // Files removed in v2.0.0: orphaned wrappers that contained duplicated policy
+  // content and were not managed/validated by the generator.
+  const legacyFiles = [
+    ...KNOWN_ORPHAN_PATHS,
+    // Pre-v1.2.13 paths
+    '.claude/CLAUDE.md'
+  ];
+
+  for (const file of legacyFiles) {
+    const filePath = path.join(targetDir, file);
+    if (await fs.pathExists(filePath)) {
+      await fs.remove(filePath);
+      console.log(chalk.green(`  ✓ Removed legacy file: ${file}`));
+    }
+  }
 }
 
 async function updateSelectedComponents(targetDir, templateDir, selectedComponents, overwrite = true) {
@@ -604,38 +663,59 @@ async function updateSelectedComponents(targetDir, templateDir, selectedComponen
       path.join(targetDir, 'agent-docs'),
       overwrite
     );
+    await copyFiles(templateDir, targetDir, [CORE_SOURCE_REL_PATH], overwrite);
   }
 
   if (components.includes('rules')) {
     console.log(chalk.yellow('Updating agent rules...'));
-    await fs.ensureDir(path.join(targetDir, 'agents', 'rules'));
+    await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.rulesDir));
     await copyDirectory(
       path.join(templateDir, 'agents', 'rules'),
-      path.join(targetDir, 'agents', 'rules'),
+      path.join(targetDir, LAYOUT.canonical.rulesDir),
       overwrite
     );
   }
 
   if (components.includes('skills')) {
     console.log(chalk.yellow('Updating skills...'));
-    await fs.ensureDir(path.join(targetDir, 'agents', 'skills'));
+    await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.skillsDir));
     await copyDirectory(
       path.join(templateDir, 'agents', 'skills'),
-      path.join(targetDir, 'agents', 'skills'),
+      path.join(targetDir, LAYOUT.canonical.skillsDir),
       overwrite
     );
   }
 
   if (components.includes('github')) {
     console.log(chalk.yellow('Updating AI agent instructions...'));
-    await fs.ensureDir(path.join(targetDir, '.github'));
-    await copyFiles(templateDir, targetDir, [
-      '.cursorrules',
-      '.github/copilot-instructions.md',
-      'AGENTS.MD',
-      'CLAUDE.md',
-      'GEMINI.md'
-    ], overwrite);
+    await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
+    await writeGeneratedInstructions(targetDir, templateDir, overwrite);
+    await cleanupLegacyInstructionFiles(targetDir);
+  }
+
+  if ((components.includes('docs') || components.includes('github')) && !components.includes('github')) {
+    await writeGeneratedInstructions(targetDir, templateDir, overwrite);
+  }
+}
+
+async function applyLegacyMigrationPlan(targetDir, migrationPlan, overwrite = true) {
+  for (const move of migrationPlan) {
+    const sourcePath = path.join(targetDir, move.source);
+    const targetPath = path.join(targetDir, move.target);
+
+    if (!(await fs.pathExists(sourcePath))) {
+      continue;
+    }
+
+    await fs.ensureDir(path.dirname(targetPath));
+
+    if (await fs.pathExists(targetPath)) {
+      await copyDirectory(sourcePath, targetPath, overwrite);
+      await fs.remove(sourcePath);
+      continue;
+    }
+
+    await fs.move(sourcePath, targetPath, { overwrite });
   }
 }
 
@@ -665,6 +745,38 @@ program
         process.exit(0);
       }
 
+      const migrationPlan = await getLegacyMigrationPlan(targetDir);
+      if (migrationPlan.length > 0) {
+        console.log(chalk.yellow('Legacy layout detected. Migration to canonical Copilot-style paths is required.\n'));
+        migrationPlan.forEach(({ source, target }) => {
+          console.log(chalk.white(`  ${source}  ->  ${target}`));
+        });
+        console.log('');
+
+        if (options.checkOnly) {
+          console.log(chalk.red('Migration required before validation can pass.'));
+          console.log(chalk.gray('Run "agents-templated update" and confirm migration.\n'));
+          process.exit(1);
+        }
+
+        const migrationAnswer = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'proceed',
+            message: 'Migrate legacy directories now?',
+            default: true
+          }
+        ]);
+
+        if (!migrationAnswer.proceed) {
+          console.log(chalk.red('\nMigration skipped. Setup remains non-canonical.\n'));
+          process.exit(1);
+        }
+
+        await applyLegacyMigrationPlan(targetDir, migrationPlan, true);
+        console.log(chalk.green('✓ Legacy layout migration completed.\n'));
+      }
+
       const hasComponentSelection = options.all || options.docs || options.rules || options.skills || options.github;
 
       // Component refresh mode: update selected parts directly without stack/wizard prompts
@@ -685,20 +797,15 @@ program
 
       // List potential updates
       const updates = [];
-      const rootAgentsTargetFile = (await fs.pathExists(path.join(targetDir, 'AGENTS.MD')))
-        ? 'AGENTS.MD'
-        : ((await fs.pathExists(path.join(targetDir, 'AGENTS.md'))) ? 'AGENTS.md' : 'AGENTS.MD');
-
       const checkFiles = [
-        { targetFile: rootAgentsTargetFile, templateFile: 'AGENTS.MD', component: 'root' },
+        { targetFile: CORE_SOURCE_REL_PATH, templateFile: CORE_SOURCE_REL_PATH, component: 'root' },
         { targetFile: 'agent-docs/ARCHITECTURE.md', templateFile: 'agent-docs/ARCHITECTURE.md', component: 'docs' },
-        { targetFile: 'agents/rules/security.mdc', templateFile: 'agents/rules/security.mdc', component: 'rules' },
-        { targetFile: 'agents/rules/testing.mdc', templateFile: 'agents/rules/testing.mdc', component: 'rules' },
-        { targetFile: 'agents/rules/core.mdc', templateFile: 'agents/rules/core.mdc', component: 'rules' },
-        { targetFile: 'agents/skills/README.md', templateFile: 'agents/skills/README.md', component: 'skills' },
-        { targetFile: 'agents/skills/find-skills/SKILL.md', templateFile: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
-        { targetFile: 'agents/skills/ui-ux-pro-max/SKILL.md', templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' },
-        { targetFile: '.github/copilot-instructions.md', templateFile: '.github/copilot-instructions.md', component: 'github' }
+        { targetFile: `${LAYOUT.canonical.rulesDir}/security.mdc`, templateFile: 'agents/rules/security.mdc', component: 'rules' },
+        { targetFile: `${LAYOUT.canonical.rulesDir}/testing.mdc`, templateFile: 'agents/rules/testing.mdc', component: 'rules' },
+        { targetFile: `${LAYOUT.canonical.rulesDir}/core.mdc`, templateFile: 'agents/rules/core.mdc', component: 'rules' },
+        { targetFile: `${LAYOUT.canonical.skillsDir}/README.md`, templateFile: 'agents/skills/README.md', component: 'skills' },
+        { targetFile: `${LAYOUT.canonical.skillsDir}/find-skills/SKILL.md`, templateFile: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
+        { targetFile: `${LAYOUT.canonical.skillsDir}/ui-ux-pro-max/SKILL.md`, templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' }
       ];
 
       for (const {targetFile, templateFile, component} of checkFiles) {
@@ -762,6 +869,10 @@ program
         await fs.copy(templatePath, targetPath, { overwrite: true });
         console.log(chalk.green(`  ✓ Updated: ${targetFile}`));
       }
+
+      await writeGeneratedInstructions(targetDir, templateDir, true);
+      console.log(chalk.green('  ✓ Regenerated instruction compatibility files'));
+      await cleanupLegacyInstructionFiles(targetDir);
 
       console.log(chalk.green.bold('\n✅ Updates applied successfully!\n'));
       console.log(chalk.gray('Backup files created with .backup extension\n'));
@@ -850,7 +961,7 @@ program
       console.log(chalk.blue('\n📚 Quick Tips:\n'));
       console.log(chalk.white('  • Run "agents-templated validate" to check setup'));
       console.log(chalk.white('  • Run "agents-templated wizard" for guided setup'));
-      console.log(chalk.white('  • Review agents/rules/security.mdc for security patterns\n'));
+      console.log(chalk.white('  • Review .github/instructions/rules/security.mdc for security patterns\n'));
 
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);

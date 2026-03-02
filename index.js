@@ -1,5 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
+const { LAYOUT } = require('./lib/layout');
+const { CORE_SOURCE_REL_PATH, writeGeneratedInstructions } = require('./lib/instructions');
 
 /**
  * Programmatic API for agents-templated
@@ -26,9 +28,9 @@ async function install(targetDir, options = {}) {
   // Documentation files
   if (installAll || options.docs) {
     files.push(
-      'AGENTS.md',
       'agent-docs/ARCHITECTURE.md',
-      'agent-docs/README.md'
+      'agent-docs/README.md',
+      CORE_SOURCE_REL_PATH
     );
   }
 
@@ -49,51 +51,28 @@ async function install(targetDir, options = {}) {
 
   // Agent rules
   if (installAll || options.rules) {
-    await fs.ensureDir(path.join(targetDir, 'agents', 'rules'));
+    await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.rulesDir));
     await copyDirectory(
       path.join(templateDir, 'agents', 'rules'),
-      path.join(targetDir, 'agents', 'rules'),
+      path.join(targetDir, LAYOUT.canonical.rulesDir),
       options.force
     );
   }
 
   // Skills
   if (installAll || options.skills) {
-    await fs.ensureDir(path.join(targetDir, 'agents', 'skills'));
+    await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.skillsDir));
     await copyDirectory(
       path.join(templateDir, 'agents', 'skills'),
-      path.join(targetDir, 'agents', 'skills'),
+      path.join(targetDir, LAYOUT.canonical.skillsDir),
       options.force
     );
   }
 
-  // AI Agent instructions (Cursor, Copilot, Claude, Gemini)
+  // AI Agent instructions (Cursor, Copilot, Claude)
   if (installAll || options.github) {
-    await fs.ensureDir(path.join(targetDir, '.github'));
-    
-    // Copy all AI agent config files
-    const agentConfigs = [
-      '.cursorrules',
-      'CLAUDE.md',
-      'GEMINI.md'
-    ];
-    
-    for (const config of agentConfigs) {
-      const sourcePath = path.join(templateDir, config);
-      const targetPath = path.join(targetDir, config);
-      
-      if (await fs.pathExists(sourcePath)) {
-        await fs.copy(sourcePath, targetPath, { overwrite: options.force });
-      }
-    }
-    
-    // Copy GitHub Copilot instructions
-    const sourceGithubPath = path.join(templateDir, '.github', 'copilot-instructions.md');
-    const targetGithubPath = path.join(targetDir, '.github', 'copilot-instructions.md');
-    
-    if (await fs.pathExists(sourceGithubPath)) {
-      await fs.copy(sourceGithubPath, targetGithubPath, { overwrite: options.force });
-    }
+    await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
+    await writeGeneratedInstructions(targetDir, templateDir, options.force);
   }
 }
 

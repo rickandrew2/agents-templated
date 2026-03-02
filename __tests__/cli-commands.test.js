@@ -41,15 +41,15 @@ describe('CLI commands', () => {
     test('should report passed checks when required files are present', async () => {
       await install(tempDir, { docs: true, rules: true, github: true });
       const output = runCLI('validate', tempDir);
-      expect(output).toMatch(/AGENTS\.MD found|AGENTS\.md found/);
-      expect(output).toContain('agents/rules/security.mdc found');
+      expect(output).toContain('instructions/source/core.md found');
+      expect(output).toMatch(/\.github[\\/]instructions[\\/]rules[\\/]security\.mdc found/);
       expect(output).toContain('Passed Checks');
     });
 
     test('should warn when agents/rules directory is missing', async () => {
       await install(tempDir, { docs: true });
       const output = runCLI('validate', tempDir);
-      expect(output).toContain('agents/rules');
+      expect(output).toContain('.github/instructions/rules');
       expect(output).toMatch(/missing|Missing/);
     });
   });
@@ -89,8 +89,8 @@ describe('CLI commands', () => {
     test('update --skills should refresh skills directly without interactive wizard flow', async () => {
       await install(tempDir, { skills: true });
 
-      const skillFile = path.join(tempDir, 'agents', 'skills', 'find-skills', 'SKILL.md');
-      const uiSkillFile = path.join(tempDir, 'agents', 'skills', 'ui-ux-pro-max', 'SKILL.md');
+      const skillFile = path.join(tempDir, '.github', 'skills', 'find-skills', 'SKILL.md');
+      const uiSkillFile = path.join(tempDir, '.github', 'skills', 'ui-ux-pro-max', 'SKILL.md');
       await fs.writeFile(skillFile, 'OUTDATED_SKILL_CONTENT');
 
       const output = runCLI('update --skills', tempDir);

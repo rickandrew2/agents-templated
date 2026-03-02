@@ -10,7 +10,7 @@ See [`.github/GET_STARTED.md`](.github/GET_STARTED.md) for development setup ins
 
 1. **Fork the repository**
 2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Make your changes** following the project guidelines in [`CLAUDE.md`](CLAUDE.md)
+3. **Make your changes** following the canonical policy in [`instructions/source/core.md`](instructions/source/core.md)
 4. **Test your changes** thoroughly
 5. **Commit your changes** (`git commit -m 'Add amazing feature'`)
 6. **Push to the branch** (`git push origin feature/amazing-feature`)
@@ -18,7 +18,7 @@ See [`.github/GET_STARTED.md`](.github/GET_STARTED.md) for development setup ins
 
 ## 📋 Development Guidelines
 
-- Follow the architecture patterns defined in [`CLAUDE.md`](CLAUDE.md)
+- Follow the architecture patterns defined in [`instructions/source/core.md`](instructions/source/core.md)
 - Adhere to agent responsibilities outlined in [`AGENTS.MD`](AGENTS.MD)
 - Follow security best practices from [`agents/rules/security.mdc`](agents/rules/security.mdc)
 - Maintain test coverage standards from [`agents/rules/testing.mdc`](agents/rules/testing.mdc)

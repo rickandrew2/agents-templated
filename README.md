@@ -100,7 +100,7 @@ Your AI assistant will auto-load the configurations and follow enterprise patter
 |---------|-------------|
 | 🚀 **Quick Start Presets** | 5 popular tech stack presets (Next.js, Express, Django, FastAPI, Go) |
 | 🧙 **Interactive Wizard** | Guided setup with personalized recommendations |
-| 🤖 **4 AI Agents Supported** | Cursor, GitHub Copilot, Claude, Google Gemini (auto-discovery) |
+| 🤖 **AI Agents Supported** | Cursor, GitHub Copilot, Claude, and generic agents via `AGENTS.MD` |
 | 🧭 **Deterministic Commands** | Slash-command contracts with strict structured outputs |
 | 💬 **Auto Intent Routing** | Non-slash prompts can map to command contracts (`slash-command-auto`) |
 | 🔒 **Security-First** | OWASP Top 10 protection patterns built-in |
@@ -115,16 +115,16 @@ Your AI assistant will auto-load the configurations and follow enterprise patter
 
 ## 🤖 AI Agent Support
 
-Agents Templated automatically configures 4 major AI coding assistants:
+Agents Templated automatically configures compatible wrappers for major AI coding assistants:
 
 | AI Agent | Config File | Auto-Discovery |
 |----------|-------------|----------------|
 | **Cursor** | `.cursorrules` | ✅ Auto-loads in Cursor IDE |
 | **GitHub Copilot** | `.github/copilot-instructions.md` | ✅ Auto-loads in VS Code |
-| **Claude** | `CLAUDE.md` | ✅ Auto-loads in Claude IDE/API |
-| **Gemini** | `GEMINI.md` | ✅ Auto-loads in Gemini IDE/API |
+| **Claude** | `CLAUDE.md` | ✅ Compatible |
+| **Generic agents** | `AGENTS.MD` | ✅ Compatible |
 
-**All agents follow the same standards:** `agents/rules/` contains behavior rules, and `agents/commands/` contains deterministic slash-command contracts.
+**Single source of truth:** `instructions/source/core.md` drives generated tool-compatible instruction files.
 
 ---
 
@@ -134,13 +134,18 @@ When you run `agents-templated init`, you get:
 
 ```
 your-project/
+├── instructions/
+│   └── source/
+│       └── core.md               # Canonical instruction source of truth
+│
 ├── agent-docs/                      # 📚 Comprehensive documentation
-│   ├── AGENTS.MD                   # AI assistant guide
 │   ├── ARCHITECTURE.md             # Project architecture & tech stack
 │   └── README.md                   # Human-readable setup guide
 │
-├── agents/                          # 🤖 AI Agent rules and skills
-│   ├── rules/
+├── .github/
+│   ├── instructions/                # Generated compatibility wrappers + rules
+│   │   ├── AGENTS.md
+│   │   └── rules/
 │   │   ├── core.mdc               # Core development principles
 │   │   ├── security.mdc           # Security patterns (CRITICAL)
 │   │   ├── testing.mdc            # Testing strategy
@@ -151,7 +156,18 @@ your-project/
 │   │   ├── intent-routing.mdc     # Intent-to-command routing policy
 │   │   ├── system-workflow.mdc    # End-to-end delivery lifecycle gates
 │   │   └── hardening.mdc          # Hardening and obfuscation guidance
-│   ├── commands/
+│   ├── skills/
+│   │   ├── find-skills/           # Skill discovery helper
+│   │   ├── feature-delivery/      # Scoped feature delivery workflow
+│   │   ├── bug-triage/            # Reproduction-first defect workflow
+│   │   ├── app-hardening/         # Hardening and release-evidence workflow
+│   │   ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
+│   │   ├── README.md              # Guide for creating custom skills
+│   │   └── [your-custom-skills]/  # Your project-specific skills
+│   └── copilot-instructions.md    # Compatibility shim for Copilot
+│
+├── agents/                          # 🤖 Deterministic command contracts
+│   └── commands/
 │   │   ├── SCHEMA.md              # Global slash-command response schema
 │   │   ├── plan.md                # /plan contract
 │   │   ├── fix.md                 # /fix contract
@@ -159,21 +175,10 @@ your-project/
 │   │   ├── release.md             # /release contract
 │   │   ├── ...                    # Other command contracts
 │   │   └── README.md              # Commands directory guide
-│   └── skills/
-│       ├── find-skills/           # Skill discovery helper
-│       ├── feature-delivery/      # Scoped feature delivery workflow
-│       ├── bug-triage/            # Reproduction-first defect workflow
-│       ├── app-hardening/         # Hardening and release-evidence workflow
-│       ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
-│       ├── README.md              # Guide for creating custom skills
-│       └── [your-custom-skills]/  # Your project-specific skills
 │
-├── .github/
-│   └── copilot-instructions.md    # GitHub Copilot config
-│
-├── CLAUDE.md                       # Claude AI config
-├── GEMINI.md                       # Gemini AI config
-├── .cursorrules                    # Cursor IDE config
+├── AGENTS.MD                        # Compatibility shim for generic agents
+├── CLAUDE.md                        # Compatibility shim for Claude tooling
+├── .cursorrules                     # Compatibility shim for Cursor
 ├── .gitignore                      # Pre-configured Git ignore
 └── README.md                       # Project documentation
 ```
@@ -253,7 +258,7 @@ Open your AI assistant and it will automatically load the appropriate config:
 - **Cursor**: Opens `.cursorrules` automatically
 - **GitHub Copilot**: Reads `.github/copilot-instructions.md`
 - **Claude**: Reads `CLAUDE.md`
-- **Gemini**: Reads `GEMINI.md`
+- **Generic/other tools**: Read `AGENTS.MD`
 
 ### 3. Create Custom Skills (Optional)
 
@@ -261,13 +266,13 @@ Extend your AI agents with domain-specific skills for your project:
 
 ```bash
 # View the skills guide
-cat agents/skills/README.md
+cat .github/skills/README.md
 ```
 
-Create a new skill folder in `agents/skills/`:
+Create a new skill folder in `.github/skills/`:
 
 ```markdown
-agents/skills/my-custom-skill/SKILL.md
+.github/skills/my-custom-skill/SKILL.md
 ---
 name: my-custom-skill
 description: Custom patterns for my project domain
@@ -287,15 +292,15 @@ Use this skill when working with [your domain].
 Code and examples...
 ```
 
-Skills define *how to execute specific tasks*, complementing rules that define *how to behave*. See [agents/skills/README.md](agents/skills/README.md) for detailed guidance.
+Skills define *how to execute specific tasks*, complementing rules that define *how to behave*. See [.github/skills/README.md](.github/skills/README.md) for detailed guidance.
 
 ### 4. Read the Documentation
 
 - **[AGENTS.MD](AGENTS.MD)** – AI assistant guide
 - **[agent-docs/ARCHITECTURE.md](agent-docs/ARCHITECTURE.md)** – Project architecture & tech stack guidance
-- **[agents/skills/README.md](agents/skills/README.md)** – Custom skills guide
-- **[agents/rules/security.mdc](agents/rules/security.mdc)** – Security patterns (CRITICAL)
-- **[agents/rules/testing.mdc](agents/rules/testing.mdc)** – Testing strategy
+- **[.github/skills/README.md](.github/skills/README.md)** – Custom skills guide
+- **[.github/instructions/rules/security.mdc](.github/instructions/rules/security.mdc)** – Security patterns (CRITICAL)
+- **[.github/instructions/rules/testing.mdc](.github/instructions/rules/testing.mdc)** – Testing strategy
 
 ### 5. Start Building
 
@@ -321,7 +326,7 @@ Your AI will follow the enterprise patterns automatically!
 ✅ Sanitize outputs to prevent injection attacks  
 ✅ Never expose sensitive data in error messages or logs
 
-**Reference**: [agents/rules/security.mdc](agents/rules/security.mdc)
+**Reference**: [.github/instructions/rules/security.mdc](.github/instructions/rules/security.mdc)
 
 ### Testing Strategy
 
@@ -329,7 +334,7 @@ Your AI will follow the enterprise patterns automatically!
 - **15% Integration Tests** – API endpoints, database operations
 - **5% E2E Tests** – Critical user journeys
 
-**Reference**: [agents/rules/testing.mdc](agents/rules/testing.mdc)
+**Reference**: [.github/instructions/rules/testing.mdc](.github/instructions/rules/testing.mdc)
 
 ### Agent-Based Architecture
 

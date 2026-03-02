@@ -114,13 +114,6 @@ When the user asks about [domain], use the [skill-name] skill from agents/skills
 Reference the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md` for patterns and guidance.
 ```
 
-### Google Gemini (`GEMINI.md`)
-```markdown
-## When Working on [Domain]
-
-Reference the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md` for patterns and guidance.
-```
-
 ### GitHub Copilot (`.github/copilot-instructions.md`)
 ```markdown
 When helping with [domain-specific task], reference the [skill-name] skill from `agents/skills/[skill-name]/SKILL.md`

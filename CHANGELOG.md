@@ -1,5 +1,119 @@
 # Changelog
 
+## Version 2.0.0 - Hardened Canonical Contract + Orphan Purge (March 2, 2026)
+
+### ⚠️ Breaking Changes
+
+The following files are **deleted** from all installations by `agents-templated update --github`:
+- `.github/instructions/CLAUDE.md` — contained duplicated inline policy (orphaned)
+- `.github/instructions/GEMINI.md` — contained duplicated inline policy (orphaned)
+- `.github/instructions/agents.instructions.md` — redundant unmanaged wrapper
+- `.github/instructions/copilot-instructions.md` — redundant unmanaged wrapper
+- `.claude/rules/claude.instructions.md` — one-release-cycle migration shim (expired)
+- `GEMINI.md` — Gemini support removed; use `AGENTS.MD` for generic agent compatibility
+
+The `validateInstructionDrift()` return shape gains a new field: `orphanedPolicyFiles: string[]`. Code consuming this return value must be updated if using the programmatic API.
+
+### 🔒 Canonical Contract Hardening
+
+`instructions/source/core.md` is the sole global policy authority. This release makes that contract enforceable:
+
+- **Fixed all wrong path references** in `instructions/source/core.md`:
+  - Rule cross-references corrected: `instructions/rules/*.mdc` → `.github/instructions/rules/*.mdc`
+  - Skills path corrected: `instructions/skills/` → `.github/skills/`
+  - Self-reference in `# Canonical Contract` section corrected: `instructions/rules/core.mdc` → `instructions/source/core.md`
+- **Added Reference Index** at the top of `core.md` — compact table of all 10 rule modules and 5 skill modules with canonical paths and activation triggers.
+- **Hardened enforcement language**: Security and Testing sections now marked NON-OVERRIDABLE; explicit statement that no skill, command, or wrapper may downgrade or bypass these requirements.
+- **Clarified Skills System**: skills load on demand, never pre-loaded globally; authority hierarchy explicit.
+- Mirrored all fixes to `templates/instructions/source/core.md`.
+
+### 🗑️ Orphan Purge (Token Waste Elimination)
+
+Purged 3 files that carried duplicated inline policy (~50 wasted lines per AI context window):
+- `.github/instructions/CLAUDE.md` — was injecting full security/testing/typing bullet list on each load
+- `.github/instructions/GEMINI.md` — identical violation
+- `.github/instructions/AGENTS.md` — was 38 lines with inline policy; regenerated as 9-line pure pointer
+
+### 🧿 Validator & Generator Hardening
+
+- `validateInstructionDrift()` now detects known orphaned policy files; `ok` is `false` if any are present.
+- New return field: `orphanedPolicyFiles: string[]`.
+- New export: `KNOWN_ORPHAN_PATHS` — list of files that must not exist in a compliant installation.
+- `cleanupLegacyInstructionFiles()` now removes all `KNOWN_ORPHAN_PATHS` entries from user installations.
+- `doctor` command surfaces orphaned policy files as blocking issues with fix instructions.
+
+### 🍎 Gemini Support Removed
+
+- `GEMINI.md` deleted from all install paths.
+- References to Google Gemini removed from README Key Features table.
+- Generic agents: use `AGENTS.MD` as the compatibility entrypoint.
+
+### 📚 Documentation
+
+- `README.md` + `templates/README.md`: updated rule links `agents/rules/` → `.github/instructions/rules/`; skill links `agents/skills/` → `.github/skills/`.
+- `agent-docs/ARCHITECTURE.md` + template mirror: canonical installed path language throughout.
+
+### 📋 Absorbs Unreleased v1.2.13
+
+Canonical wrapper-only migration (full instruction content only in `instructions/source/core.md`), generator hardening preventing policy duplication, and legacy cleanup automation — all previously staged in v1.2.13 but never published — are included in this release.
+
+---
+
+## Version 1.2.12 - Claude Shim Path + Legacy Cleanup Automation (March 2, 2026)
+
+### 🧹 Cleanup & Consistency
+
+- Updated Claude compatibility shim to use `.claude/CLAUDE.md` with `AGENTS.MD` as primary generic entrypoint.
+- Added automatic cleanup during `update` to remove legacy root instruction files when present:
+  - `CLAUDE.md`
+  - `GEMINI.md`
+
+### ✅ Validation
+
+- Re-ran full test suite and confirmed all tests pass (`19/19`).
+
+## Version 1.2.11 - Copilot-Style Layout Migration + Single-Source Instructions (March 2, 2026)
+
+### 🚀 Major Features
+
+- Introduced canonical Copilot-style structure for rules and skills:
+  - Rules: `.github/instructions/rules/`
+  - Skills: `.github/skills/`
+- Added single-source instruction architecture with canonical source:
+  - `instructions/source/core.md`
+- Added generated compatibility instruction outputs for cross-tool interoperability:
+  - `.github/instructions/*`
+  - `.github/copilot-instructions.md`
+  - `AGENTS.MD`
+  - `CLAUDE.md`
+  - `GEMINI.md`
+  - `.claude/rules/claude.instructions.md`
+  - `.github/instructions/agents.instructions.md`
+
+### 🔄 Migration & Compatibility
+
+- Added legacy layout migration flow in `update`:
+  - Detects `agents/rules` and `agents/skills`
+  - Prompts before migrating to canonical paths
+- Added alias-aware layout resolution for real-world tool folder variants:
+  - `.github/instructions`
+  - `.github/skills`
+  - `.claude/rules`
+  - `.claude/skills`
+  - `.agents/skills`
+
+### ✅ Validation Improvements
+
+- `validate` now:
+  - Enforces canonical source presence for generated instruction setups
+  - Detects drift between generated instruction files and canonical source
+  - Fails on legacy-only rules/skills layout (with actionable migration guidance)
+
+### 🧪 Quality
+
+- Updated CLI and API tests for canonical layout and generated instruction behavior
+- Test suite passes (`19/19`)
+
 ## Version 1.2.10 - Wizard Prompt Simplification Fix (February 28, 2026)
 
 ### 🐛 Fixes

@@ -11,10 +11,10 @@ Depending on what you installed, you may have:
 - **AGENTS.MD**: Instructions for AI assistants
 - **agents/rules/**: Development rules and patterns (6 files)
 - **agents/skills/**: Reusable agent skills
-- **CLAUDE.md**: Claude AI configuration
-- **GEMINI.md**: Google Gemini configuration
-- **.github/copilot-instructions.md**: GitHub Copilot configuration
-- **.cursorrules**: Cursor IDE configuration
+- **instructions/source/core.md**: Canonical policy source (single source of truth)
+- **CLAUDE.md**: Claude compatibility wrapper
+- **.github/copilot-instructions.md**: GitHub Copilot compatibility wrapper
+- **.cursorrules**: Cursor compatibility wrapper
 
 ## Installation Options
 
@@ -54,17 +54,12 @@ When the user asks about [domain], use the [skill-name] skill from agents/skills
 When working on [domain-specific task], reference the [skill-name] skill in agents/skills/[skill-name]/SKILL.md
 ```
 
-**In `GEMINI.md` (Google Gemini):**
-```
-When working on [domain-specific task], reference the [skill-name] skill in agents/skills/[skill-name]/SKILL.md
-```
-
 **In `.github/copilot-instructions.md` (GitHub Copilot):**
 ```
 When helping with [domain-specific task], reference the [skill-name] skill from agents/skills/[skill-name]/SKILL.md
 ```
 
-All AI assistants support skill references. Create custom skills in `agents/skills/` to extend capabilities across your entire team.
+All wrappers point to `instructions/source/core.md`, and skills can be referenced from any assistant through that canonical policy. Create custom skills in `agents/skills/` to extend capabilities across your entire team.
 
 ## Getting Started
 
@@ -72,7 +67,7 @@ All AI assistants support skill references. Create custom skills in `agents/skil
 2. Review ARCHITECTURE.md for overall project guidelines
 3. Adapt the rules to your specific technology stack
 4. Create custom skills in `agents/skills/` for your domain
-5. Configure your AI assistants (Cursor, Copilot, Claude, Gemini) to reference your skills
+5. Configure your AI assistants (Cursor, Copilot, Claude, generic agents) to reference your skills
 
 ## Documentation
 
