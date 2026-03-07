@@ -41,7 +41,7 @@ describe('CLI commands', () => {
     test('should report passed checks when required files are present', async () => {
       await install(tempDir, { docs: true, rules: true, github: true });
       const output = runCLI('validate', tempDir);
-      expect(output).toContain('instructions/source/core.md found');
+      expect(output).toContain('CLAUDE.md found');
       expect(output).toMatch(/\.github[\\/]instructions[\\/]rules[\\/]security\.mdc found/);
       expect(output).toContain('Passed Checks');
     });

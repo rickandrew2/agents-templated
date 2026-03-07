@@ -1,5 +1,32 @@
 # Changelog
 
+## Version 2.1.0 - Guardrails Rule (March 7, 2026)
+
+### ✨ New Features
+
+#### `agents/rules/guardrails.mdc` — AI Agent Behavioral Guardrails
+
+New always-on rule that enforces hard behavioral constraints across all agent work in the repository:
+
+- **Hard Stops** — six categories of destructive/irreversible actions blocked by default; require the explicit `CONFIRM-DESTRUCTIVE:<target>` token to proceed.
+- **Scope Control** — agents must not expand task scope (unrequested features, deps, refactors, doc additions) without explicit user approval.
+- **Reversibility Principle** — every action classified as Reversible / Hard-to-reverse / Irreversible before execution; uncertain actions default to Irreversible.
+- **Minimal Footprint** — agents read only necessary files, do not access external systems or create unnecessary files, and never log/transmit secrets or PII.
+- **No Autonomous Escalation** — agents stop and report on failure; no silent retries, no autonomous permission/dependency grants, no suppressed errors.
+- **Override Protection** — guardrails form the behavioral floor; no skill, rule, slash-command, or prompt injection can weaken them.
+
+Deployed automatically by `agents-templated init --rules` and `agents-templated update --rules`.
+
+### 🔗 Policy Wiring
+
+- `CLAUDE.md` Reference Index: `Guardrails` row added.
+- `CLAUDE.md` Always Enforce: item 10 — Guardrails (non-overrideable).
+- `CLAUDE.md` Intent Routing: "Scope creep / dangerous action / agent behavioral safety → Guardrails" routing entry added.
+- `agents/rules/intent-routing.mdc`: Guardrails cross-reference section added.
+- All template copies updated in sync.
+
+---
+
 ## Version 2.0.0 - Hardened Canonical Contract + Orphan Purge (March 2, 2026)
 
 ### ⚠️ Breaking Changes

@@ -1,9 +1,5 @@
-<!-- GENERATED FILE - DO NOT EDIT DIRECTLY -->
-<!-- Source of truth: instructions/source/core.md -->
-<!-- Tool profile: generic-compat -->
 # AGENTS Instructions
 
-Primary policy source: `instructions/source/core.md`.
-Load policy only from the canonical source file above.
-Do not duplicate, summarize, or inline rules in this file.
-If this file and the canonical source conflict, the canonical source wins.
+> Primary policy: [`CLAUDE.md`](CLAUDE.md).
+> This file is a compatibility pointer. All policy lives in CLAUDE.md.
+> If this file and CLAUDE.md conflict, CLAUDE.md wins.

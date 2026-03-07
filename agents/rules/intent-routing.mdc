@@ -43,3 +43,12 @@ All routed executions must return schema-compliant output:
 - Unknown slash command: structured error and stop.
 - Ambiguous non-slash intent: blocked with minimal missing inputs.
 - High-risk actions: blocked until explicit confirmation token is present.
+
+## Guardrails Cross-Reference
+
+When intent involves scope expansion, destructive actions, or agent behavioral safety, apply `agents/rules/guardrails.mdc` in addition to the primary route:
+
+- Scope creep detected → Guardrails § Scope Control
+- Destructive/irreversible action → Guardrails § Hard Stops + Reversibility Principle
+- Agent accessing external systems beyond task scope → Guardrails § Minimal Footprint
+- Repeated failure / silent retry → Guardrails § No Autonomous Escalation

@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const { LAYOUT } = require('./lib/layout');
-const { CORE_SOURCE_REL_PATH, writeGeneratedInstructions } = require('./lib/instructions');
+const { CANONICAL_INSTRUCTION_FILE, writeGeneratedInstructions } = require('./lib/instructions');
 
 /**
  * Programmatic API for agents-templated
@@ -29,8 +29,7 @@ async function install(targetDir, options = {}) {
   if (installAll || options.docs) {
     files.push(
       'agent-docs/ARCHITECTURE.md',
-      'agent-docs/README.md',
-      CORE_SOURCE_REL_PATH
+      'agent-docs/README.md'
     );
   }
 

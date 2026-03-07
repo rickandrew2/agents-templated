@@ -14,11 +14,12 @@ const {
   getLegacyMigrationPlan
 } = require('../lib/layout');
 const {
-  CORE_SOURCE_REL_PATH,
-  GENERATED_INSTRUCTION_PATHS,
-  KNOWN_ORPHAN_PATHS,
+  CANONICAL_INSTRUCTION_FILE,
+  POINTER_FILES,
   writeGeneratedInstructions,
-  validateInstructionDrift
+  validateInstructionDrift,
+  scaffoldSkill,
+  scaffoldRule
 } = require('../lib/instructions');
 
 // Resolve the templates directory - works in both dev and installed contexts
@@ -153,7 +154,6 @@ program
         const targetDocsDir = path.join(targetDir, 'agent-docs');
         await fs.ensureDir(targetDocsDir);
         await copyDirectory(sourceDir, targetDocsDir, options.force);
-        await copyFiles(templateDir, targetDir, [CORE_SOURCE_REL_PATH], options.force);
       }
 
       // Install agent rules
@@ -183,18 +183,17 @@ program
         console.log(chalk.yellow('Installing AI agent instructions...'));
         await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
         await writeGeneratedInstructions(targetDir, templateDir, options.force);
-        console.log(chalk.gray('  ✓ Cursor (.cursorrules)'));
-        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md shim)'));
-        console.log(chalk.gray('  ✓ Claude (CLAUDE.md shim)'));
-        console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD shim + canonical .github/instructions/AGENTS.md)'));
+        console.log(chalk.gray('  ✓ Claude (CLAUDE.md — canonical source)'));
+        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md pointer)'));
+        console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD pointer)'));
       }
 
       console.log(chalk.green.bold('\nInstallation complete!\n'));
       console.log(chalk.cyan('Next steps:'));
-      console.log(chalk.white('  1. Review instructions/source/core.md (canonical AI guide)'));
+      console.log(chalk.white('  1. Review CLAUDE.md (canonical AI policy — edit this directly)'));
       console.log(chalk.white('  2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
-      console.log(chalk.white('  3. Review .github/instructions/ for generated tool-compatible files'));
-      console.log(chalk.white('  4. Configure your AI assistant (Cursor, Copilot, etc.)'));
+      console.log(chalk.white('  3. AGENTS.MD and .github/copilot-instructions.md are thin compatibility pointers'));
+      console.log(chalk.white('  4. Configure your AI assistant (Copilot, Claude, etc.)'));
       console.log(chalk.white('  5. Adapt the rules to your technology stack\n'));
 
     } catch (error) {
@@ -312,7 +311,6 @@ program
         const targetDocsDir = path.join(targetDir, 'agent-docs');
         await fs.ensureDir(targetDocsDir);
         await copyDirectory(sourceDocsDir, targetDocsDir, options.force);
-        await copyFiles(templateDir, targetDir, [CORE_SOURCE_REL_PATH], options.force);
       }
 
       // Install agent rules
@@ -342,20 +340,19 @@ program
         console.log(chalk.yellow('Installing AI agent instructions...'));
         await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
         await writeGeneratedInstructions(targetDir, templateDir, options.force);
-        console.log(chalk.gray('  ✓ Cursor (.cursorrules)'));
-        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md shim)'));
-        console.log(chalk.gray('  ✓ Claude (CLAUDE.md shim)'));
-        console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD shim + canonical .github/instructions/AGENTS.md)'));
+        console.log(chalk.gray('  ✓ Claude (CLAUDE.md — canonical source)'));
+        console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md pointer)'));
+        console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD pointer)'));
       }
 
       // Show summary and next steps
       console.log(chalk.green.bold('\n✅ Installation complete!\n'));
       
       console.log(chalk.cyan('\n📚 Next Steps:\n'));
-      console.log(chalk.white('   1. Review instructions/source/core.md (canonical AI guide)'));
+      console.log(chalk.white('   1. Review CLAUDE.md (canonical AI policy — edit this directly)'));
       console.log(chalk.white('   2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
-      console.log(chalk.white('   3. Review .github/instructions/ for generated tool-compatible files'));
-      console.log(chalk.white('   4. Customize .github/instructions/rules/*.mdc for your tech stack'));
+      console.log(chalk.white('   3. AGENTS.MD and .github/copilot-instructions.md are thin pointers to CLAUDE.md'));
+      console.log(chalk.white('   4. Customize agents/rules/*.mdc for your tech stack'));
       
       console.log(chalk.cyan('\n🔒 Security Reminder:\n'));
       console.log(chalk.white('   • Review agents/rules/security.mdc'));
@@ -402,12 +399,12 @@ program
       let warnings = [];
       let passed = [];
 
-      // Check canonical source file
-      const coreSourcePath = path.join(targetDir, CORE_SOURCE_REL_PATH);
-      if (await fs.pathExists(coreSourcePath)) {
-        passed.push(`✓ ${CORE_SOURCE_REL_PATH} found`);
+      // Check canonical instruction file
+      const claudePath = path.join(targetDir, CANONICAL_INSTRUCTION_FILE);
+      if (await fs.pathExists(claudePath)) {
+        passed.push(`✓ ${CANONICAL_INSTRUCTION_FILE} found (canonical policy source)`);
       } else {
-        warnings.push(`⚠ ${CORE_SOURCE_REL_PATH} missing - run 'agents-templated init --docs'`);
+        warnings.push(`⚠ ${CANONICAL_INSTRUCTION_FILE} missing - run 'agents-templated init --github'`);
       }
 
       const docFiles = ['ARCHITECTURE.md'];
@@ -465,41 +462,21 @@ program
         warnings.push(`⚠ ${LAYOUT.canonical.skillsDir} directory missing - run 'agents-templated init --skills'`);
       }
 
-      // Check generated instruction files and drift
-      const hasInstructionFootprint =
-        await fs.pathExists(path.join(targetDir, '.github', 'instructions')) ||
-        await fs.pathExists(path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.claude)) ||
-        await fs.pathExists(path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.copilot)) ||
-        await fs.pathExists(path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.generic));
-
-      if (hasInstructionFootprint) {
-        const instructionDrift = await validateInstructionDrift(targetDir);
-        if (instructionDrift.missingCore) {
-          issues.push(`✗ Canonical instruction source missing - run 'agents-templated init --docs --github'`);
-        } else if (instructionDrift.driftFiles.length > 0) {
-          issues.push(`✗ Generated instruction files are out of sync: ${instructionDrift.driftFiles.join(', ')}`);
-        } else {
-          passed.push('✓ Generated instruction files are in sync with canonical source');
-        }
-        if (instructionDrift.orphanedPolicyFiles && instructionDrift.orphanedPolicyFiles.length > 0) {
-          issues.push(
-            `✗ Orphaned policy files detected (contain duplicated content, should be deleted): ` +
-            `${instructionDrift.orphanedPolicyFiles.join(', ')} — run 'agents-templated update --github' to remove`
-          );
-        }
+      // Check instruction pointer files and drift
+      const instructionDrift = await validateInstructionDrift(targetDir);
+      if (instructionDrift.missingCanonical) {
+        issues.push(`✗ CLAUDE.md missing - run 'agents-templated init --github'`);
+      } else if (instructionDrift.driftFiles.length > 0) {
+        warnings.push(`⚠ Pointer files out of sync: ${instructionDrift.driftFiles.join(', ')} — run 'agents-templated update --github'`);
+      } else {
+        passed.push('✓ AGENTS.MD and .github/copilot-instructions.md are in sync');
       }
 
-      const compatCopilotFile = path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.copilot);
+      const compatCopilotFile = path.join(targetDir, POINTER_FILES.copilot);
       if (await fs.pathExists(compatCopilotFile)) {
         passed.push(`✓ GitHub Copilot configuration found`);
       } else {
         warnings.push(`⚠ GitHub Copilot configuration missing - run 'agents-templated init --github'`);
-      }
-
-      // Check for .cursorrules (if using Cursor)
-      const cursorrules = path.join(targetDir, '.cursorrules');
-      if (await fs.pathExists(cursorrules)) {
-        passed.push(`✓ .cursorrules file found (Cursor IDE)`);
       }
 
       // Check for .gitignore
@@ -628,15 +605,16 @@ async function copyDirectory(sourceDir, targetDir, force = false) {
 
 async function hasInstalledTemplates(targetDir) {
   return await hasAnyLayout(targetDir) ||
-    await fs.pathExists(path.join(targetDir, CORE_SOURCE_REL_PATH)) ||
-    await fs.pathExists(path.join(targetDir, GENERATED_INSTRUCTION_PATHS.compatibility.generic));
+    await fs.pathExists(path.join(targetDir, CANONICAL_INSTRUCTION_FILE)) ||
+    await fs.pathExists(path.join(targetDir, POINTER_FILES.agents));
 }
 
 async function cleanupLegacyInstructionFiles(targetDir) {
   // Files removed in v2.0.0: orphaned wrappers that contained duplicated policy
   // content and were not managed/validated by the generator.
   const legacyFiles = [
-    ...KNOWN_ORPHAN_PATHS,
+    '.cursorrules',
+    '.github/instructions/AGENTS.md',
     // Pre-v1.2.13 paths
     '.claude/CLAUDE.md'
   ];
@@ -663,7 +641,6 @@ async function updateSelectedComponents(targetDir, templateDir, selectedComponen
       path.join(targetDir, 'agent-docs'),
       overwrite
     );
-    await copyFiles(templateDir, targetDir, [CORE_SOURCE_REL_PATH], overwrite);
   }
 
   if (components.includes('rules')) {
@@ -798,7 +775,7 @@ program
       // List potential updates
       const updates = [];
       const checkFiles = [
-        { targetFile: CORE_SOURCE_REL_PATH, templateFile: CORE_SOURCE_REL_PATH, component: 'root' },
+        { targetFile: CANONICAL_INSTRUCTION_FILE, templateFile: CANONICAL_INSTRUCTION_FILE, component: 'root' },
         { targetFile: 'agent-docs/ARCHITECTURE.md', templateFile: 'agent-docs/ARCHITECTURE.md', component: 'docs' },
         { targetFile: `${LAYOUT.canonical.rulesDir}/security.mdc`, templateFile: 'agents/rules/security.mdc', component: 'rules' },
         { targetFile: `${LAYOUT.canonical.rulesDir}/testing.mdc`, templateFile: 'agents/rules/testing.mdc', component: 'rules' },
@@ -935,7 +912,6 @@ program
 
       // Check AI assistant configs
       const configs = [
-        { file: '.cursorrules', name: 'Cursor IDE' },
         { file: '.github/copilot-instructions.md', name: 'GitHub Copilot' }
       ];
 
@@ -961,8 +937,40 @@ program
       console.log(chalk.blue('\n📚 Quick Tips:\n'));
       console.log(chalk.white('  • Run "agents-templated validate" to check setup'));
       console.log(chalk.white('  • Run "agents-templated wizard" for guided setup'));
-      console.log(chalk.white('  • Review .github/instructions/rules/security.mdc for security patterns\n'));
+      console.log(chalk.white('  • Review agents/rules/security.mdc for security patterns\n'));
 
+    } catch (error) {
+      console.error(chalk.red('Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('new-skill <name>')
+  .description('Scaffold a new skill in agents/skills/<name>/SKILL.md')
+  .action(async (name) => {
+    try {
+      const targetDir = process.cwd();
+      const relPath = await scaffoldSkill(targetDir, name);
+      console.log(chalk.green(`\n+ ${relPath}\n`));
+      console.log(chalk.gray('Fill in Trigger Conditions, Workflow, and Output Contract.'));
+      console.log(chalk.gray('Then add it to the Reference Index in CLAUDE.md.\n'));
+    } catch (error) {
+      console.error(chalk.red('Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('new-rule <name>')
+  .description('Scaffold a new rule in agents/rules/<name>.mdc')
+  .action(async (name) => {
+    try {
+      const targetDir = process.cwd();
+      const relPath = await scaffoldRule(targetDir, name);
+      console.log(chalk.green(`\n+ ${relPath}\n`));
+      console.log(chalk.gray('Fill in Purpose and Requirements sections.'));
+      console.log(chalk.gray('Then add it to the Reference Index in CLAUDE.md.\n'));
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
