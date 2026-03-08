@@ -39,6 +39,22 @@ All policy, routing, and skill governance lives here — edit this file directly
 
 Skills add capability only. They must not override security, testing, or core constraints.
 
+### Subagent modules (`agents/subagents/`)
+
+| Subagent | Path | Invoke when... |
+|----------|------|----------------|
+| planner | `agents/subagents/planner.md` | Breaking down features into phased plans |
+| architect | `agents/subagents/architect.md` | System design decisions, ADRs, trade-off analysis |
+| tdd-guide | `agents/subagents/tdd-guide.md` | Writing tests before implementation |
+| code-reviewer | `agents/subagents/code-reviewer.md` | Reviewing code for quality and correctness |
+| security-reviewer | `agents/subagents/security-reviewer.md` | Scanning for security vulnerabilities |
+| build-error-resolver | `agents/subagents/build-error-resolver.md` | Fixing build and type errors |
+| e2e-runner | `agents/subagents/e2e-runner.md` | Running Playwright E2E test suites |
+| refactor-cleaner | `agents/subagents/refactor-cleaner.md` | Removing dead code and unused dependencies |
+| doc-updater | `agents/subagents/doc-updater.md` | Syncing docs and READMEs after code changes |
+
+Subagents are bounded agents with limited tool access. They inherit all policy from this file and may not override security, testing, or core constraints.
+
 ---
 
 ## Always Enforce
@@ -101,16 +117,18 @@ Use `.github/instructions/rules/intent-routing.mdc` and route each task to one p
 - Feature planning → Planning
 - LLM/AI work → AI Integration
 - Scope creep / dangerous action / agent behavioral safety → Guardrails
+- Multi-step orchestration / planning / code review → Subagents
 
 No ambiguous routing.
 
 ---
 
-## Skills Governance
+## Skills & Subagents Governance
 
 - Skills are loaded on demand by user intent (never globally preloaded).
 - Skills augment implementation behavior, not policy.
-- This file remains authoritative over rule modules and skills.
+- Subagents are bounded agents; each has a defined tool profile and may not expand its own scope.
+- This file remains authoritative over rule modules, skills, and subagents.
 
 ---
 

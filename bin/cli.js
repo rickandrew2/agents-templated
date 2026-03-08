@@ -10,6 +10,7 @@ const {
   LAYOUT,
   resolveRulesDir,
   resolveSkillsDir,
+  resolveSubagentsDir,
   hasAnyLayout,
   getLegacyMigrationPlan
 } = require('../lib/layout');
@@ -19,7 +20,8 @@ const {
   writeGeneratedInstructions,
   validateInstructionDrift,
   scaffoldSkill,
-  scaffoldRule
+  scaffoldRule,
+  scaffoldSubagent
 } = require('../lib/instructions');
 
 // Resolve the templates directory - works in both dev and installed contexts
@@ -52,6 +54,7 @@ program
   .option('-r, --rules', 'Install agent rules only')
   .option('-s, --skills', 'Install skills only')
   .option('-g, --github', 'Install GitHub Copilot instructions')
+  .option('-S, --subagents', 'Install agent subagents only')
   .option('-p, --preset <name>', 'Use a preset configuration (nextjs, django-react, express-api, fastapi, go-api)')
   .option('-f, --force', 'Overwrite existing files')
   .action(async (options) => {
@@ -121,7 +124,8 @@ program
               { name: 'Documentation files (agent-docs/)', value: 'docs' },
               { name: 'Agent rules (.github/instructions/rules/*.mdc)', value: 'rules' },
               { name: 'Skills (.github/skills/*)', value: 'skills' },
-              { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' }
+              { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
+              { name: 'Agent subagents (agents/subagents/*.md)', value: 'subagents' }
             ],
             default: ['all']
           },
@@ -143,6 +147,7 @@ program
         if (options.rules) choices.push('rules');
         if (options.skills) choices.push('skills');
         if (options.github) choices.push('github');
+        if (options.subagents) choices.push('subagents');
       }
 
       const installAll = choices.includes('all');
@@ -186,6 +191,17 @@ program
         console.log(chalk.gray('  ✓ Claude (CLAUDE.md — canonical source)'));
         console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md pointer)'));
         console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD pointer)'));
+      }
+
+      // Install agent subagents
+      if (installAll || choices.includes('subagents')) {
+        console.log(chalk.yellow('Installing agent subagents...'));
+        await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.subagentsDir));
+        await copyDirectory(
+          path.join(templateDir, 'agents', 'subagents'),
+          path.join(targetDir, LAYOUT.canonical.subagentsDir),
+          options.force
+        );
       }
 
       console.log(chalk.green.bold('\nInstallation complete!\n'));
@@ -240,7 +256,8 @@ program
                 { name: 'Documentation (agent-docs/)', value: 'docs' },
                 { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules' },
                 { name: 'Skills (reusable agent capabilities)', value: 'skills' },
-                { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' }
+                { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
+                { name: 'Agent subagents (agents/subagents/*.md)', value: 'subagents' }
               ],
               validate: (answer) => {
                 if (answer.length === 0) {
@@ -276,7 +293,8 @@ program
             { name: 'Documentation (agent-docs/)', value: 'docs', checked: true },
             { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules', checked: true },
             { name: 'Skills (reusable agent capabilities)', value: 'skills', checked: true },
-            { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github', checked: true }
+            { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github', checked: true },
+            { name: 'Agent subagents (agents/subagents/*.md)', value: 'subagents', checked: true }
           ],
           validate: (answer) => {
             if (answer.length === 0) {
@@ -301,7 +319,8 @@ program
         docs: componentAnswers.components.includes('docs'),
         rules: componentAnswers.components.includes('rules'),
         skills: componentAnswers.components.includes('skills'),
-        github: componentAnswers.components.includes('github')
+        github: componentAnswers.components.includes('github'),
+        subagents: componentAnswers.components.includes('subagents')
       };
 
       // Install documentation files
@@ -345,6 +364,17 @@ program
         console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD pointer)'));
       }
 
+      // Install agent subagents
+      if (options.subagents) {
+        console.log(chalk.yellow('Installing agent subagents...'));
+        await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.subagentsDir));
+        await copyDirectory(
+          path.join(templateDir, 'agents', 'subagents'),
+          path.join(targetDir, LAYOUT.canonical.subagentsDir),
+          options.force
+        );
+      }
+
       // Show summary and next steps
       console.log(chalk.green.bold('\n✅ Installation complete!\n'));
       
@@ -375,6 +405,7 @@ program
     console.log(chalk.yellow('rules') + '   - Agent rules (.github/instructions/rules/*.mdc)');
     console.log(chalk.yellow('skills') + '  - Agent skills (.github/skills/*)');
     console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)');
+    console.log(chalk.yellow('subagents') + ' - Agent subagents (agents/subagents/*.md)');
     console.log(chalk.yellow('all') + '     - All components');
     
     console.log(chalk.blue.bold('\n\nAvailable Presets:\n'));
@@ -460,6 +491,15 @@ program
         passed.push(`✓ ${skills.length} skills installed in ${relativeSkillsDir}`);
       } else {
         warnings.push(`⚠ ${LAYOUT.canonical.skillsDir} directory missing - run 'agents-templated init --skills'`);
+      }
+
+      // Check subagents
+      const subagentsDir = path.join(targetDir, LAYOUT.canonical.subagentsDir);
+      if (await fs.pathExists(subagentsDir)) {
+        const subagents = (await fs.readdir(subagentsDir)).filter(f => f.endsWith('.md') && f !== 'README.md');
+        passed.push(`✓ ${subagents.length} subagents installed in ${LAYOUT.canonical.subagentsDir}`);
+      } else {
+        warnings.push(`⚠ ${LAYOUT.canonical.subagentsDir} directory missing - run 'agents-templated init --subagents'`);
       }
 
       // Check instruction pointer files and drift
@@ -630,7 +670,7 @@ async function cleanupLegacyInstructionFiles(targetDir) {
 
 async function updateSelectedComponents(targetDir, templateDir, selectedComponents, overwrite = true) {
   const components = selectedComponents.includes('all')
-    ? ['docs', 'rules', 'skills', 'github']
+    ? ['docs', 'rules', 'skills', 'github', 'subagents']
     : selectedComponents;
 
   if (components.includes('docs')) {
@@ -670,6 +710,16 @@ async function updateSelectedComponents(targetDir, templateDir, selectedComponen
     await cleanupLegacyInstructionFiles(targetDir);
   }
 
+  if (components.includes('subagents')) {
+    console.log(chalk.yellow('Updating agent subagents...'));
+    await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.subagentsDir));
+    await copyDirectory(
+      path.join(templateDir, 'agents', 'subagents'),
+      path.join(targetDir, LAYOUT.canonical.subagentsDir),
+      overwrite
+    );
+  }
+
   if ((components.includes('docs') || components.includes('github')) && !components.includes('github')) {
     await writeGeneratedInstructions(targetDir, templateDir, overwrite);
   }
@@ -704,6 +754,7 @@ program
   .option('-r, --rules', 'Update agent rules only')
   .option('-s, --skills', 'Update skills only')
   .option('-g, --github', 'Update AI agent instruction files only')
+  .option('-S, --subagents', 'Update agent subagents only')
   .option('-c, --check-only', 'Only check for updates, don\'t install')
   .option('-f, --force', 'Force overwrite files during update')
   .action(async (options) => {
@@ -763,6 +814,7 @@ program
         if (options.all || options.rules) selectedComponents.push('rules');
         if (options.all || options.skills) selectedComponents.push('skills');
         if (options.all || options.github) selectedComponents.push('github');
+        if (options.all || options.subagents) selectedComponents.push('subagents');
 
         console.log(chalk.blue('📦 Updating selected components...\n'));
 
@@ -971,6 +1023,22 @@ program
       console.log(chalk.green(`\n+ ${relPath}\n`));
       console.log(chalk.gray('Fill in Purpose and Requirements sections.'));
       console.log(chalk.gray('Then add it to the Reference Index in CLAUDE.md.\n'));
+    } catch (error) {
+      console.error(chalk.red('Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('new-subagent <name>')
+  .description('Scaffold a new subagent in agents/subagents/<name>.md')
+  .action(async (name) => {
+    try {
+      const targetDir = process.cwd();
+      const relPath = await scaffoldSubagent(targetDir, name);
+      console.log(chalk.green(`\n+ ${relPath}\n`));
+      console.log(chalk.gray('Fill in Activation Conditions, Workflow, and Output Format.'));
+      console.log(chalk.gray('Then add it to the Subagent modules table in CLAUDE.md.\n'));
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
