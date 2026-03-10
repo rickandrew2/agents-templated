@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/agents-templated.svg)](https://www.npmjs.com/package/agents-templated)
 [![npm downloads](https://img.shields.io/npm/dm/agents-templated.svg)](https://www.npmjs.com/package/agents-templated)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/rickandrew2/agents-projects-templated?style=social)](https://github.com/rickandrew2/agents-templated)
+[![GitHub stars](https://img.shields.io/github/stars/rickandrew2/agents-templated?style=social)](https://github.com/rickandrew2/agents-templated)
 
 > **Agents Templated** is a CLI tool and npm package that instantly scaffolds production-ready project structures with enterprise-grade development patterns, security guidelines, and AI assistant configurations. Designed for developers who want to start projects the right way—with proven OWASP security practices, comprehensive testing strategies (80/15/5 coverage targets), and agent-based architecture patterns—without being locked into specific frameworks. It generates unified configuration files that work seamlessly with Cursor, GitHub Copilot, Claude, and Google Gemini, allowing AI assistants to automatically follow best practices from day one. Whether you're building a Next.js app, Django API, Go microservice, or any custom stack, Agents Templated provides the guardrails and patterns you need while giving you complete freedom to choose your technology.
 
@@ -105,7 +105,7 @@ Agents Templated automatically configures compatible wrappers for major AI codin
 | **Claude** | `CLAUDE.md` | ✅ Compatible |
 | **Generic agents** | `AGENTS.MD` | ✅ Compatible |
 
-**Single source of truth:** `instructions/source/core.md` drives generated tool-compatible instruction files.
+**Single source of truth:** `CLAUDE.md` drives generated tool-compatible instruction files.
 
 ---
 
@@ -395,7 +395,7 @@ await agentsTemplated.install('./my-project', {
 
 When contributing to this template:
 1. Maintain technology-agnostic patterns
-2. Update relevant rule files in `agents/rules/`
+2. Update relevant rule files in `.github/instructions/rules/`
 3. Keep documentation synchronized with code changes
 4. Follow security and testing patterns
 5. Ensure AI assistant configurations remain compatible

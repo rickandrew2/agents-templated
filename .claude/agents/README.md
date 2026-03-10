@@ -41,12 +41,12 @@ Subagents are invoked automatically based on `description` matching, or explicit
 ```
 
 ### Other tools (Copilot, Cursor, Windsurf)
-Reference the subagent file directly in your prompt or instruct your AI to follow the workflow defined in `agents/subagents/<name>.md`.
+Reference the subagent file directly in your prompt or instruct your AI to follow the workflow defined in `.claude/agents/<name>.md`.
 
 ## File Structure
 
 ```
-agents/subagents/
+.claude/agents/
 ├── README.md                  ← This file
 ├── planner.md
 ├── architect.md

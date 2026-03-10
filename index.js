@@ -16,12 +16,13 @@ const { CANONICAL_INSTRUCTION_FILE, writeGeneratedInstructions } = require('./li
  * @param {boolean} options.rules - Install agent rules
  * @param {boolean} options.skills - Install skills
  * @param {boolean} options.github - Install GitHub Copilot instructions
+ * @param {boolean} options.subagents - Install agent subagents
  * @param {boolean} options.force - Overwrite existing files
  * @returns {Promise<void>}
  */
 async function install(targetDir, options = {}) {
   const templateDir = path.join(__dirname, 'templates');
-  const installAll = !options.docs && !options.rules && !options.skills && !options.github;
+  const installAll = !options.docs && !options.rules && !options.skills && !options.github && !options.subagents;
 
   const files = [];
 
@@ -72,6 +73,16 @@ async function install(targetDir, options = {}) {
   if (installAll || options.github) {
     await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
     await writeGeneratedInstructions(targetDir, templateDir, options.force);
+  }
+
+  // Agent subagents (.claude/agents/)
+  if (installAll || options.subagents) {
+    await fs.ensureDir(path.join(targetDir, '.claude', 'agents'));
+    await copyDirectory(
+      path.join(templateDir, '.claude', 'agents'),
+      path.join(targetDir, '.claude', 'agents'),
+      options.force
+    );
   }
 }
 

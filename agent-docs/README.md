@@ -1,47 +1,53 @@
 # Technology-Agnostic Development Template
 
-This template is part of the agents-templated npm package.
+This template is part of the `agents-templated` npm package.
 
 ## What's Included
 
-- **AGENTS.MD**: Instructions for AI assistants
-- **ARCHITECTURE.md**: Project guidelines and architecture  
-- **agents/rules/**: Development rules and patterns (6 files)
-- **agents/skills/**: Reusable agent skills
+- **AGENTS.MD**: Generic compatibility wrapper for AI assistants
+- **ARCHITECTURE.md**: Project guidelines and architecture
+- **CLAUDE.md**: Canonical policy source (single source of truth)
+- **.github/instructions/rules/**: Rule modules (`*.mdc`)
+- **.github/skills/**: Skill modules (`*/SKILL.md`)
+- **CLAUDE.md**: Claude compatibility wrapper
+- **.github/copilot-instructions.md**: GitHub Copilot compatibility wrapper
+- **.cursorrules**: Cursor compatibility wrapper
 
 ## Rules and Skills
 
-- **Rules** (`agents/rules/*.mdc`): Define *how to behave* - patterns, principles, and standards for your team
-- **Skills** (`agents/skills/*/SKILL.md`): Define *how to execute specific tasks* - domain-specific workflows and specialized knowledge
+- **Rules** (`.github/instructions/rules/*.mdc`): Define *how to behave* - patterns, principles, and standards.
+- **Skills** (`.github/skills/*/SKILL.md`): Define *how to execute specific tasks* - domain workflows and specialized knowledge.
 
-### Using Skills in Your AI Assistants
+Skills are capability modules only. They do not override policy in `CLAUDE.md`.
 
-Skills can be referenced in all AI configuration files:
+### Using Skills in AI Assistants
+
+Skills can be referenced from any wrapper because all wrappers point to `CLAUDE.md`.
 
 **In `.cursorrules` (Cursor IDE):**
 ```
-When the user asks about [domain], use the [skill-name] skill from agents/skills/
+When the user asks about [domain], use the [skill-name] skill from .github/skills/[skill-name]/SKILL.md
 ```
 
 **In `CLAUDE.md` (Claude):**
 ```
-When working on [domain-specific task], reference the [skill-name] skill in agents/skills/[skill-name]/SKILL.md
+When working on [domain-specific task], reference the [skill-name] skill in .github/skills/[skill-name]/SKILL.md
 ```
 
 **In `.github/copilot-instructions.md` (GitHub Copilot):**
 ```
-When helping with [domain-specific task], reference the [skill-name] skill from agents/skills/[skill-name]/SKILL.md
+When helping with [domain-specific task], reference the [skill-name] skill from .github/skills/[skill-name]/SKILL.md
 ```
 
-All wrappers point to `instructions/source/core.md`, and skills can be referenced from any assistant through that canonical policy. Create custom skills in `agents/skills/` to extend capabilities across your entire team.
+Create custom skills in `.github/skills/` to extend capabilities across your team.
 
 ## Getting Started
 
-1. Review AGENTS.MD for AI assistance guidance
-2. Review ARCHITECTURE.md for overall project guidelines
-3. Adapt the rules to your specific technology stack
-4. Create custom skills in `agents/skills/` for your domain
-5. Configure your AI assistants (Cursor, Copilot, Claude, generic agents) to reference your skills
+1. Review `AGENTS.MD` for wrapper behavior and compatibility entrypoints.
+2. Review `ARCHITECTURE.md` for project architecture guidance.
+3. Adapt `.github/instructions/rules/*.mdc` for your stack.
+4. Create custom skills under `.github/skills/` for your domain.
+5. Keep wrappers minimal and policy centralized in `CLAUDE.md`.
 
 ## Documentation
 

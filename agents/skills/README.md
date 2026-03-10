@@ -34,7 +34,7 @@ To create a new skill for your specific domain:
 
 1. **Create a new folder** in this directory:
    ```
-   agents/skills/my-custom-skill/
+   .github/skills/my-custom-skill/
    ```
 
 2. **Create a SKILL.md file** with metadata and instructions:
@@ -54,7 +54,7 @@ To create a new skill for your specific domain:
 ### Skill Structure
 
 ```
-agents/skills/
+.github/skills/
 ├── find-skills/
 │   └── SKILL.md              # Meta-skill for discovering skills
 ├── feature-delivery/
@@ -104,24 +104,24 @@ Skills can be referenced in all your AI assistant configuration files:
 
 ### Cursor IDE (`.cursorrules`)
 ```
-When the user asks about [domain], use the [skill-name] skill from agents/skills/[skill-name]/SKILL.md
+When the user asks about [domain], use the [skill-name] skill from .github/skills/[skill-name]/SKILL.md
 ```
 
 ### Claude (`CLAUDE.md`)
 ```markdown
 ## When Working on [Domain]
 
-Reference the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md` for patterns and guidance.
+Reference the [skill-name] skill in `.github/skills/[skill-name]/SKILL.md` for patterns and guidance.
 ```
 
 ### GitHub Copilot (`.github/copilot-instructions.md`)
 ```markdown
-When helping with [domain-specific task], reference the [skill-name] skill from `agents/skills/[skill-name]/SKILL.md`
+When helping with [domain-specific task], reference the [skill-name] skill from `.github/skills/[skill-name]/SKILL.md`
 ```
 
 ### Documentation (`AGENTS.MD`)
 ```markdown
-- When working with [domain], see the [skill-name] skill in `agents/skills/[skill-name]/SKILL.md`
+- When working with [domain], see the [skill-name] skill in `.github/skills/[skill-name]/SKILL.md`
 ```
 
 **All AI assistants support skill references.** Keep your team aligned by linking to skill files across your configuration files.

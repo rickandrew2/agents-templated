@@ -39,19 +39,19 @@ All policy, routing, and skill governance lives here — edit this file directly
 
 Skills add capability only. They must not override security, testing, or core constraints.
 
-### Subagent modules (`agents/subagents/`)
+### Subagent modules (`.claude/agents/`)
 
 | Subagent | Path | Invoke when... |
 |----------|------|----------------|
-| planner | `agents/subagents/planner.md` | Breaking down features into phased plans |
-| architect | `agents/subagents/architect.md` | System design decisions, ADRs, trade-off analysis |
-| tdd-guide | `agents/subagents/tdd-guide.md` | Writing tests before implementation |
-| code-reviewer | `agents/subagents/code-reviewer.md` | Reviewing code for quality and correctness |
-| security-reviewer | `agents/subagents/security-reviewer.md` | Scanning for security vulnerabilities |
-| build-error-resolver | `agents/subagents/build-error-resolver.md` | Fixing build and type errors |
-| e2e-runner | `agents/subagents/e2e-runner.md` | Running Playwright E2E test suites |
-| refactor-cleaner | `agents/subagents/refactor-cleaner.md` | Removing dead code and unused dependencies |
-| doc-updater | `agents/subagents/doc-updater.md` | Syncing docs and READMEs after code changes |
+| planner | `.claude/agents/planner.md` | Breaking down features into phased plans |
+| architect | `.claude/agents/architect.md` | System design decisions, ADRs, trade-off analysis |
+| tdd-guide | `.claude/agents/tdd-guide.md` | Writing tests before implementation |
+| code-reviewer | `.claude/agents/code-reviewer.md` | Reviewing code for quality and correctness |
+| security-reviewer | `.claude/agents/security-reviewer.md` | Scanning for security vulnerabilities |
+| build-error-resolver | `.claude/agents/build-error-resolver.md` | Fixing build and type errors |
+| e2e-runner | `.claude/agents/e2e-runner.md` | Running Playwright E2E test suites |
+| refactor-cleaner | `.claude/agents/refactor-cleaner.md` | Removing dead code and unused dependencies |
+| doc-updater | `.claude/agents/doc-updater.md` | Syncing docs and READMEs after code changes |
 
 Subagents are bounded agents with limited tool access. They inherit all policy from this file and may not override security, testing, or core constraints.
 

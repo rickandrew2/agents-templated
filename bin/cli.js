@@ -125,7 +125,7 @@ program
               { name: 'Agent rules (.github/instructions/rules/*.mdc)', value: 'rules' },
               { name: 'Skills (.github/skills/*)', value: 'skills' },
               { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
-              { name: 'Agent subagents (agents/subagents/*.md)', value: 'subagents' }
+              { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents' }
             ],
             default: ['all']
           },
@@ -190,6 +190,7 @@ program
         await writeGeneratedInstructions(targetDir, templateDir, options.force);
         console.log(chalk.gray('  ✓ Claude (CLAUDE.md — canonical source)'));
         console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md pointer)'));
+        console.log(chalk.gray('  ✓ Cursor (.cursorrules pointer)'));
         console.log(chalk.gray('  ✓ Generic AGENTS (AGENTS.MD pointer)'));
       }
 
@@ -198,7 +199,7 @@ program
         console.log(chalk.yellow('Installing agent subagents...'));
         await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.subagentsDir));
         await copyDirectory(
-          path.join(templateDir, 'agents', 'subagents'),
+          path.join(templateDir, '.claude', 'agents'),
           path.join(targetDir, LAYOUT.canonical.subagentsDir),
           options.force
         );
@@ -257,7 +258,7 @@ program
                 { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules' },
                 { name: 'Skills (reusable agent capabilities)', value: 'skills' },
                 { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
-                { name: 'Agent subagents (agents/subagents/*.md)', value: 'subagents' }
+                { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents' }
               ],
               validate: (answer) => {
                 if (answer.length === 0) {
@@ -294,7 +295,7 @@ program
             { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules', checked: true },
             { name: 'Skills (reusable agent capabilities)', value: 'skills', checked: true },
             { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github', checked: true },
-            { name: 'Agent subagents (agents/subagents/*.md)', value: 'subagents', checked: true }
+            { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents', checked: true }
           ],
           validate: (answer) => {
             if (answer.length === 0) {
@@ -369,7 +370,7 @@ program
         console.log(chalk.yellow('Installing agent subagents...'));
         await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.subagentsDir));
         await copyDirectory(
-          path.join(templateDir, 'agents', 'subagents'),
+          path.join(templateDir, '.claude', 'agents'),
           path.join(targetDir, LAYOUT.canonical.subagentsDir),
           options.force
         );
@@ -405,7 +406,7 @@ program
     console.log(chalk.yellow('rules') + '   - Agent rules (.github/instructions/rules/*.mdc)');
     console.log(chalk.yellow('skills') + '  - Agent skills (.github/skills/*)');
     console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)');
-    console.log(chalk.yellow('subagents') + ' - Agent subagents (agents/subagents/*.md)');
+    console.log(chalk.yellow('subagents') + ' - Agent subagents (.claude/agents/*.md)');
     console.log(chalk.yellow('all') + '     - All components');
     
     console.log(chalk.blue.bold('\n\nAvailable Presets:\n'));
@@ -653,7 +654,6 @@ async function cleanupLegacyInstructionFiles(targetDir) {
   // Files removed in v2.0.0: orphaned wrappers that contained duplicated policy
   // content and were not managed/validated by the generator.
   const legacyFiles = [
-    '.cursorrules',
     '.github/instructions/AGENTS.md',
     // Pre-v1.2.13 paths
     '.claude/CLAUDE.md'
@@ -714,7 +714,7 @@ async function updateSelectedComponents(targetDir, templateDir, selectedComponen
     console.log(chalk.yellow('Updating agent subagents...'));
     await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.subagentsDir));
     await copyDirectory(
-      path.join(templateDir, 'agents', 'subagents'),
+      path.join(templateDir, '.claude', 'agents'),
       path.join(targetDir, LAYOUT.canonical.subagentsDir),
       overwrite
     );
@@ -1031,7 +1031,7 @@ program
 
 program
   .command('new-subagent <name>')
-  .description('Scaffold a new subagent in agents/subagents/<name>.md')
+  .description('Scaffold a new subagent in .claude/agents/<name>.md')
   .action(async (name) => {
     try {
       const targetDir = process.cwd();
