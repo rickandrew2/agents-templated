@@ -122,7 +122,7 @@ program
             choices: [
               { name: 'All components', value: 'all' },
               { name: 'Documentation files (agent-docs/)', value: 'docs' },
-              { name: 'Agent rules (.github/instructions/rules/*.mdc)', value: 'rules' },
+              { name: 'Agent rules (.claude/rules/*.mdc)', value: 'rules' },
               { name: 'Skills (.github/skills/*)', value: 'skills' },
               { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
               { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents' }
@@ -403,7 +403,7 @@ program
   .action(() => {
     console.log(chalk.blue.bold('\nAvailable Components:\n'));
     console.log(chalk.yellow('docs') + '    - Documentation files (agent-docs/ directory)');
-    console.log(chalk.yellow('rules') + '   - Agent rules (.github/instructions/rules/*.mdc)');
+    console.log(chalk.yellow('rules') + '   - Agent rules (.claude/rules/*.mdc)');
     console.log(chalk.yellow('skills') + '  - Agent skills (.github/skills/*)');
     console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)');
     console.log(chalk.yellow('subagents') + ' - Agent subagents (.claude/agents/*.md)');
