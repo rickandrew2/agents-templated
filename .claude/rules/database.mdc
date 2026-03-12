@@ -1,6 +1,6 @@
-﻿---
+---
 title: "Database and Data Layer Guidelines"
-description: "Apply when designing schema, building data access layers, optimizing queries, or managing database operations"
+description: "Apply when designing schema, building data access layers, running migrations, or optimizing queries"
 alwaysApply: true
 version: "3.0.0"
 tags: ["database", "backend", "data", "orm", "schema"]
@@ -8,13 +8,12 @@ globs:
   - "src/models/**/*"
   - "src/data/**/*"
 triggers:
-  - "Designing database schema"
-  - "Adding database migrations"
-  - "Building data access layer"
-  - "Querying or filtering data"
+  - "Designing database schema or tables"
+  - "Creating/updating ORM models or queries"
+  - "Running database migrations"
   - "Optimizing slow queries"
-  - "Managing relationships between entities"
-  - "Handling data validation in models"
+  - "Selecting database technology"
+  - "Implementing access control for data"
 ---
 
 # Database and Data Layer Guidelines
@@ -290,24 +289,3 @@ Testing patterns:
 - Test constraints
 - Test error cases
 - Test performance
-
-### Test Examples
-
-Test: Create and retrieve user
-1. Create user with valid data
-2. Retrieve by ID
-3. Verify data matches
-
-Test: Enforce unique constraint
-1. Create user with email
-2. Attempt to create another with same email
-3. Verify error is returned
-
-Test: Cascade delete
-1. Create parent and child records
-2. Delete parent
-3. Verify child is deleted
-
----
-
-Remember: Good database design prevents bugs, improves performance, and makes your application maintainable.

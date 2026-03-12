@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Security Rules & Best Practices"
 description: "Apply when implementing authentication, authorization, API validation, secrets management, or protecting against OWASP Top 10 vulnerabilities"
 alwaysApply: true
@@ -63,7 +63,7 @@ Authorization Flow:
 1. Extract user identity from authenticated session/token
 2. For each protected operation:
    a. Check if user is authenticated
-   b. Retrieve user''s roles/permissions from database
+   b. Retrieve user's roles/permissions from database
    c. Verify required permissions for operation
    d. Allow or deny based on permission check
 3. Log authorization checks (especially failures)
@@ -72,7 +72,7 @@ Authorization Flow:
 **Role-Based Access Control (RBAC):**
 - Define roles with clear permissions (admin, moderator, user, guest)
 - Assign roles to users (can be multiple)
-- Check user''s roles before allowing sensitive operations
+- Check user's roles before allowing sensitive operations
 - Implement at API boundaries and critical business logic
 - Audit role changes and permission checks
 
@@ -129,7 +129,7 @@ Validation Process:
 
 **Database Queries:**
 - Use ORM/parameterized queries only (never string concatenation)
-- Filter results to authenticated user''s data
+- Filter results to authenticated user's data
 - Limit results with pagination
 - Monitor for suspicious query patterns
 
@@ -214,7 +214,7 @@ Rate Limiting Levels:
 -  Log authentication and authorization events
 -  Log sensitive operations and data access
 -  Monitor for suspicious patterns
--  Keep logs secure and don''t expose sensitive info
+-  Keep logs secure and don't expose sensitive info
 -  Alert on security-relevant events
 
 ### A10: SSRF (Server-Side Request Forgery)
@@ -271,7 +271,7 @@ Before deploying to production:
 - [ ] No sensitive data in logs
 - [ ] Database queries use ORM (no raw SQL)
 - [ ] Authorization checks on protected endpoints
-- [ ] Error messages don''t leak sensitive information
+- [ ] Error messages don't leak sensitive information
 - [ ] External API calls use HTTPS
 - [ ] Dependencies scanned for vulnerabilities
 - [ ] Unused dependencies removed

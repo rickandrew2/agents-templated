@@ -7,23 +7,23 @@ All policy, routing, and skill governance lives here — edit this file directly
 
 ## Reference Index
 
-### Rule modules (`.github/instructions/rules/`)
+### Rule modules (`.claude/rules/`)
 
-| Module | File | Governs |
-|--------|------|---------|
-| Security | `.github/instructions/rules/security.mdc` | Validation, authn/authz, secrets, rate limiting |
-| Testing | `.github/instructions/rules/testing.mdc` | Strategy, coverage mix, test discipline |
-| Core | `.github/instructions/rules/core.mdc` | Type safety, runtime boundaries, error modeling |
-| Database | `.github/instructions/rules/database.mdc` | ORM patterns, migrations, query safety |
-| Frontend | `.github/instructions/rules/frontend.mdc` | Accessibility, responsiveness, client trust boundaries |
-| Style | `.github/instructions/rules/style.mdc` | Naming, modularity, separation of concerns |
-| System Workflow | `.github/instructions/rules/system-workflow.mdc` | Branching, PR structure, review gates |
-| Workflows | `.github/instructions/rules/workflows.mdc` | Automation, CI/CD, deployment gates |
-| Hardening | `.github/instructions/rules/hardening.mdc` | Threat modeling, audit mode, dependency review |
-| Intent Routing | `.github/instructions/rules/intent-routing.mdc` | Deterministic task-to-rule mapping |
-| Planning | `.github/instructions/rules/planning.mdc` | Feature discussion and implementation planning |
-| AI Integration | `.github/instructions/rules/ai-integration.mdc` | LLM safety, cost controls, fallback behavior |
-| Guardrails | `.github/instructions/rules/guardrails.mdc` | Hard stops, scope control, reversibility, minimal footprint |
+| Module | File | Apply when... |
+|--------|------|---------------|
+| Security | `.claude/rules/security.mdc` | Implementing authentication, validating inputs, protecting against injection attacks |
+| Testing | `.claude/rules/testing.mdc` | Adding tests, verifying coverage, validating quality before deployment |
+| Core | `.claude/rules/core.mdc` | Designing architecture, setting up projects, defining type systems |
+| Database | `.claude/rules/database.mdc` | Designing schema, building data access layers, optimizing queries |
+| Frontend | `.claude/rules/frontend.mdc` | Building UI components, designing pages, creating forms, implementing accessibility |
+| Style | `.claude/rules/style.mdc` | Organizing code, naming variables, improving clarity and maintainability |
+| System Workflow | `.claude/rules/system-workflow.mdc` | Planning delivery phases, defining acceptance criteria, establishing rollback |
+| Workflows | `.claude/rules/workflows.mdc` | Optimizing development process, running pre-commit checks, keeping project healthy |
+| Hardening | `.claude/rules/hardening.mdc` | Building distributed apps, protecting IP logic, preparing production releases |
+| Intent Routing | `.claude/rules/intent-routing.mdc` | Determining which rule applies, routing to correct execution pathway |
+| Planning | `.claude/rules/planning.mdc` | Implementing features, designing systems, making architectural decisions |
+| AI Integration | `.claude/rules/ai-integration.mdc` | Integrating LLMs, RAG pipelines, prompt engineering, AI-powered features |
+| Guardrails | `.claude/rules/guardrails.mdc` | Any destructive/irreversible action, scope expansion, dangerous requests |
 
 ### Skill modules (`.github/skills/`)
 
@@ -59,40 +59,40 @@ Subagents are bounded agents with limited tool access. They inherit all policy f
 
 ## Always Enforce
 
-1. **Security-first (non-overrideable)** — `.github/instructions/rules/security.mdc`
+1. **Security-first (non-overrideable)** — `.claude/rules/security.mdc`
    - Validate all external inputs at boundaries.
    - Require authentication and role-based authorization for protected operations.
    - Rate-limit public APIs.
    - Never expose secrets, credentials, or PII in logs/errors/responses.
 
-2. **Testing discipline (non-overrideable)** — `.github/instructions/rules/testing.mdc`
+2. **Testing discipline (non-overrideable)** — `.claude/rules/testing.mdc`
    - Coverage mix target: Unit 80% / Integration 15% / E2E 5%.
    - Business logic must have tests; critical flows need integration coverage.
    - Never disable/remove tests to pass builds.
 
-3. **Type safety and runtime boundaries** — `.github/instructions/rules/core.mdc`
+3. **Type safety and runtime boundaries** — `.claude/rules/core.mdc`
    - Strong internal typing, runtime validation at boundaries, explicit error models.
 
-4. **Database integrity** — `.github/instructions/rules/database.mdc`
+4. **Database integrity** — `.claude/rules/database.mdc`
    - Prefer ORM/ODM, justify raw queries, enforce DB constraints, prevent N+1, reversible migrations.
 
-5. **Frontend standards** — `.github/instructions/rules/frontend.mdc`
+5. **Frontend standards** — `.claude/rules/frontend.mdc`
    - WCAG 2.1 AA, responsive defaults, clear loading/error states, no unsafe client trust.
 
-6. **Style and consistency** — `.github/instructions/rules/style.mdc`
+6. **Style and consistency** — `.claude/rules/style.mdc`
    - Consistent naming, small composable modules, explicit contracts, no magic values.
 
-7. **Workflow discipline** — `.github/instructions/rules/system-workflow.mdc`, `.github/instructions/rules/workflows.mdc`
+7. **Workflow discipline** — `.claude/rules/system-workflow.mdc`, `.claude/rules/workflows.mdc`
    - Feature branches only, no direct main edits, deterministic PR structure, review gates.
 
-8. **Hardening mode** — `.github/instructions/rules/hardening.mdc`
+8. **Hardening mode** — `.claude/rules/hardening.mdc`
    - In hardening/audit contexts: assume hostile input, threat-model, validate config safety, strict rate limits, dependency audit.
 
-9. **Planning discipline** — `.github/instructions/rules/planning.mdc`
+9. **Planning discipline** — `.claude/rules/planning.mdc`
    - Every feature discussion or implementation produces a `.github/prompts/` plan file.
    - Plans are updated as work progresses, not discarded.
 
-10. **Guardrails (non-overrideable)** — `.github/instructions/rules/guardrails.mdc`
+10. **Guardrails (non-overrideable)** — `.claude/rules/guardrails.mdc`
    - Require `CONFIRM-DESTRUCTIVE:<target>` token before any destructive/irreversible action.
    - Work only within the defined task scope; no silent expansion.
    - Classify every action by reversibility before executing.

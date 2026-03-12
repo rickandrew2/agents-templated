@@ -7,23 +7,23 @@ All policy, routing, and skill governance lives here — edit this file directly
 
 ## Reference Index
 
-### Rule modules (`.github/instructions/rules/`)
+### Rule modules (`.claude/rules/`)
 
-| Module | File | Governs |
-|--------|------|---------|
-| Security | `.github/instructions/rules/security.mdc` | Validation, authn/authz, secrets, rate limiting |
-| Testing | `.github/instructions/rules/testing.mdc` | Strategy, coverage mix, test discipline |
-| Core | `.github/instructions/rules/core.mdc` | Type safety, runtime boundaries, error modeling |
-| Database | `.github/instructions/rules/database.mdc` | ORM patterns, migrations, query safety |
-| Frontend | `.github/instructions/rules/frontend.mdc` | Accessibility, responsiveness, client trust boundaries |
-| Style | `.github/instructions/rules/style.mdc` | Naming, modularity, separation of concerns |
-| System Workflow | `.github/instructions/rules/system-workflow.mdc` | Branching, PR structure, review gates |
-| Workflows | `.github/instructions/rules/workflows.mdc` | Automation, CI/CD, deployment gates |
-| Hardening | `.github/instructions/rules/hardening.mdc` | Threat modeling, audit mode, dependency review |
-| Intent Routing | `.github/instructions/rules/intent-routing.mdc` | Deterministic task-to-rule mapping |
-| Planning | `.github/instructions/rules/planning.mdc` | Feature discussion and implementation planning |
-| AI Integration | `.github/instructions/rules/ai-integration.mdc` | LLM safety, cost controls, fallback behavior |
-| Guardrails | `.github/instructions/rules/guardrails.mdc` | Hard stops, scope control, reversibility, minimal footprint |
+| Module | File | Apply when... |
+|--------|------|---------------|
+| Security | `.claude/rules/security.mdc` | Implementing authentication, validating inputs, protecting against injection attacks |
+| Testing | `.claude/rules/testing.mdc` | Adding tests, verifying coverage, validating quality before deployment |
+| Core | `.claude/rules/core.mdc` | Designing architecture, setting up projects, defining type systems |
+| Database | `.claude/rules/database.mdc` | Designing schema, building data access layers, optimizing queries |
+| Frontend | `.claude/rules/frontend.mdc` | Building UI components, designing pages, creating forms, implementing accessibility |
+| Style | `.claude/rules/style.mdc` | Organizing code, naming variables, improving clarity and maintainability |
+| System Workflow | `.claude/rules/system-workflow.mdc` | Planning delivery phases, defining acceptance criteria, establishing rollback |
+| Workflows | `.claude/rules/workflows.mdc` | Optimizing development process, running pre-commit checks, keeping project healthy |
+| Hardening | `.claude/rules/hardening.mdc` | Building distributed apps, protecting IP logic, preparing production releases |
+| Intent Routing | `.claude/rules/intent-routing.mdc` | Determining which rule applies, routing to correct execution pathway |
+| Planning | `.claude/rules/planning.mdc` | Implementing features, designing systems, making architectural decisions |
+| AI Integration | `.claude/rules/ai-integration.mdc` | Integrating LLMs, RAG pipelines, prompt engineering, AI-powered features |
+| Guardrails | `.claude/rules/guardrails.mdc` | Any destructive/irreversible action, scope expansion, dangerous requests |
 
 ### Skill modules (`.github/skills/`)
 

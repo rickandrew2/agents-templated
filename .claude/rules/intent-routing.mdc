@@ -1,16 +1,13 @@
 ---
 title: "Intent Routing & Command Selection"
-description: "Apply when determining which rule applies, routing to correct execution pathway, or making command selection decisions"
-version: "3.0.0"
+description: "Apply when determining which rule or workflow applies to the user's request. Ensures correct execution pathway"
+version: "1.0.0"
 tags: ["routing", "deterministic", "workflow", "commands"]
 triggers:
-  - "User makes natural language request"
-  - "Determining which rule applies"
-  - "Routing to correct execution pathway"
-  - "Selecting command or agent to invoke"
-  - "Handling ambiguous user intent"
-  - "Making safety behavior decisions"
-  - "Validating action scope and appropriateness"
+  - "Ambiguous or multi-intent user request"
+  - "Need to route to correct rule or workflow"
+  - "Destructive action requested"
+  - "Scope expansion detected"
 ---
 
 ## Purpose
@@ -54,7 +51,7 @@ All routed executions must return schema-compliant output:
 
 ## Guardrails Cross-Reference
 
-When intent involves scope expansion, destructive actions, or agent behavioral safety, apply `agents/rules/guardrails.mdc` in addition to the primary route:
+When intent involves scope expansion, destructive actions, or agent behavioral safety, apply `.claude/rules/guardrails.mdc` in addition to the primary route:
 
 - Scope creep detected → Guardrails § Scope Control
 - Destructive/irreversible action → Guardrails § Hard Stops + Reversibility Principle

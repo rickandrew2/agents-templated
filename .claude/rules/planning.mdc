@@ -1,17 +1,15 @@
 ---
 title: "Planning Discipline"
-description: "Apply when implementing features, designing systems, discussing architecture, or making implementation decisions. Produces reusable prompt plan files"
-version: "3.0.0"
+description: "Apply when implementing features, designing systems, or making architectural decisions that affect future work"
+version: "1.0.0"
 tags: ["planning", "workflow", "documentation", "prompts"]
 alwaysApply: true
 triggers:
-  - "User requests a new feature"
-  - "Planning implementation approach"
-  - "Discussing architectural changes"
-  - "Breaking down user stories"
-  - "Creating acceptance criteria"
-  - "Designing database schema"
-  - "Planning deployment phases"
+  - "User asks to implement a new feature"
+  - "Making design or architecture decisions"
+  - "Planning a significant refactor"
+  - "Fixing bugs that require investigation"
+  - "Discussion produces decisions affecting architecture"
 ---
 
 ## Purpose

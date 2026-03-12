@@ -1,18 +1,16 @@
 ---
 title: "AI / LLM Integration"
-description: "Apply when integrating LLMs, RAG pipelines, prompt engineering, or building AI-powered features. Covers safety, cost, and quality"
-version: "3.0.0"
+description: "Apply when integrating LLMs, RAG pipelines, prompt engineering, or working with AI-powered features"
+version: "1.0.0"
 tags: ["ai", "llm", "openai", "anthropic", "rag", "prompt-engineering", "safety"]
 alwaysApply: false
 globs: ["**/*llm*", "**/*openai*", "**/*anthropic*", "**/*langchain*", "**/*rag*", "**/ai/**"]
 triggers:
-  - "Integrating OpenAI or other LLM API"
-  - "Building RAG pipeline or semantic search"
-  - "Implementing prompt template or engineering"
-  - "Adding AI-powered feature to application"
-  - "Evaluating LLM responses or quality"
-  - "Optimizing LLM API costs"
-  - "Implementing AI moderation or safety controls"
+  - "Integrating OpenAI, Claude, or other LLM APIs"
+  - "Building RAG (Retrieval-Augmented Generation) pipeline"
+  - "Engineering prompts or prompt chains"
+  - "Implementing LLM-powered features"
+  - "Evaluating LLM outputs or quality"
 ---
 
 ## Purpose
