@@ -4,14 +4,6 @@ description: "Apply when implementing features, designing systems, discussing ar
 version: "3.0.0"
 tags: ["planning", "workflow", "documentation", "prompts"]
 alwaysApply: true
-triggers:
-  - "User requests a new feature"
-  - "Planning implementation approach"
-  - "Discussing architectural changes"
-  - "Breaking down user stories"
-  - "Creating acceptance criteria"
-  - "Designing database schema"
-  - "Planning deployment phases"
 ---
 
 ## Purpose

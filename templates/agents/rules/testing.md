@@ -3,14 +3,6 @@ title: "Testing Guidelines & Best Practices"
 description: "Apply when adding tests, verifying coverage, or validating quality before deployment. Always required for business logic and critical flows"
 version: "3.0.0"
 tags: ["testing", "quality", "coverage", "e2e", "a11y"]
-triggers:
-  - "User requests tests for business logic"
-  - "Implementing a new feature"
-  - "Fixing a bug"
-  - "Need to verify API endpoints work"
-  - "Checking application behavior"
-  - "Hardening release artifacts"
-  - "CI/CD validation needed before deployment"
 ---
 
 # Testing Guidelines & Best Practices
@@ -263,7 +255,7 @@ Test: Database query optimization
 
 ## Hardening Verification Testing
 
-When hardening/obfuscation is enabled (see `.claude/rules/hardening.mdc`), require additional validation on hardened artifacts.
+When hardening/obfuscation is enabled (see `agents/rules/hardening.mdc`), require additional validation on hardened artifacts.
 
 ### Required Checks for Hardened Builds
 
@@ -294,7 +286,7 @@ Test: Authentication
 - Use modified token
 
 Test: Authorization
-- Access another user's data
+- Access another user''s data
 - Perform admin operation as regular user
 - Modify resource of different user
 
@@ -306,3 +298,74 @@ Test: Rate Limiting
 ## Test Organization
 
 Organize tests logically for easy maintenance:
+
+Project Structure:
+tests/
+ unit/
+    utils/           # Utility function tests
+    services/        # Business logic tests
+    validators/      # Validation tests
+    formatters/      # Formatter tests
+
+ integration/
+    api/            # API endpoint tests
+    database/       # Database operation tests
+    auth/           # Authentication tests
+    services/       # Service integration tests
+
+ e2e/
+    auth/           # Authentication flows
+    workflows/      # Critical user journeys
+    forms/          # Form submission flows
+    pages/          # Page components (if applicable)
+
+ a11y/               # Accessibility tests
+ performance/        # Performance tests
+ fixtures/           # Test data
+ setup.ts            # Test configuration
+
+## Test Coverage Guidelines
+
+### Coverage Targets
+
+- **Business Logic**: 80%+ coverage required
+- **Controllers/Routes**: 70%+ coverage
+- **Utils/Helpers**: 90%+ coverage
+- **UI Components**: 60%+ coverage
+- **Overall**: 75%+ coverage target
+
+### Coverage Measurement
+
+- Generate coverage reports regularly
+- Track coverage trends over time
+- Identify uncovered critical code
+- The goal is quality, not just high numbers
+
+## Best Practices
+
+### General Best Practices
+
+- Write tests as you write code (TDD or regular)
+- Make tests as simple as production code
+- Use meaningful test names that describe behavior
+- Keep tests focused on one thing
+- Avoid test interdependencies (order shouldn''t matter)
+- Clean up test data (database, files, etc.)
+- Use version control for test data when needed
+
+### Avoiding Common Mistakes
+
+- Testing implementation details instead of behavior
+- Writing tests that are brittle (break on minor changes)
+- Tests that are slower than necessary
+- Not testing error cases and edge cases
+- Skipping security-related tests
+- Skipping accessibility tests
+- Not maintaining tests (let them rot)
+- Testing too much in E2E when unit tests would work
+
+---
+
+Remember: **Tests are documentation** of how your code should behave.
+Write clear, concise tests that describe expected behavior.
+Good tests make refactoring and maintenance easier and reduce bugs in production.

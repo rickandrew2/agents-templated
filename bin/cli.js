@@ -122,7 +122,7 @@ program
             choices: [
               { name: 'All components', value: 'all' },
               { name: 'Documentation files (agent-docs/)', value: 'docs' },
-              { name: 'Agent rules (.claude/rules/*.mdc)', value: 'rules' },
+              { name: 'Agent rules (.claude/rules/*.md)', value: 'rules' },
               { name: 'Skills (.github/skills/*)', value: 'skills' },
               { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
               { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents' }
@@ -383,10 +383,10 @@ program
       console.log(chalk.white('   1. Review CLAUDE.md (canonical AI policy — edit this directly)'));
       console.log(chalk.white('   2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
       console.log(chalk.white('   3. AGENTS.MD and .github/copilot-instructions.md are thin pointers to CLAUDE.md'));
-      console.log(chalk.white('   4. Customize agents/rules/*.mdc for your tech stack'));
+      console.log(chalk.white('   4. Customize agents/rules/*.md for your tech stack'));
       
       console.log(chalk.cyan('\n🔒 Security Reminder:\n'));
-      console.log(chalk.white('   • Review agents/rules/security.mdc'));
+      console.log(chalk.white('   • Review agents/rules/security.md'));
       console.log(chalk.white('   • Validate all inputs with schema validation'));
       console.log(chalk.white('   • Implement rate limiting on public endpoints'));
       console.log(chalk.white('   • Never expose sensitive data in errors\n'));
@@ -403,7 +403,7 @@ program
   .action(() => {
     console.log(chalk.blue.bold('\nAvailable Components:\n'));
     console.log(chalk.yellow('docs') + '    - Documentation files (agent-docs/ directory)');
-    console.log(chalk.yellow('rules') + '   - Agent rules (.claude/rules/*.mdc)');
+    console.log(chalk.yellow('rules') + '   - Agent rules (.claude/rules/*.md)');
     console.log(chalk.yellow('skills') + '  - Agent skills (.github/skills/*)');
     console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)');
     console.log(chalk.yellow('subagents') + ' - Agent subagents (.claude/agents/*.md)');
@@ -455,7 +455,7 @@ program
       }
 
       // Check agent rules
-      const ruleFiles = ['core.mdc', 'security.mdc', 'testing.mdc', 'frontend.mdc', 'database.mdc', 'style.mdc'];
+      const ruleFiles = ['core.md', 'security.md', 'testing.md', 'frontend.md', 'database.md', 'style.md'];
       const canonicalRulesDir = path.join(targetDir, LAYOUT.canonical.rulesDir);
       const legacyRulesDir = path.join(targetDir, LAYOUT.legacy.rulesDirs[0]);
       const rulesDir = path.join(targetDir, resolveRulesDir(targetDir));
@@ -829,9 +829,9 @@ program
       const checkFiles = [
         { targetFile: CANONICAL_INSTRUCTION_FILE, templateFile: CANONICAL_INSTRUCTION_FILE, component: 'root' },
         { targetFile: 'agent-docs/ARCHITECTURE.md', templateFile: 'agent-docs/ARCHITECTURE.md', component: 'docs' },
-        { targetFile: `${LAYOUT.canonical.rulesDir}/security.mdc`, templateFile: 'agents/rules/security.mdc', component: 'rules' },
-        { targetFile: `${LAYOUT.canonical.rulesDir}/testing.mdc`, templateFile: 'agents/rules/testing.mdc', component: 'rules' },
-        { targetFile: `${LAYOUT.canonical.rulesDir}/core.mdc`, templateFile: 'agents/rules/core.mdc', component: 'rules' },
+        { targetFile: `${LAYOUT.canonical.rulesDir}/security.md`, templateFile: 'agents/rules/security.md', component: 'rules' },
+        { targetFile: `${LAYOUT.canonical.rulesDir}/testing.md`, templateFile: 'agents/rules/testing.md', component: 'rules' },
+        { targetFile: `${LAYOUT.canonical.rulesDir}/core.md`, templateFile: 'agents/rules/core.md', component: 'rules' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/README.md`, templateFile: 'agents/skills/README.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/find-skills/SKILL.md`, templateFile: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/ui-ux-pro-max/SKILL.md`, templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' }
@@ -989,7 +989,7 @@ program
       console.log(chalk.blue('\n📚 Quick Tips:\n'));
       console.log(chalk.white('  • Run "agents-templated validate" to check setup'));
       console.log(chalk.white('  • Run "agents-templated wizard" for guided setup'));
-      console.log(chalk.white('  • Review agents/rules/security.mdc for security patterns\n'));
+      console.log(chalk.white('  • Review agents/rules/security.md for security patterns\n'));
 
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
@@ -1015,7 +1015,7 @@ program
 
 program
   .command('new-rule <name>')
-  .description('Scaffold a new rule in agents/rules/<name>.mdc')
+  .description('Scaffold a new rule in agents/rules/<name>.md')
   .action(async (name) => {
     try {
       const targetDir = process.cwd();

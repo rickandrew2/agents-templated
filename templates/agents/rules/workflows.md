@@ -6,14 +6,6 @@ version: "3.0.0"
 tags: ["workflow", "quality", "validation", "commit"]
 globs:
   - "**/*"
-triggers:
-  - "Running pre-commit hooks"
-  - "Validating code quality gates"
-  - "Setting up CI/CD pipeline"
-  - "Checking code before commit"
-  - "Running linting or formatting"
-  - "Executing test suites automatically"
-  - "Maintaining project health and standards"
 ---
 
 # Development Workflow Guidelines

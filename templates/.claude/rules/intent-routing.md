@@ -3,11 +3,6 @@ title: "Intent Routing & Command Selection"
 description: "Apply when determining which rule or workflow applies to the user's request. Ensures correct execution pathway"
 version: "1.0.0"
 tags: ["routing", "deterministic", "workflow", "commands"]
-triggers:
-  - "Ambiguous or multi-intent user request"
-  - "Need to route to correct rule or workflow"
-  - "Destructive action requested"
-  - "Scope expansion detected"
 ---
 
 ## Purpose

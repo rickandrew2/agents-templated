@@ -7,13 +7,6 @@ tags: ["database", "backend", "data", "orm", "schema"]
 globs:
   - "src/models/**/*"
   - "src/data/**/*"
-triggers:
-  - "Designing database schema or tables"
-  - "Creating/updating ORM models or queries"
-  - "Running database migrations"
-  - "Optimizing slow queries"
-  - "Selecting database technology"
-  - "Implementing access control for data"
 ---
 
 # Database and Data Layer Guidelines

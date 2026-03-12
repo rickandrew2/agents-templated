@@ -3,14 +3,6 @@ title: "System Workflow Orchestration"
 description: "Apply when planning delivery phases, defining acceptance criteria, establishing rollback procedures, or orchestrating multi-step workflows"
 version: "3.0.0"
 tags: ["workflow", "gates", "delivery", "governance"]
-triggers:
-  - "Implementing feature with multiple phases"
-  - "Defining deployment gates and approval"
-  - "Planning rollback strategy"
-  - "Creating acceptance criteria"
-  - "Coordinating deployment across services"
-  - "Planning database migration"
-  - "Managing breaking API changes"
 ---
 
 ## Purpose

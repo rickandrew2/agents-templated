@@ -3,14 +3,6 @@ title: "Intent Routing & Command Selection"
 description: "Apply when determining which rule applies, routing to correct execution pathway, or making command selection decisions"
 version: "3.0.0"
 tags: ["routing", "deterministic", "workflow", "commands"]
-triggers:
-  - "User makes natural language request"
-  - "Determining which rule applies"
-  - "Routing to correct execution pathway"
-  - "Selecting command or agent to invoke"
-  - "Handling ambiguous user intent"
-  - "Making safety behavior decisions"
-  - "Validating action scope and appropriateness"
 ---
 
 ## Purpose

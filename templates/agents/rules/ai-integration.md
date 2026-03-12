@@ -5,14 +5,6 @@ version: "3.0.0"
 tags: ["ai", "llm", "openai", "anthropic", "rag", "prompt-engineering", "safety"]
 alwaysApply: false
 globs: ["**/*llm*", "**/*openai*", "**/*anthropic*", "**/*langchain*", "**/*rag*", "**/ai/**"]
-triggers:
-  - "Integrating OpenAI or other LLM API"
-  - "Building RAG pipeline or semantic search"
-  - "Implementing prompt template or engineering"
-  - "Adding AI-powered feature to application"
-  - "Evaluating LLM responses or quality"
-  - "Optimizing LLM API costs"
-  - "Implementing AI moderation or safety controls"
 ---
 
 ## Purpose

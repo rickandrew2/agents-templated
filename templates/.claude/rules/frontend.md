@@ -1,6 +1,6 @@
-﻿---
+---
 title: "Frontend Development Guidelines"
-description: "Apply when building UI components, designing pages, creating forms, or implementing accessibility and responsive interfaces"
+description: "Apply when building UI components, designing pages, implementing forms, or working with accessibility/responsiveness"
 alwaysApply: true
 version: "3.0.0"
 tags: ["frontend", "ui", "ux", "security", "accessibility"]
@@ -8,14 +8,6 @@ globs:
   - "src/**/*"
   - "components/**/*"
   - "public/**/*"
-triggers:
-  - "Building UI components or pages"
-  - "Creating forms and handling user input"
-  - "Designing responsive layouts"
-  - "Implementing accessibility features"
-  - "Styling and theming interfaces"
-  - "Building navigation and routing"
-  - "Implementing client-side state management"
 ---
 
 # Frontend Development Guidelines

@@ -6,11 +6,6 @@ version: "1.0.0"
 tags: ["workflow", "quality", "validation", "commit"]
 globs:
   - "**/*"
-triggers:
-  - "User asks about workflow or pre-commit steps"
-  - "Need to keep project validated"
-  - "Running quality gates before merge"
-  - "Post-hardening verification needed"
 ---
 
 # Development Workflow Guidelines

@@ -4,12 +4,6 @@ description: "Apply when implementing features, designing systems, or making arc
 version: "1.0.0"
 tags: ["planning", "workflow", "documentation", "prompts"]
 alwaysApply: true
-triggers:
-  - "User asks to implement a new feature"
-  - "Making design or architecture decisions"
-  - "Planning a significant refactor"
-  - "Fixing bugs that require investigation"
-  - "Discussion produces decisions affecting architecture"
 ---
 
 ## Purpose

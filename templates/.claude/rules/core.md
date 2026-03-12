@@ -6,13 +6,6 @@ version: "3.0.0"
 tags: ["architecture", "core", "enterprise", "technology-agnostic"]
 globs:
   - "*"
-triggers:
-  - "Designing application architecture"
-  - "Setting up new project or module"
-  - "Defining type systems and validation"
-  - "Organizing code structure"
-  - "Improving code quality standards"
-  - "Making testing or performance decisions"
 ---
 
 ## Developer Identity
@@ -162,7 +155,7 @@ This template is technology-agnostic. Choose your stack based on:
 
 When deciding what to recommend or implement:
 
-- **Local rules** (this file and other `agents/rules/*.mdc`): Use as the primary source for architecture, security, testing, and style. Follow these when the stack is generic or already covered.
+- **Local rules** (this file and other `.claude/rules/*.mdc`): Use as the primary source for architecture, security, testing, and style. Follow these when the stack is generic or already covered.
 - **Context7 MCP**: Use for **up-to-date library and framework documentation**. When suggesting or implementing patterns for a specific stack (e.g. Next.js, Express, React), query Context7 (`resolve-library-id` then `query-docs`) so recommendations match current APIs and official guidance.
 - **NotebookLM MCP**: Use for **research and best-practice discourse** (e.g. OWASP, building-systems advice, template design). Query when adding or changing guidelines, or when the audit/planning needs external best practices. Not for real-time API docs—use Context7 for that.
 

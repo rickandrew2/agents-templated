@@ -1,16 +1,8 @@
 ---
 title: "Application Hardening & Obfuscation"
-description: "Apply when building distributed apps, protecting IP logic, preparing production releases, or hardening against reverse engineering"
-version: "3.0.0"
+description: "Apply when building client-distributed apps, protecting IP logic, or preparing releases with anti-tamper requirements"
+version: "1.0.0"
 tags: ["hardening", "obfuscation", "anti-tamper", "security"]
-triggers:
-  - "Preparing mobile or desktop app for release"
-  - "Protecting proprietary business logic"
-  - "Hardening against reverse engineering"
-  - "Building distributed client applications"
-  - "Preparing production release with hardening"
-  - "Implementing tamper detection"
-  - "Adding integrity checks to release"
 ---
 
 ## Purpose

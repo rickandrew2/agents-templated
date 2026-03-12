@@ -5,12 +5,6 @@ version: "1.0.0"
 tags: ["ai", "llm", "openai", "anthropic", "rag", "prompt-engineering", "safety"]
 alwaysApply: false
 globs: ["**/*llm*", "**/*openai*", "**/*anthropic*", "**/*langchain*", "**/*rag*", "**/ai/**"]
-triggers:
-  - "Integrating OpenAI, Claude, or other LLM APIs"
-  - "Building RAG (Retrieval-Augmented Generation) pipeline"
-  - "Engineering prompts or prompt chains"
-  - "Implementing LLM-powered features"
-  - "Evaluating LLM outputs or quality"
 ---
 
 ## Purpose

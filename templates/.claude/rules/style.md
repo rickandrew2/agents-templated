@@ -1,19 +1,11 @@
-﻿---
+---
 title: "Code Style and Standards"
-description: "Apply when organizing code, naming variables/functions, improving clarity, formatting with consistency, and maintaining code quality"
+description: "Apply when organizing code, naming variables, formatting, or improving code clarity and maintainability"
 alwaysApply: true
 version: "3.0.0"
 tags: ["style", "formatting", "naming", "quality"]
 globs:
   - "**/*"
-triggers:
-  - "Writing new code or functions"
-  - "Organizing code structure"
-  - "Naming variables, functions, or classes"
-  - "Formatting code for readability"
-  - "Improving code documentation"
-  - "Refactoring for clarity"
-  - "Following project conventions"
 ---
 
 # Code Style and Standards
@@ -28,7 +20,7 @@ Language and framework-agnostic standards for clean, maintainable code.
 - **Consistency**: Follow the same patterns throughout the codebase
 - **Simplicity**: Prefer simple solutions to complex ones
 - **SOLID principles**: Single responsibility, Open/closed, Liskov, Interface segregation, Dependency inversion
-- **DRY**: Don''t Repeat Yourself - extract common patterns
+- **DRY**: Don't Repeat Yourself - extract common patterns
 
 ### Code Review Standards
 
@@ -80,7 +72,7 @@ Consistent naming patterns:
 
 **Constants**
 - Use UPPER_SNAKE_CASE: `MAX_RETRIES`, `API_BASE_URL`
-- Immutable values that don''t change
+- Immutable values that don't change
 - Global configuration values
 - Magic numbers should become constants
 
@@ -126,7 +118,7 @@ Use automated tools:
 - **gofmt**: Go
 - **rustfmt**: Rust
 - **clang-format**: C/C++
-- Your language''s standard formatter
+- Your language's standard formatter
 
 Benefits:
 - No debates about formatting
@@ -306,47 +298,3 @@ Good:
 Get all users once with their posts
 Result: 1 query
 ```
-
-Bad:
-```
-For each user (loop):
-  Get posts for that user
-Result: 1 + N queries
-```
-
-### Avoid Premature Optimization
-
-Focus on:
-1. **Correct code first** - Works before optimizing
-2. **Readable code** - Easy to understand
-3. **Profile critical paths** - Where time is spent
-4. **Optimize bottlenecks** - Only where it matters
-
-## Testing
-
-### Code for Testability
-
-Testable code:
-- Has clear inputs and outputs
-- Is easy to mock dependencies
-- Has single responsibility
-- Doesn''t depend on side effects
-- Has deterministic behavior
-
-### Test Naming
-
-Test names describe what is being tested:
-```
- testEmailValidationAcceptsValidEmail()
- testUserCreationReturnsUserWithId()
- testPasswordResetTokenExpiresAfter24Hours()
-
- test1()
- testFunction()
- testWorks()
-```
-
----
-
-Remember: **Write code for humans first, computers second.**
-Clean code is maintainable code, and maintainable code is more secure, performant, and bug-free.

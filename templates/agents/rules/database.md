@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Database and Data Layer Guidelines"
 description: "Apply when designing schema, building data access layers, optimizing queries, or managing database operations"
 alwaysApply: true
@@ -7,14 +7,6 @@ tags: ["database", "backend", "data", "orm", "schema"]
 globs:
   - "src/models/**/*"
   - "src/data/**/*"
-triggers:
-  - "Designing database schema"
-  - "Adding database migrations"
-  - "Building data access layer"
-  - "Querying or filtering data"
-  - "Optimizing slow queries"
-  - "Managing relationships between entities"
-  - "Handling data validation in models"
 ---
 
 # Database and Data Layer Guidelines

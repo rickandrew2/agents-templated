@@ -4,14 +4,6 @@ description: "Apply when implementing authentication, authorization, API validat
 alwaysApply: true
 version: "3.0.0"
 tags: ["security", "auth", "validation", "secrets", "owasp"]
-triggers:
-  - "User adds login/authentication to project"
-  - "Building API endpoints or handling user input"
-  - "Storing passwords, tokens, or sensitive data"
-  - "Validating form inputs or API requests"
-  - "Protecting against injection, XSS, CSRF"
-  - "Adding authorization/permissions to endpoints"
-  - "Integrating third-party APIs or external services"
 ---
 
 # Security Rules & Best Practices

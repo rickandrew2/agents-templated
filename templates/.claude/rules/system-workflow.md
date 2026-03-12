@@ -3,12 +3,6 @@ title: "System Workflow Orchestration"
 description: "Apply when planning work phases, defining acceptance criteria, or establishing delivery gates and rollback strategies"
 version: "1.0.0"
 tags: ["workflow", "gates", "delivery", "governance"]
-triggers:
-  - "Starting a new feature or major change"
-  - "Planning implementation phases"
-  - "Defining acceptance criteria"
-  - "Establishing rollback procedures"
-  - "Preparing for release or deployment"
 ---
 
 ## Purpose
