@@ -5,7 +5,7 @@ These guidelines are for both humans and AI assistants working with any technolo
 
 - Canonical AI policy source lives in `CLAUDE.md`.
 - **Agent responsibilities** and MCP integration are documented in `AGENTS.MD`.
-- **Detailed implementation rules** live in `.github/instructions/rules/*.mdc` files.
+- **Detailed implementation rules** live in `.claude/rules/*.md` files.
 - **Custom skills** for domain-specific tasks are organized in `.github/skills/` (see [Skills Guide](../.github/skills/README.md)).
 
 Read this file first to understand the architecture, then consult `AGENTS.MD` for agent delegation.
@@ -223,7 +223,7 @@ Review the options above and select technologies that fit your:
 - **Timeline** and development velocity requirements
 
 ### 2. Adapt the Template
-- Update `.github/instructions/rules/*.mdc` files with technology-specific patterns
+- Update `.claude/rules/*.md` files with technology-specific patterns
 - Keep `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.MD`, and `CLAUDE.md` as minimal wrappers that point to `CLAUDE.md`
 - Update `CLAUDE.md` with stack-specific guidelines
 - Create appropriate configuration files for your chosen tools

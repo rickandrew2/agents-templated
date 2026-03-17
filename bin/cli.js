@@ -455,7 +455,7 @@ program
       }
 
       // Check agent rules
-      const ruleFiles = ['core.md', 'security.md', 'testing.md', 'frontend.md', 'database.md', 'style.md'];
+      const ruleFiles = ['core.md', 'security.md', 'testing.md', 'lessons-learned.md', 'frontend.md', 'database.md', 'style.md'];
       const canonicalRulesDir = path.join(targetDir, LAYOUT.canonical.rulesDir);
       const legacyRulesDir = path.join(targetDir, LAYOUT.legacy.rulesDirs[0]);
       const rulesDir = path.join(targetDir, resolveRulesDir(targetDir));
@@ -831,9 +831,11 @@ program
         { targetFile: 'agent-docs/ARCHITECTURE.md', templateFile: 'agent-docs/ARCHITECTURE.md', component: 'docs' },
         { targetFile: `${LAYOUT.canonical.rulesDir}/security.md`, templateFile: 'agents/rules/security.md', component: 'rules' },
         { targetFile: `${LAYOUT.canonical.rulesDir}/testing.md`, templateFile: 'agents/rules/testing.md', component: 'rules' },
+        { targetFile: `${LAYOUT.canonical.rulesDir}/lessons-learned.md`, templateFile: 'agents/rules/lessons-learned.md', component: 'rules' },
         { targetFile: `${LAYOUT.canonical.rulesDir}/core.md`, templateFile: 'agents/rules/core.md', component: 'rules' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/README.md`, templateFile: 'agents/skills/README.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/find-skills/SKILL.md`, templateFile: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
+        { targetFile: `${LAYOUT.canonical.skillsDir}/error-patterns/SKILL.md`, templateFile: 'agents/skills/error-patterns/SKILL.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/ui-ux-pro-max/SKILL.md`, templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' }
       ];
 

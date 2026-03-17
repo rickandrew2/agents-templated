@@ -7,7 +7,7 @@ This template is part of the `agents-templated` npm package.
 - **AGENTS.MD**: Generic compatibility wrapper for AI assistants
 - **ARCHITECTURE.md**: Project guidelines and architecture
 - **CLAUDE.md**: Canonical policy source (single source of truth)
-- **.github/instructions/rules/**: Rule modules (`*.mdc`)
+- **.claude/rules/**: Rule modules (`*.md`)
 - **.github/skills/**: Skill modules (`*/SKILL.md`)
 - **CLAUDE.md**: Claude compatibility wrapper
 - **.github/copilot-instructions.md**: GitHub Copilot compatibility wrapper
@@ -15,7 +15,7 @@ This template is part of the `agents-templated` npm package.
 
 ## Rules and Skills
 
-- **Rules** (`.github/instructions/rules/*.mdc`): Define *how to behave* - patterns, principles, and standards.
+- **Rules** (`.claude/rules/*.md`): Define *how to behave* - patterns, principles, and standards.
 - **Skills** (`.github/skills/*/SKILL.md`): Define *how to execute specific tasks* - domain workflows and specialized knowledge.
 
 Skills are capability modules only. They do not override policy in `CLAUDE.md`.
@@ -45,7 +45,7 @@ Create custom skills in `.github/skills/` to extend capabilities across your tea
 
 1. Review `AGENTS.MD` for wrapper behavior and compatibility entrypoints.
 2. Review `ARCHITECTURE.md` for project architecture guidance.
-3. Adapt `.github/instructions/rules/*.mdc` for your stack.
+3. Adapt `.claude/rules/*.md` for your stack.
 4. Create custom skills under `.github/skills/` for your domain.
 5. Keep wrappers minimal and policy centralized in `CLAUDE.md`.
 

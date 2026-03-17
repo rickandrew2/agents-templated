@@ -1,5 +1,48 @@
 # Changelog
 
+## Version 2.2.7 - Lessons Learned + Error Patterns (March 17, 2026)
+
+### ✨ New Features
+
+#### `lessons-learned` Always-Enforce Rule
+
+- Added a new non-overrideable rule module: `lessons-learned`.
+- Rule requires agents to check known lessons before starting debugging.
+- Rule enforces structured post-fix lesson capture with category, symptom, root cause, fix, avoid, and date.
+
+#### `error-patterns` Baseline Skill
+
+- Added new baseline skill: `.github/skills/error-patterns/SKILL.md`.
+- Skill provides category checklists for `[BUILD]`, `[DB]`, `[API/AUTH]`, and `[UI]` debugging.
+- Skill mandates appending each resolved error to lessons-learned to prevent repeated debugging.
+
+### 🔗 Policy Wiring
+
+- `CLAUDE.md` + `templates/CLAUDE.md`:
+  - Reference Index now includes `Lessons Learned` rule and `error-patterns` skill.
+  - Always Enforce now includes `Lessons Learned (non-overrideable)`.
+  - Intent Routing now includes `Debugging / recurring failures -> Lessons Learned + error-patterns`.
+
+- Added template/source artifacts:
+  - `agents/rules/lessons-learned.mdc`
+  - `templates/agents/rules/lessons-learned.md`
+  - `templates/.claude/rules/lessons-learned.md`
+  - `agents/skills/error-patterns/SKILL.md`
+  - `templates/agents/skills/error-patterns/SKILL.md`
+
+### 🧰 Tooling
+
+- `bin/cli.js` update checks now include:
+  - `${LAYOUT.canonical.rulesDir}/lessons-learned.md`
+  - `${LAYOUT.canonical.skillsDir}/error-patterns/SKILL.md`
+- `doctor` rule-file checks now include `lessons-learned.md`.
+
+### 📚 Documentation
+
+- Updated `README.md` and `templates/README.md` to include:
+  - lessons-learned rule in installed rule tree
+  - error-patterns in baseline skills
+
 ## Version 2.1.0 - Guardrails Rule (March 7, 2026)
 
 ### ✨ New Features

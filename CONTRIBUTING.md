@@ -20,9 +20,9 @@ See [`.github/GET_STARTED.md`](.github/GET_STARTED.md) for development setup ins
 
 - Follow the architecture patterns defined in [`CLAUDE.md`](CLAUDE.md)
 - Adhere to agent responsibilities outlined in [`AGENTS.MD`](AGENTS.MD)
-- Follow security best practices from [`.github/instructions/rules/security.mdc`](.github/instructions/rules/security.mdc)
-- Maintain test coverage standards from [`.github/instructions/rules/testing.mdc`](.github/instructions/rules/testing.mdc)
-- Keep code style consistent with [`.github/instructions/rules/style.mdc`](.github/instructions/rules/style.mdc)
+- Follow security best practices from [`.claude/rules/security.md`](.claude/rules/security.md)
+- Maintain test coverage standards from [`.claude/rules/testing.md`](.claude/rules/testing.md)
+- Keep code style consistent with [`.claude/rules/style.md`](.claude/rules/style.md)
 
 ## 📝 Code of Conduct
 

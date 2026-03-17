@@ -42,14 +42,14 @@ describe('CLI commands', () => {
       await install(tempDir, { docs: true, rules: true, github: true });
       const output = runCLI('validate', tempDir);
       expect(output).toContain('CLAUDE.md found');
-      expect(output).toMatch(/\.github[\\/]instructions[\\/]rules[\\/]security\.mdc found/);
+      expect(output).toMatch(/\.claude[\\/]rules[\\/]security\.md found/);
       expect(output).toContain('Passed Checks');
     });
 
     test('should warn when agents/rules directory is missing', async () => {
       await install(tempDir, { docs: true });
       const output = runCLI('validate', tempDir);
-      expect(output).toContain('.github/instructions/rules');
+      expect(output).toContain('.claude/rules');
       expect(output).toMatch(/missing|Missing/);
     });
   });
@@ -70,7 +70,7 @@ describe('CLI commands', () => {
     test('should report security.mdc found when rules are installed', async () => {
       await install(tempDir, { rules: true });
       const output = runCLI('doctor', tempDir);
-      expect(output).toContain('security.mdc');
+      expect(output).toContain('security.md');
     });
   });
 

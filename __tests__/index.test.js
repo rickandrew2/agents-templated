@@ -26,8 +26,8 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, 'agent-docs/README.md'))).toBe(true);
 
       // Check rules
-      expect(await fs.pathExists(path.join(tempDir, '.github/instructions/rules/core.mdc'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, '.github/instructions/rules/security.mdc'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/rules/core.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/rules/security.md'))).toBe(true);
 
       // Check skills
       expect(await fs.pathExists(path.join(tempDir, '.github/skills/find-skills/SKILL.md'))).toBe(true);
@@ -48,15 +48,15 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, 'agent-docs/ARCHITECTURE.md'))).toBe(true);
 
       // Check rules don't exist
-      expect(await fs.pathExists(path.join(tempDir, '.github/instructions/rules/core.mdc'))).toBe(false);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/rules/core.md'))).toBe(false);
     });
 
     test('should install only rules when rules option is true', async () => {
       await install(tempDir, { rules: true });
 
       // Check rules exist
-      expect(await fs.pathExists(path.join(tempDir, '.github/instructions/rules/core.mdc'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, '.github/instructions/rules/security.mdc'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/rules/core.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/rules/security.md'))).toBe(true);
 
       // Check documentation doesn't exist
       expect(await fs.pathExists(path.join(tempDir, 'instructions/source/core.md'))).toBe(false);
@@ -117,7 +117,7 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, 'agent-docs/ARCHITECTURE.md'))).toBe(true);
 
       // Check rules exist
-      expect(await fs.pathExists(path.join(tempDir, '.github/instructions/rules/core.mdc'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/rules/core.md'))).toBe(true);
 
       // Check skills don't exist (not specified)
       expect(await fs.pathExists(path.join(tempDir, '.github/skills'))).toBe(false);
@@ -126,8 +126,8 @@ describe('agents-templated API', () => {
     test('should create necessary directories', async () => {
       await install(tempDir, { rules: true });
 
-      expect(await fs.pathExists(path.join(tempDir, '.github'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, '.github/instructions/rules'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/rules'))).toBe(true);
     });
 
     test('should handle non-existent target directory', async () => {

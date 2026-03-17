@@ -61,6 +61,8 @@ To create a new skill for your specific domain:
 │   └── SKILL.md              # Systematic feature scoping and execution contracts
 ├── bug-triage/
 │   └── SKILL.md              # Reproduction-first debugging and regression workflows
+├── error-patterns/
+│   └── SKILL.md              # Persistent debugging memory and known-fix application
 ├── app-hardening/
 │   └── SKILL.md              # Risk-based hardening and obfuscation guidance
 ├── ui-ux-pro-max/
@@ -96,6 +98,7 @@ Consider creating skills for:
 
 - `feature-delivery`: Use when user asks are broad and you need objective, scope, acceptance criteria, and validation plan.
 - `bug-triage`: Use for defects and regressions requiring reproducible evidence, root-cause isolation, and minimal safe patches.
+- `error-patterns`: Use when errors repeat to apply known fixes from lessons-learned and automatically record new resolutions.
 - `app-hardening`: Use for high-risk/distributed runtimes to enforce hardening profile, obfuscation decisions, and release evidence.
 
 ## Using Skills in Your Project

@@ -9,7 +9,7 @@ Depending on what you installed, you may have:
 - **AGENTS.MD**: Generic compatibility wrapper for AI assistants
 - **ARCHITECTURE.md**: Project guidelines and architecture
 - **CLAUDE.md**: Canonical policy source (single source of truth)
-- **.github/instructions/rules/**: Rule modules (`*.mdc`)
+- **.claude/rules/**: Rule modules (`*.md`)
 - **.github/skills/**: Skill modules (`*/SKILL.md`)
 - **CLAUDE.md**: Claude compatibility wrapper
 - **.github/copilot-instructions.md**: GitHub Copilot compatibility wrapper
@@ -35,7 +35,7 @@ agents-templated list
 
 ## Rules and Skills
 
-- **Rules** (`.github/instructions/rules/*.mdc`): Define *how to behave* - patterns, principles, and standards for your team
+- **Rules** (`.claude/rules/*.md`): Define *how to behave* - patterns, principles, and standards for your team
 - **Skills** (`.github/skills/*/SKILL.md`): Define *how to execute specific tasks* - domain-specific workflows and specialized knowledge
 
 ### Using Skills in Your AI Assistants

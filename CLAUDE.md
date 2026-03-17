@@ -13,6 +13,7 @@ All policy, routing, and skill governance lives here — edit this file directly
 |--------|------|---------------|
 | Security | `.claude/rules/security.md` | Implementing authentication, validating inputs, protecting against injection attacks |
 | Testing | `.claude/rules/testing.md` | Adding tests, verifying coverage, validating quality before deployment |
+| Lessons Learned | `.claude/rules/lessons-learned.md` | Debugging recurring errors and applying previously resolved fixes first |
 | Core | `.claude/rules/core.md` | Designing architecture, setting up projects, defining type systems |
 | Database | `.claude/rules/database.md` | Designing schema, building data access layers, optimizing queries |
 | Frontend | `.claude/rules/frontend.md` | Building UI components, designing pages, creating forms, implementing accessibility |
@@ -31,6 +32,7 @@ All policy, routing, and skill governance lives here — edit this file directly
 |-------|------|------------------|
 | app-hardening | `.github/skills/app-hardening/SKILL.md` | Hardening, anti-tamper, integrity controls |
 | bug-triage | `.github/skills/bug-triage/SKILL.md` | Something is broken, failing, or crashing |
+| error-patterns | `.github/skills/error-patterns/SKILL.md` | Debugging with persistent lessons memory and automatic fix recording |
 | feature-delivery | `.github/skills/feature-delivery/SKILL.md` | Build/add/implement feature work |
 | find-skills | `.github/skills/find-skills/SKILL.md` | User asks to discover a skill |
 | ui-ux-pro-max | `.github/skills/ui-ux-pro-max/SKILL.md` | UI, layout, design, visual work |
@@ -70,29 +72,34 @@ Subagents are bounded agents with limited tool access. They inherit all policy f
    - Business logic must have tests; critical flows need integration coverage.
    - Never disable/remove tests to pass builds.
 
-3. **Type safety and runtime boundaries** — `.claude/rules/core.md`
+3. **Lessons Learned (non-overrideable)** — `.claude/rules/lessons-learned.md`
+   - On any error, read lessons first; if matched, apply the known fix immediately.
+   - If new, debug via the `error-patterns` skill checklist and record the resolved fix.
+   - Keep lessons structured and persistent so future sessions reuse known solutions.
+
+4. **Type safety and runtime boundaries** — `.claude/rules/core.md`
    - Strong internal typing, runtime validation at boundaries, explicit error models.
 
-4. **Database integrity** — `.claude/rules/database.md`
+5. **Database integrity** — `.claude/rules/database.md`
    - Prefer ORM/ODM, justify raw queries, enforce DB constraints, prevent N+1, reversible migrations.
 
-5. **Frontend standards** — `.claude/rules/frontend.md`
+6. **Frontend standards** — `.claude/rules/frontend.md`
    - WCAG 2.1 AA, responsive defaults, clear loading/error states, no unsafe client trust.
 
-6. **Style and consistency** — `.claude/rules/style.md`
+7. **Style and consistency** — `.claude/rules/style.md`
    - Consistent naming, small composable modules, explicit contracts, no magic values.
 
-7. **Workflow discipline** — `.claude/rules/system-workflow.md`, `.claude/rules/workflows.md`
+8. **Workflow discipline** — `.claude/rules/system-workflow.md`, `.claude/rules/workflows.md`
    - Feature branches only, no direct main edits, deterministic PR structure, review gates.
 
-8. **Hardening mode** — `.claude/rules/hardening.md`
+9. **Hardening mode** — `.claude/rules/hardening.md`
    - In hardening/audit contexts: assume hostile input, threat-model, validate config safety, strict rate limits, dependency audit.
 
-9. **Planning discipline** — `.claude/rules/planning.md`
+10. **Planning discipline** — `.claude/rules/planning.md`
    - Every feature discussion or implementation produces a `.github/prompts/` plan file.
    - Plans are updated as work progresses, not discarded.
 
-10. **Guardrails (non-overrideable)** — `.claude/rules/guardrails.md`
+11. **Guardrails (non-overrideable)** — `.claude/rules/guardrails.md`
    - Require `CONFIRM-DESTRUCTIVE:<target>` token before any destructive/irreversible action.
    - Work only within the defined task scope; no silent expansion.
    - Classify every action by reversibility before executing.
@@ -115,6 +122,7 @@ Use `.claude/rules/intent-routing.md` and route each task to one primary module:
 - Refactor/Cleanup → Style
 - Audit/Production readiness → Hardening
 - Feature planning → Planning
+- Debugging / recurring failures → Lessons Learned + error-patterns skill
 - LLM/AI work → AI Integration
 - Scope creep / dangerous action / agent behavioral safety → Guardrails
 - Multi-step orchestration / planning / code review → Subagents

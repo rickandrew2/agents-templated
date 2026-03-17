@@ -124,21 +124,24 @@ your-project/
 │   └── README.md                   # Human-readable setup guide
 │
 ├── .github/
-│   ├── instructions/                # Generated compatibility wrappers + rules
-│   │   ├── AGENTS.md
-│   │   └── rules/
-│   │   ├── core.mdc               # Core development principles
-│   │   ├── security.mdc           # Security patterns (CRITICAL)
-│   │   ├── testing.mdc            # Testing strategy
-│   │   ├── frontend.mdc           # Frontend patterns
-│   │   ├── database.mdc           # Database patterns
-│   │   └── style.mdc              # Code style guidelines
+│   ├── instructions/                # Compatibility pointer directory
 │   ├── skills/
 │   │   ├── find-skills/           # Skill discovery helper
+│   │   ├── error-patterns/         # Persistent error-debugging memory workflow
 │   │   ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
 │   │   ├── README.md              # Guide for creating custom skills
 │   │   └── [your-custom-skills]/  # Your project-specific skills
 │   └── copilot-instructions.md    # Compatibility shim for Copilot
+│
+├── .claude/
+│   ├── rules/                      # Canonical rules source
+│   │   ├── core.md
+│   │   ├── security.md
+│   │   ├── testing.md
+│   │   ├── frontend.md
+│   │   ├── database.md
+│   │   ├── style.md
+│   │   └── lessons-learned.md
 │
 ├── agents/                          # 🤖 Deterministic command contracts
 │   └── commands/
@@ -273,8 +276,8 @@ Skills define *how to execute specific tasks*, complementing rules that define *
 - **[AGENTS.MD](AGENTS.MD)** – AI assistant guide
 - **[agent-docs/ARCHITECTURE.md](agent-docs/ARCHITECTURE.md)** – Project architecture & tech stack guidance
 - **[.github/skills/README.md](.github/skills/README.md)** – Custom skills guide
-- **[.github/instructions/rules/security.mdc](.github/instructions/rules/security.mdc)** – Security patterns (CRITICAL)
-- **[.github/instructions/rules/testing.mdc](.github/instructions/rules/testing.mdc)** – Testing strategy
+- **[.claude/rules/security.md](.claude/rules/security.md)** – Security patterns (CRITICAL)
+- **[.claude/rules/testing.md](.claude/rules/testing.md)** – Testing strategy
 
 ### 5. Start Building
 
@@ -300,7 +303,7 @@ Your AI will follow the enterprise patterns automatically!
 ✅ Sanitize outputs to prevent injection attacks  
 ✅ Never expose sensitive data in error messages or logs
 
-**Reference**: [.github/instructions/rules/security.mdc](.github/instructions/rules/security.mdc)
+**Reference**: [.claude/rules/security.md](.claude/rules/security.md)
 
 ### Testing Strategy
 
@@ -308,7 +311,7 @@ Your AI will follow the enterprise patterns automatically!
 - **15% Integration Tests** – API endpoints, database operations
 - **5% E2E Tests** – Critical user journeys
 
-**Reference**: [.github/instructions/rules/testing.mdc](.github/instructions/rules/testing.mdc)
+**Reference**: [.claude/rules/testing.md](.claude/rules/testing.md)
 
 ### Agent-Based Architecture
 
@@ -395,7 +398,7 @@ await agentsTemplated.install('./my-project', {
 
 When contributing to this template:
 1. Maintain technology-agnostic patterns
-2. Update relevant rule files in `.github/instructions/rules/`
+2. Update relevant rule files in `.claude/rules/`
 3. Keep documentation synchronized with code changes
 4. Follow security and testing patterns
 5. Ensure AI assistant configurations remain compatible
