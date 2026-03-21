@@ -1,6 +1,6 @@
 ---
 title: "Planning Discipline"
-description: "Apply when implementing features, designing systems, or making architectural decisions that affect future work"
+description: "Every feature discussion or implementation must produce a reusable prompt plan file in .github/prompts/"
 version: "1.0.0"
 tags: ["planning", "workflow", "documentation", "prompts"]
 alwaysApply: true
