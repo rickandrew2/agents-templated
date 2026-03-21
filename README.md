@@ -37,6 +37,7 @@ Agents Templated scaffolds your project with:
   - `.github/skills/bug-triage/`
   - `.github/skills/error-patterns/`
   - `.github/skills/app-hardening/`
+  - `.github/skills/shadcn-ui/`
 - Release and audit contracts now require hardening evidence when risk profile requires it
 
 ---
@@ -153,6 +154,7 @@ your-project/
 │   │   ├── error-patterns/         # Persistent error-debugging memory workflow
 │   │   ├── app-hardening/         # Hardening and release-evidence workflow
 │   │   ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
+│   │   ├── shadcn-ui/             # shadcn/ui setup and component patterns
 │   │   ├── README.md              # Guide for creating custom skills
 │   │   └── [your-custom-skills]/  # Your project-specific skills
 │   └── copilot-instructions.md    # Compatibility shim for Copilot

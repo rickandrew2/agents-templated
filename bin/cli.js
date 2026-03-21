@@ -383,10 +383,10 @@ program
       console.log(chalk.white('   1. Review CLAUDE.md (canonical AI policy — edit this directly)'));
       console.log(chalk.white('   2. Review agent-docs/ARCHITECTURE.md for project guidelines'));
       console.log(chalk.white('   3. AGENTS.MD and .github/copilot-instructions.md are thin pointers to CLAUDE.md'));
-      console.log(chalk.white('   4. Customize agents/rules/*.md for your tech stack'));
+      console.log(chalk.white('   4. Customize .claude/rules/*.md for your tech stack'));
       
       console.log(chalk.cyan('\n🔒 Security Reminder:\n'));
-      console.log(chalk.white('   • Review agents/rules/security.md'));
+      console.log(chalk.white('   • Review .claude/rules/security.md'));
       console.log(chalk.white('   • Validate all inputs with schema validation'));
       console.log(chalk.white('   • Implement rate limiting on public endpoints'));
       console.log(chalk.white('   • Never expose sensitive data in errors\n'));
@@ -836,7 +836,8 @@ program
         { targetFile: `${LAYOUT.canonical.skillsDir}/README.md`, templateFile: 'agents/skills/README.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/find-skills/SKILL.md`, templateFile: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/error-patterns/SKILL.md`, templateFile: 'agents/skills/error-patterns/SKILL.md', component: 'skills' },
-        { targetFile: `${LAYOUT.canonical.skillsDir}/ui-ux-pro-max/SKILL.md`, templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' }
+        { targetFile: `${LAYOUT.canonical.skillsDir}/ui-ux-pro-max/SKILL.md`, templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' },
+        { targetFile: `${LAYOUT.canonical.skillsDir}/shadcn-ui/SKILL.md`, templateFile: 'agents/skills/shadcn-ui/SKILL.md', component: 'skills' }
       ];
 
       for (const {targetFile, templateFile, component} of checkFiles) {
@@ -991,7 +992,7 @@ program
       console.log(chalk.blue('\n📚 Quick Tips:\n'));
       console.log(chalk.white('  • Run "agents-templated validate" to check setup'));
       console.log(chalk.white('  • Run "agents-templated wizard" for guided setup'));
-      console.log(chalk.white('  • Review agents/rules/security.md for security patterns\n'));
+      console.log(chalk.white('  • Review .claude/rules/security.md for security patterns\n'));
 
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
@@ -1001,7 +1002,7 @@ program
 
 program
   .command('new-skill <name>')
-  .description('Scaffold a new skill in agents/skills/<name>/SKILL.md')
+  .description('Scaffold a new skill in .github/skills/<name>/SKILL.md')
   .action(async (name) => {
     try {
       const targetDir = process.cwd();
@@ -1017,7 +1018,7 @@ program
 
 program
   .command('new-rule <name>')
-  .description('Scaffold a new rule in agents/rules/<name>.md')
+  .description('Scaffold a new rule in .claude/rules/<name>.md')
   .action(async (name) => {
     try {
       const targetDir = process.cwd();

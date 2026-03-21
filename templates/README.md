@@ -129,6 +129,7 @@ your-project/
 │   │   ├── find-skills/           # Skill discovery helper
 │   │   ├── error-patterns/         # Persistent error-debugging memory workflow
 │   │   ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
+│   │   ├── shadcn-ui/             # shadcn/ui setup and component patterns
 │   │   ├── README.md              # Guide for creating custom skills
 │   │   └── [your-custom-skills]/  # Your project-specific skills
 │   └── copilot-instructions.md    # Compatibility shim for Copilot

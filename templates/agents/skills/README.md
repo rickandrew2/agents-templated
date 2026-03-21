@@ -100,6 +100,7 @@ Consider creating skills for:
 - `bug-triage`: Use for defects and regressions requiring reproducible evidence, root-cause isolation, and minimal safe patches.
 - `error-patterns`: Use when errors repeat to apply known fixes from lessons-learned and automatically record new resolutions.
 - `app-hardening`: Use for high-risk/distributed runtimes to enforce hardening profile, obfuscation decisions, and release evidence.
+- `shadcn-ui`: Use for shadcn/ui installation, component composition, form patterns, and theme customization.
 
 ## Using Skills in Your Project
 
