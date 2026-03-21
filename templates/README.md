@@ -124,7 +124,6 @@ your-project/
 │   └── README.md                   # Human-readable setup guide
 │
 ├── .github/
-│   ├── instructions/                # Compatibility pointer directory
 │   ├── skills/
 │   │   ├── find-skills/           # Skill discovery helper
 │   │   ├── error-patterns/         # Persistent error-debugging memory workflow

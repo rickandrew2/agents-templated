@@ -71,7 +71,6 @@ async function install(targetDir, options = {}) {
 
   // AI Agent instructions (Cursor, Copilot, Claude)
   if (installAll || options.github) {
-    await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
     await writeGeneratedInstructions(targetDir, templateDir, options.force);
   }
 

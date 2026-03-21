@@ -186,7 +186,6 @@ program
       // Install AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)
       if (installAll || choices.includes('github')) {
         console.log(chalk.yellow('Installing AI agent instructions...'));
-        await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
         await writeGeneratedInstructions(targetDir, templateDir, options.force);
         console.log(chalk.gray('  ✓ Claude (CLAUDE.md — canonical source)'));
         console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md pointer)'));
@@ -358,7 +357,6 @@ program
       // Install AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)
       if (options.github) {
         console.log(chalk.yellow('Installing AI agent instructions...'));
-        await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
         await writeGeneratedInstructions(targetDir, templateDir, options.force);
         console.log(chalk.gray('  ✓ Claude (CLAUDE.md — canonical source)'));
         console.log(chalk.gray('  ✓ GitHub Copilot (.github/copilot-instructions.md pointer)'));
@@ -666,6 +664,16 @@ async function cleanupLegacyInstructionFiles(targetDir) {
       console.log(chalk.green(`  ✓ Removed legacy file: ${file}`));
     }
   }
+
+  // Remove deprecated directory if it is now empty.
+  const legacyInstructionsDir = path.join(targetDir, '.github', 'instructions');
+  if (await fs.pathExists(legacyInstructionsDir)) {
+    const entries = await fs.readdir(legacyInstructionsDir);
+    if (entries.length === 0) {
+      await fs.remove(legacyInstructionsDir);
+      console.log(chalk.green('  ✓ Removed legacy directory: .github/instructions/'));
+    }
+  }
 }
 
 async function updateSelectedComponents(targetDir, templateDir, selectedComponents, overwrite = true) {
@@ -705,7 +713,6 @@ async function updateSelectedComponents(targetDir, templateDir, selectedComponen
 
   if (components.includes('github')) {
     console.log(chalk.yellow('Updating AI agent instructions...'));
-    await fs.ensureDir(path.join(targetDir, '.github', 'instructions'));
     await writeGeneratedInstructions(targetDir, templateDir, overwrite);
     await cleanupLegacyInstructionFiles(targetDir);
   }
