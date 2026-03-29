@@ -87,41 +87,40 @@ Your AI assistant will auto-load the configurations and follow enterprise patter
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| 🚀 **Quick Start Presets** | 5 popular tech stack presets (Next.js, Express, Django, FastAPI, Go) |
-| 🧙 **Interactive Wizard** | Guided setup with personalized recommendations |
-| 🤖 **AI Agents Supported** | Cursor, GitHub Copilot, Claude, and generic agents via `AGENTS.MD` |
-| 🧭 **Deterministic Commands** | Slash-command contracts with strict structured outputs |
-| 💬 **Auto Intent Routing** | Non-slash prompts can map to command contracts (`slash-command-auto`) |
-| 🔒 **Security-First** | OWASP Top 10 protection patterns built-in |
-| 🛡️ **Hardening Workflow** | Risk-based hardening rules plus verification/release gates |
-| 🧪 **Testing Strategy** | 80/15/5 coverage targets (unit/integration/e2e) |
-| ✅ **Project Validation** | `validate` and `doctor` commands for health checks |
-| 🔄 **Template Updates** | Keep your templates in sync with `update` command |
-| 🎯 **Technology-Agnostic** | Works with React, Django, Go, FastAPI, Next.js, or any stack |
-| ♿ **Accessibility** | WCAG 2.1 AA compliance patterns included |
+| **Quick Start Presets** | 5 popular tech stack presets (Next.js, Express, Django, FastAPI, Go) |
+| **Interactive Wizard** | Guided setup with personalized recommendations |
+| **Deterministic Commands** | Slash-command contracts with strict structured outputs |
+| **Intent-Routing Ready** | Command schema supports `slash-command-auto` mode for agent-side routing policies |
+| **Security-First** | OWASP Top 10 protection patterns built-in |
+| **Hardening Workflow** | Risk-based hardening rules plus verification/release gates |
+| **Testing Strategy** | 80/15/5 coverage targets (unit/integration/e2e) |
+| **Project Validation** | `validate` and `doctor` commands for health checks |
+| **Template Updates** | Keep your templates in sync with `update` command |
+| **Technology-Agnostic** | Works with React, Django, Go, FastAPI, Next.js, or any stack |
+| **Accessibility** | WCAG 2.1 AA compliance patterns included |
 
 ---
 
-## 🤖 AI Agent Support
+## AI Agent Support
 
 Agents Templated automatically configures compatible wrappers for major AI coding assistants:
 
 | AI Agent | Config File | Auto-Discovery |
 |----------|-------------|----------------|
-| **Cursor** | `.cursorrules` | ✅ Auto-loads in Cursor IDE |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | ✅ Auto-loads in VS Code |
-| **Claude** | `CLAUDE.md` | ✅ Compatible |
-| **Generic agents** | `AGENTS.MD` | ✅ Compatible |
+| **Cursor** | `.cursorrules` | Auto-loads in Cursor IDE |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | Auto-loads in VS Code |
+| **Claude** | `CLAUDE.md` | Compatible |
+| **Generic agents** | `AGENTS.MD` | Compatible |
 
 **Single source of truth:** `CLAUDE.md` drives generated tool-compatible instruction files.
 
 ---
 
-## 📦 What Gets Installed
+## What Gets Installed
 
 When you run `agents-templated init`, you get:
 
@@ -131,7 +130,7 @@ your-project/
 │   └── source/
 │       └── core.md               # Canonical instruction source of truth
 │
-├── agent-docs/                      # 📚 Comprehensive documentation
+├── agent-docs/                      # Comprehensive documentation
 │   ├── ARCHITECTURE.md             # Project architecture & tech stack
 │   └── README.md                   # Human-readable setup guide
 │
@@ -163,7 +162,7 @@ your-project/
 │   │   └── lessons-learned.md
 │   └── agents/                     # Optional subagents
 │
-├── agents/                          # 🤖 Deterministic command contracts
+├── agents/                          # Deterministic command contracts
 │   └── commands/
 │   │   ├── SCHEMA.md              # Global slash-command response schema
 │   │   ├── plan.md                # /plan contract
@@ -182,44 +181,44 @@ your-project/
 
 ---
 
-## 📋 Command Reference
+## Command Reference
 
 ### Setup Commands
 
 ```bash
-# 🧙 Interactive wizard (recommended for beginners)
+# Interactive wizard (recommended for beginners)
 agents-templated wizard
 
-# 🚀 Quick start with presets
+# Quick start with presets
 agents-templated init --preset=nextjs         # Next.js full-stack
 agents-templated init --preset=express-api    # Express.js API
 agents-templated init --preset=django-react   # Django + React
 agents-templated init --preset=fastapi        # FastAPI
 agents-templated init --preset=go-api         # Go API
 
-# 🔧 Manual component selection
+# Manual component selection
 agents-templated init --all                   # All components
 agents-templated init --docs                  # Documentation only
 agents-templated init --rules                 # Agent rules only
 agents-templated init --skills                # Skills only
 agents-templated init --commands              # Command contracts only
 
-# ⚠️ Force overwrite existing files
+# Force overwrite existing files
 agents-templated init --all --force
 ```
 
 ### Maintenance Commands
 
 ```bash
-# ✅ Validate your project setup
+# Validate your project setup
 agents-templated validate                     # Quick validation
 agents-templated doctor                       # Comprehensive health check
 
-# 🔄 Update templates to latest version
+# Update templates to latest version
 agents-templated update                       # Apply updates with backup
 agents-templated update --check-only          # Check without installing
 
-# 📚 List available components and presets
+# List available components and presets
 agents-templated list
 
 # Lifecycle workflow and specialist commands
@@ -262,7 +261,7 @@ Legacy aliases are supported until v3.0 and print a deprecation warning:
 
 ---
 
-## 🎯 After Installation: Next Steps
+## After Installation: Next Steps
 
 ### 1. Install Your Tech Stack
 
@@ -351,15 +350,15 @@ Your AI will follow the enterprise patterns automatically!
 
 ---
 
-## 🏗️ Core Principles
+## Core Principles
 
 ### Security-First Development
 
-✅ Validate all inputs at application boundaries with schema validation  
-✅ Authenticate and authorize every protected endpoint  
-✅ Rate limit public endpoints to prevent abuse  
-✅ Sanitize outputs to prevent injection attacks  
-✅ Never expose sensitive data in error messages or logs
+- Validate all inputs at application boundaries with schema validation  
+- Authenticate and authorize every protected endpoint  
+- Rate limit public endpoints to prevent abuse  
+- Sanitize outputs to prevent injection attacks  
+- Never expose sensitive data in error messages or logs
 
 **Reference**: [.claude/rules/security.md](.claude/rules/security.md)
 
@@ -385,7 +384,7 @@ Your AI will follow the enterprise patterns automatically!
 
 ---
 
-## 📚 Available Presets
+## Available Presets
 
 | Preset | Tech Stack | Best For |
 |--------|-----------|----------|
@@ -403,7 +402,7 @@ Each preset includes:
 
 ---
 
-## 🔧 Programmatic API
+## Programmatic API
 
 Use agents-templated in your build scripts or automation:
 
@@ -427,7 +426,7 @@ await agentsTemplated.install('./my-project', {
 
 ---
 
-## 📝 Usage Examples
+## Usage Examples
 
 ### Frontend Development
 ```
@@ -452,7 +451,7 @@ await agentsTemplated.install('./my-project', {
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 When contributing to this template:
 1. Maintain technology-agnostic patterns
@@ -465,13 +464,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
-## 📖 License
+## License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-## 🔗 Links
+## Links
 
 - **NPM Package**: https://www.npmjs.com/package/agents-templated
 - **GitHub Repository**: https://github.com/rickandrew2/agents-templated
