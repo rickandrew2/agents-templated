@@ -15,6 +15,7 @@ const { CANONICAL_INSTRUCTION_FILE, writeGeneratedInstructions } = require('./li
  * @param {boolean} options.docs - Install documentation files
  * @param {boolean} options.rules - Install agent rules
  * @param {boolean} options.skills - Install skills
+ * @param {boolean} options.commands - Install deterministic command contracts
  * @param {boolean} options.github - Install GitHub Copilot instructions
  * @param {boolean} options.subagents - Install agent subagents
  * @param {boolean} options.force - Overwrite existing files
@@ -22,7 +23,7 @@ const { CANONICAL_INSTRUCTION_FILE, writeGeneratedInstructions } = require('./li
  */
 async function install(targetDir, options = {}) {
   const templateDir = path.join(__dirname, 'templates');
-  const installAll = !options.docs && !options.rules && !options.skills && !options.github && !options.subagents;
+  const installAll = !options.docs && !options.rules && !options.skills && !options.commands && !options.github && !options.subagents;
 
   const files = [];
 
@@ -65,6 +66,16 @@ async function install(targetDir, options = {}) {
     await copyDirectory(
       path.join(templateDir, 'agents', 'skills'),
       path.join(targetDir, LAYOUT.canonical.skillsDir),
+      options.force
+    );
+  }
+
+  // Deterministic command contracts
+  if (installAll || options.commands) {
+    await fs.ensureDir(path.join(targetDir, 'agents', 'commands'));
+    await copyDirectory(
+      path.join(templateDir, 'agents', 'commands'),
+      path.join(targetDir, 'agents', 'commands'),
       options.force
     );
   }

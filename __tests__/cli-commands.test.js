@@ -74,6 +74,35 @@ describe('CLI commands', () => {
     });
   });
 
+  describe('workflow command surface', () => {
+    test('list should include commands component and workflow commands', () => {
+      const output = runCLI('list', tempDir);
+      expect(output).toContain('commands');
+      expect(output).toContain('Workflow Commands');
+      expect(output).toContain('problem-map');
+    });
+
+    test('workflow should print lifecycle stages', () => {
+      const output = runCLI('workflow', tempDir);
+      expect(output).toContain('Workflow Lifecycle');
+      expect(output).toContain('Think -> Plan -> Build -> Review -> Test -> Ship -> Reflect');
+    });
+
+    test('problem-map should print deterministic contract guidance', () => {
+      const output = runCLI('problem-map "improve release quality"', tempDir);
+      expect(output).toContain('Workflow command');
+      expect(output).toContain('Slash contract: /problem-map');
+      expect(output).toContain('Template file: agents/commands/plan.md');
+    });
+
+    test('legacy alias should print deprecation notice and route to new command', () => {
+      const output = runCLI('office-hours "legacy path"', tempDir);
+      expect(output).toContain('Deprecated command: "office-hours"');
+      expect(output).toContain('Use "problem-map" instead');
+      expect(output).toContain('Command: problem-map');
+    });
+  });
+
   describe('update', () => {
     test('should run update --check-only without throwing when templates exist', async () => {
       await install(tempDir, { docs: true });

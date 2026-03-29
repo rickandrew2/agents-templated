@@ -2,6 +2,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const { install } = require('../index');
 const os = require('os');
+const pkg = require('../package.json');
+const { validateWorkflowDefinitions, WORKFLOW_COMMANDS } = require('../lib/workflow');
 
 describe('agents-templated API', () => {
   let tempDir;
@@ -33,6 +35,10 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, '.github/skills/find-skills/SKILL.md'))).toBe(true);
       expect(await fs.pathExists(path.join(tempDir, '.github/skills/ui-ux-pro-max/SKILL.md'))).toBe(true);
       expect(await fs.pathExists(path.join(tempDir, '.github/skills/shadcn-ui/SKILL.md'))).toBe(true);
+
+      // Check command contracts
+      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/README.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/SCHEMA.md'))).toBe(true);
 
       // Check all AI agent config files
       expect(await fs.pathExists(path.join(tempDir, '.github/copilot-instructions.md'))).toBe(true);
@@ -72,6 +78,20 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, '.github/skills/shadcn-ui/SKILL.md'))).toBe(true);
 
       // Check documentation doesn't exist
+      expect(await fs.pathExists(path.join(tempDir, 'agent-docs'))).toBe(false);
+    });
+
+    test('should install only command contracts when commands option is true', async () => {
+      await install(tempDir, { commands: true });
+
+      // Check contracts exist
+      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/README.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/SCHEMA.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/plan.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/problem-map.md'))).toBe(true);
+
+      // Check unrelated components don't exist
+      expect(await fs.pathExists(path.join(tempDir, '.github/skills'))).toBe(false);
       expect(await fs.pathExists(path.join(tempDir, 'agent-docs'))).toBe(false);
     });
 
@@ -137,6 +157,24 @@ describe('agents-templated API', () => {
       
       await expect(install(nonExistentDir, { docs: true })).resolves.not.toThrow();
       expect(await fs.pathExists(path.join(nonExistentDir, 'agent-docs/ARCHITECTURE.md'))).toBe(true);
+    });
+  });
+
+  describe('workflow definition integrity', () => {
+    test('should not have duplicate workflow command purposes', () => {
+      const purposes = WORKFLOW_COMMANDS.map((command) => command.purpose);
+      const uniquePurposes = new Set(purposes);
+      expect(uniquePurposes.size).toBe(purposes.length);
+    });
+
+    test('should pass workflow definition validation', () => {
+      expect(validateWorkflowDefinitions()).toEqual([]);
+    });
+  });
+
+  describe('publish packaging integrity', () => {
+    test('should include agents directory in package files list', () => {
+      expect(pkg.files).toContain('agents');
     });
   });
 });

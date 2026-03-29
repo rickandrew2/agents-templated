@@ -1,5 +1,63 @@
 # Changelog
 
+## Version 2.2.11 - Workflow Contracts and Publish Hardening (March 29, 2026)
+
+### ✨ New Features
+
+- Added a complete specialist workflow command set with custom command naming.
+- Added dedicated specialist contract files (`problem-map`, `scope-shape`, `arch-check`, `ux-bar`, `debug-track`, `risk-review`, `quality-gate`, `perf-scan`, `release-ready`, `docs-sync`, `learn-loop`).
+- Added deprecated command aliases with migration warnings (kept until v3.0).
+
+### 🔒 Integrity and Safety
+
+- Added startup validation that fails on duplicate command identities and duplicate command purposes.
+- Added tests to enforce workflow integrity and alias behavior.
+
+### 📦 Packaging and Sync
+
+- Added `agents/` to npm package include list so root command contracts publish with the package.
+- Synced `README.md` and `templates/README.md` with current command language and onboarding flow.
+- Synced command contract docs between `agents/commands/` and `templates/agents/commands/`.
+
+### ✅ Validation
+
+- Test suite passed (`27/27` tests).
+- `npm pack --dry-run` confirmed command contracts from both root and template paths are included.
+
+## Version 2.2.10 - Generalized Agent Expansion (March 22, 2026)
+
+### ✨ New Features
+
+#### New Generalized Subagents (Phase 1)
+
+- Added `performance-profiler` for measurable latency/CPU/memory/build bottleneck analysis.
+- Added `dependency-auditor` for dependency risk, CVE, and upgrade hygiene checks.
+- Added `configuration-validator` for environment/config/secret readiness validation.
+
+#### New Generalized Subagents (Phase 2)
+
+- Added `database-migrator` for migration safety, validation, and rollback planning.
+- Added `load-tester` for scenario-based load validation with pass/fail thresholds.
+- Added `compatibility-checker` for API contract compatibility and versioning discipline.
+
+### 🔗 Policy and Index Wiring
+
+- Updated subagent registries in `.claude/agents/README.md` and `templates/.claude/agents/README.md`.
+- Updated reference indexes in `CLAUDE.md` and `templates/CLAUDE.md`.
+- Mirrored all new subagents into `templates/.claude/agents/` for scaffold parity.
+
+### 🌐 Context7-Backed Hardening
+
+- Applied OpenTelemetry-aligned telemetry quality gates in performance profiling workflows.
+- Applied npm audit/signature/deterministic-install guidance in dependency auditing workflows.
+- Applied dotenv parsing and secret-handling safeguards in configuration validation workflows.
+- Applied OpenAPI, k6, and Flyway-informed checks for compatibility, load, and migration workflows.
+
+### ✅ Validation
+
+- New and updated agent files pass frontmatter validation.
+- Release preflight tests passed (`19/19` tests).
+
 ## Version 2.2.7 - Lessons Learned + Error Patterns (March 17, 2026)
 
 ### ✨ New Features

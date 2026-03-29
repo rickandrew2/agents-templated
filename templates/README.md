@@ -9,48 +9,45 @@
 
 ---
 
-## What is Agents Templated?
+## Why This Package Exists
 
-Agents Templated scaffolds your project with:
+Most starter templates only create files. This package creates operating rules for how teams build, review, test, and ship.
 
-✅ **AI Agent Configurations** – Auto-discovery files for 4 major AI coding assistants  
-✅ **Security-First Patterns** – OWASP Top 10 protection guidelines built-in  
-✅ **Testing Strategy** – 80/15/5 coverage targets (unit/integration/e2e)  
-✅ **Agent-Based Architecture** – Specialized patterns for frontend, backend, database, testing, security  
-✅ **Technology-Agnostic** – Works with React, Django, Go, FastAPI, Next.js, or any stack you choose
+You get:
 
-**Important:** This package does **NOT** install frameworks or libraries. It scaffolds the structure, patterns, and AI configurations—you install your chosen tech stack separately.
+- Multi-agent configuration for Cursor, Copilot, Claude, and generic hosts
+- Deterministic command contracts in `agents/commands/`
+- Security-first and testing-first rule baselines
+- Reusable skills and optional subagents
 
----
+Important: this package does not install your framework. It installs the operating layer around your framework.
 
-## 🚀 Quick Start
+## 30-Second Start
 
-### 1. Run the Interactive Wizard (Recommended)
+### 1. Install setup
 
 ```bash
-# Using npx (no installation needed) - RECOMMENDED
 npx agents-templated@latest wizard
-
-# Or install globally first
-npm install -g agents-templated
-agents-templated wizard
 ```
 
-**Or use a preset for fast setup:**
+### 2. Start the command workflow
 
 ```bash
-# Initialize with a specific preset
+agents-templated workflow
+agents-templated problem-map "daily briefing assistant for founders"
+```
+
+### 3. Optional preset bootstrap
+
+```bash
 npx agents-templated@latest init --preset=nextjs        # Next.js
 npx agents-templated@latest init --preset=express-api   # Express
 npx agents-templated@latest init --preset=django-react  # Django
 npx agents-templated@latest init --preset=fastapi       # FastAPI
 npx agents-templated@latest init --preset=go-api        # Go
-
-# Or install all components without a preset
-npx agents-templated@latest init --all
 ```
 
-### 2. Install Your Tech Stack
+### 4. Install your tech stack
 
 After initializing, install your chosen framework:
 
@@ -72,7 +69,19 @@ pip install sqlalchemy alembic                # SQLAlchemy
 npm install mongoose                          # Mongoose (MongoDB)
 ```
 
-### 3. Start Coding with AI
+### 5. Run the specialist sequence
+
+Start with a product objective, then move through specialist commands:
+
+```bash
+agents-templated workflow
+agents-templated problem-map "daily briefing assistant for founders"
+agents-templated scope-shape "scope the first release"
+agents-templated risk-review "audit branch changes before merge"
+agents-templated release-ready "prepare release checklist"
+```
+
+### 6. Start Coding with AI
 
 Your AI assistant will auto-load the configurations and follow enterprise patterns automatically!
 
@@ -85,7 +94,10 @@ Your AI assistant will auto-load the configurations and follow enterprise patter
 | 🚀 **Quick Start Presets** | 5 popular tech stack presets (Next.js, Express, Django, FastAPI, Go) |
 | 🧙 **Interactive Wizard** | Guided setup with personalized recommendations |
 | 🤖 **AI Agents Supported** | Cursor, GitHub Copilot, Claude, and generic agents via `AGENTS.MD` |
+| 🧭 **Deterministic Commands** | Slash-command contracts with strict structured outputs |
+| 💬 **Auto Intent Routing** | Non-slash prompts can map to command contracts (`slash-command-auto`) |
 | 🔒 **Security-First** | OWASP Top 10 protection patterns built-in |
+| 🛡️ **Hardening Workflow** | Risk-based hardening rules plus verification/release gates |
 | 🧪 **Testing Strategy** | 80/15/5 coverage targets (unit/integration/e2e) |
 | ✅ **Project Validation** | `validate` and `doctor` commands for health checks |
 | 🔄 **Template Updates** | Keep your templates in sync with `update` command |
@@ -126,7 +138,10 @@ your-project/
 ├── .github/
 │   ├── skills/
 │   │   ├── find-skills/           # Skill discovery helper
+│   │   ├── feature-delivery/      # Scoped feature delivery workflow
+│   │   ├── bug-triage/            # Reproduction-first defect workflow
 │   │   ├── error-patterns/         # Persistent error-debugging memory workflow
+│   │   ├── app-hardening/         # Hardening and release-evidence workflow
 │   │   ├── ui-ux-pro-max/         # Advanced UI/UX design implementation skill
 │   │   ├── shadcn-ui/             # shadcn/ui setup and component patterns
 │   │   ├── README.md              # Guide for creating custom skills
@@ -141,7 +156,12 @@ your-project/
 │   │   ├── frontend.md
 │   │   ├── database.md
 │   │   ├── style.md
+│   │   ├── workflows.md
+│   │   ├── intent-routing.md
+│   │   ├── system-workflow.md
+│   │   ├── hardening.md
 │   │   └── lessons-learned.md
+│   └── agents/                     # Optional subagents
 │
 ├── agents/                          # 🤖 Deterministic command contracts
 │   └── commands/
@@ -182,6 +202,7 @@ agents-templated init --all                   # All components
 agents-templated init --docs                  # Documentation only
 agents-templated init --rules                 # Agent rules only
 agents-templated init --skills                # Skills only
+agents-templated init --commands              # Command contracts only
 
 # ⚠️ Force overwrite existing files
 agents-templated init --all --force
@@ -200,7 +221,44 @@ agents-templated update --check-only          # Check without installing
 
 # 📚 List available components and presets
 agents-templated list
+
+# Lifecycle workflow and specialist commands
+agents-templated workflow
 ```
+
+### Workflow Commands
+
+These commands provide deterministic specialist guidance aligned to the sprint lifecycle:
+
+| Command | Specialist | Primary Outcome |
+|---------|------------|-----------------|
+| `problem-map` | Problem Strategist | Clarify user pain and define the actual problem |
+| `scope-shape` | Scope Director | Challenge scope and set high-leverage direction |
+| `arch-check` | Architecture Reviewer | Lock architecture and edge-case coverage |
+| `ux-bar` | Design Quality Lead | Raise UX quality before implementation |
+| `debug-track` | Root-Cause Investigator | Reproduce and isolate root cause |
+| `risk-review` | Release Risk Reviewer | Surface production-risk issues before merge |
+| `quality-gate` | Quality Gatekeeper | Validate behavior and regression safety |
+| `perf-scan` | Performance Analyst | Capture performance baseline and deltas |
+| `release-ready` | Release Coordinator | Prepare release artifacts and final checks |
+| `docs-sync` | Documentation Engineer | Sync docs with shipped behavior |
+| `learn-loop` | Iteration Lead | Capture lessons and next-cycle actions |
+
+Each command maps to deterministic contract files in `agents/commands/` and uses the schema in `agents/commands/SCHEMA.md`.
+
+Legacy aliases are supported until v3.0 and print a deprecation warning:
+
+- `office-hours` -> `problem-map`
+- `plan-ceo-review` -> `scope-shape`
+- `plan-eng-review` -> `arch-check`
+- `plan-design-review` -> `ux-bar`
+- `investigate` -> `debug-track`
+- `review` -> `risk-review`
+- `qa` -> `quality-gate`
+- `benchmark` -> `perf-scan`
+- `ship` -> `release-ready`
+- `document-release` -> `docs-sync`
+- `retro` -> `learn-loop`
 
 ---
 

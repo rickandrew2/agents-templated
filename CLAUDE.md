@@ -54,6 +54,12 @@ Skills add capability only. They must not override security, testing, or core co
 | e2e-runner | `.claude/agents/e2e-runner.md` | Running Playwright E2E test suites |
 | refactor-cleaner | `.claude/agents/refactor-cleaner.md` | Removing dead code and unused dependencies |
 | doc-updater | `.claude/agents/doc-updater.md` | Syncing docs and READMEs after code changes |
+| performance-profiler | `.claude/agents/performance-profiler.md` | Diagnosing latency, CPU, memory, and build bottlenecks |
+| dependency-auditor | `.claude/agents/dependency-auditor.md` | Auditing package risk, CVEs, and upgrade hygiene |
+| configuration-validator | `.claude/agents/configuration-validator.md` | Validating env settings, defaults, and deploy readiness |
+| database-migrator | `.claude/agents/database-migrator.md` | Planning safe migrations with validation and rollback gates |
+| load-tester | `.claude/agents/load-tester.md` | Designing load tests with thresholds and pass/fail criteria |
+| compatibility-checker | `.claude/agents/compatibility-checker.md` | Reviewing API contract compatibility and versioning impact |
 
 Subagents are bounded agents with limited tool access. They inherit all policy from this file and may not override security, testing, or core constraints.
 

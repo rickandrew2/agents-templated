@@ -22,6 +22,12 @@ Subagents are bounded agent processes that your orchestrator (main AI) can deleg
 | `e2e-runner` | sonnet | Execute Playwright E2E test suites and report results |
 | `refactor-cleaner` | sonnet | Remove dead code, unused deps, orphaned exports |
 | `doc-updater` | haiku | Sync README, API docs, and codemaps after code changes |
+| `performance-profiler` | sonnet | Diagnose latency and resource bottlenecks with measurable optimization plans |
+| `dependency-auditor` | sonnet | Audit dependency risk, CVEs, and upgrade hygiene |
+| `configuration-validator` | sonnet | Validate environment config, safety defaults, and deploy readiness |
+| `database-migrator` | sonnet | Plan and review schema/data migrations with rollback and validation gates |
+| `load-tester` | sonnet | Define load scenarios, thresholds, and release-quality performance gates |
+| `compatibility-checker` | sonnet | Detect contract-breaking API changes and enforce versioning discipline |
 
 ## Model Selection Guide
 
@@ -56,7 +62,13 @@ Reference the subagent file directly in your prompt or instruct your AI to follo
 ├── build-error-resolver.md
 ├── e2e-runner.md
 ├── refactor-cleaner.md
-└── doc-updater.md
+├── doc-updater.md
+├── performance-profiler.md
+├── dependency-auditor.md
+├── configuration-validator.md
+├── database-migrator.md
+├── load-tester.md
+└── compatibility-checker.md
 ```
 
 ## Adding a New Subagent

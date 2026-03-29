@@ -9,67 +9,45 @@
 
 ---
 
-## What is Agents Templated?
+## Why This Package Exists
 
-Agents Templated scaffolds your project with:
+Most starter templates only create files. This package creates operating rules for how teams build, review, test, and ship.
 
-✅ **AI Agent Configurations** – Auto-discovery files for 4 major AI coding assistants  
-✅ **Deterministic Command Contracts** – Structured slash-command protocol in `agents/commands/`  
-✅ **Security-First Patterns** – OWASP Top 10 protection guidelines built-in  
-✅ **Hardening Guidance** – Risk-based hardening/obfuscation and release evidence gates  
-✅ **Testing Strategy** – 80/15/5 coverage targets (unit/integration/e2e)  
-✅ **Agent-Based Architecture** – Specialized patterns for frontend, backend, database, testing, security  
-✅ **Technology-Agnostic** – Works with React, Django, Go, FastAPI, Next.js, or any stack you choose
+You get:
 
-**Important:** This package does **NOT** install frameworks or libraries. It scaffolds the structure, patterns, and AI configurations—you install your chosen tech stack separately.
+- Multi-agent configuration for Cursor, Copilot, Claude, and generic hosts
+- Deterministic command contracts in `agents/commands/`
+- Security-first and testing-first rule baselines
+- Reusable skills and optional subagents
 
-### What’s New in This Version
+Important: this package does not install your framework. It installs the operating layer around your framework.
 
-- Deterministic slash-command standard in `AGENTS.MD` and modular contracts in `agents/commands/`
-- Implicit natural-language routing support (`slash-command-auto`) for non-technical prompts
-- New workflow/routing/hardening rule set:
-  - `.claude/rules/intent-routing.md`
-  - `.claude/rules/system-workflow.md`
-  - `.claude/rules/hardening.md`
-  - `.claude/rules/lessons-learned.md`
-- New baseline skills:
-  - `.github/skills/feature-delivery/`
-  - `.github/skills/bug-triage/`
-  - `.github/skills/error-patterns/`
-  - `.github/skills/app-hardening/`
-  - `.github/skills/shadcn-ui/`
-- Release and audit contracts now require hardening evidence when risk profile requires it
+## 30-Second Start
 
----
-
-## 🚀 Quick Start
-
-### 1. Run the Interactive Wizard (Recommended)
+### 1. Install setup
 
 ```bash
-# Using npx (no installation needed) - RECOMMENDED
 npx agents-templated@latest wizard
-
-# Or install globally first
-npm install -g agents-templated
-agents-templated wizard
 ```
 
-**Or use a preset for fast setup:**
+### 2. Start the command workflow
 
 ```bash
-# Initialize with a specific preset
+agents-templated workflow
+agents-templated problem-map "daily briefing assistant for founders"
+```
+
+### 3. Optional preset bootstrap
+
+```bash
 npx agents-templated@latest init --preset=nextjs        # Next.js
 npx agents-templated@latest init --preset=express-api   # Express
 npx agents-templated@latest init --preset=django-react  # Django
 npx agents-templated@latest init --preset=fastapi       # FastAPI
 npx agents-templated@latest init --preset=go-api        # Go
-
-# Or install all components without a preset
-npx agents-templated@latest init --all
 ```
 
-### 2. Install Your Tech Stack
+### 4. Install your tech stack
 
 After initializing, install your chosen framework:
 
@@ -91,7 +69,19 @@ pip install sqlalchemy alembic                # SQLAlchemy
 npm install mongoose                          # Mongoose (MongoDB)
 ```
 
-### 3. Start Coding with AI
+### 5. Run the specialist sequence
+
+Start with a product objective, then move through specialist commands:
+
+```bash
+agents-templated workflow
+agents-templated problem-map "daily briefing assistant for founders"
+agents-templated scope-shape "scope the first release"
+agents-templated risk-review "audit branch changes before merge"
+agents-templated release-ready "prepare release checklist"
+```
+
+### 6. Start Coding with AI
 
 Your AI assistant will auto-load the configurations and follow enterprise patterns automatically!
 
@@ -212,6 +202,7 @@ agents-templated init --all                   # All components
 agents-templated init --docs                  # Documentation only
 agents-templated init --rules                 # Agent rules only
 agents-templated init --skills                # Skills only
+agents-templated init --commands              # Command contracts only
 
 # ⚠️ Force overwrite existing files
 agents-templated init --all --force
@@ -230,7 +221,31 @@ agents-templated update --check-only          # Check without installing
 
 # 📚 List available components and presets
 agents-templated list
+
+# Lifecycle workflow and specialist commands
+agents-templated workflow
 ```
+
+### Workflow Commands
+
+These commands provide deterministic specialist guidance aligned to the sprint lifecycle:
+
+| Command | Specialist | Primary Outcome |
+|---------|------------|-----------------|
+| `problem-map` | Problem Strategist | Clarify user pain and define the actual problem |
+| `scope-shape` | Scope Director | Challenge scope and set high-leverage direction |
+| `arch-check` | Architecture Reviewer | Lock architecture and edge-case coverage |
+| `ux-bar` | Design Quality Lead | Raise UX quality before implementation |
+| `debug-track` | Root-Cause Investigator | Reproduce and isolate root cause |
+| `risk-review` | Release Risk Reviewer | Surface production-risk issues before merge |
+| `quality-gate` | Quality Gatekeeper | Validate behavior and regression safety |
+| `perf-scan` | Performance Analyst | Capture performance baseline and deltas |
+| `release-ready` | Release Coordinator | Prepare release artifacts and final checks |
+| `docs-sync` | Documentation Engineer | Sync docs with shipped behavior |
+| `learn-loop` | Iteration Lead | Capture lessons and next-cycle actions |
+
+Each command maps to deterministic contract files in `agents/commands/` and uses the schema in `agents/commands/SCHEMA.md`.
+
 
 ---
 

@@ -23,6 +23,14 @@ const {
   scaffoldRule,
   scaffoldSubagent
 } = require('../lib/instructions');
+const {
+  WORKFLOW_COMMANDS,
+  CONTRACT_FILES,
+  SPECIALIST_CONTRACT_FILES,
+  DEPRECATED_COMMAND_ALIASES,
+  formatWorkflowOutput,
+  validateWorkflowDefinitions
+} = require('../lib/workflow');
 
 // Resolve the templates directory - works in both dev and installed contexts
 const getTemplatesDir = () => {
@@ -40,6 +48,15 @@ const getTemplatesDir = () => {
 };
 
 const program = new Command();
+const workflowValidationIssues = validateWorkflowDefinitions();
+
+if (workflowValidationIssues.length > 0) {
+  console.error(chalk.red('Invalid workflow command definitions detected:'));
+  workflowValidationIssues.forEach((issue) => {
+    console.error(chalk.red(`  - ${issue}`));
+  });
+  process.exit(1);
+}
 
 program
   .name('agents-templated')
@@ -53,6 +70,7 @@ program
   .option('-d, --docs', 'Install documentation files only')
   .option('-r, --rules', 'Install agent rules only')
   .option('-s, --skills', 'Install skills only')
+  .option('-C, --commands', 'Install deterministic command contracts only')
   .option('-g, --github', 'Install GitHub Copilot instructions')
   .option('-S, --subagents', 'Install agent subagents only')
   .option('-p, --preset <name>', 'Use a preset configuration (nextjs, django-react, express-api, fastapi, go-api)')
@@ -113,7 +131,7 @@ program
       let choices = [];
       
       // If no specific options provided, prompt user
-      if (!options.all && !options.docs && !options.rules && !options.skills && !options.github) {
+      if (!options.all && !options.docs && !options.rules && !options.skills && !options.commands && !options.github) {
         const answers = await inquirer.prompt([
           {
             type: 'checkbox',
@@ -124,6 +142,7 @@ program
               { name: 'Documentation files (agent-docs/)', value: 'docs' },
               { name: 'Agent rules (.claude/rules/*.md)', value: 'rules' },
               { name: 'Skills (.github/skills/*)', value: 'skills' },
+              { name: 'Command contracts (agents/commands/*.md)', value: 'commands' },
               { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
               { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents' }
             ],
@@ -146,6 +165,7 @@ program
         if (options.docs) choices.push('docs');
         if (options.rules) choices.push('rules');
         if (options.skills) choices.push('skills');
+        if (options.commands) choices.push('commands');
         if (options.github) choices.push('github');
         if (options.subagents) choices.push('subagents');
       }
@@ -179,6 +199,17 @@ program
         await copyDirectory(
           path.join(templateDir, 'agents', 'skills'),
           path.join(targetDir, LAYOUT.canonical.skillsDir),
+          options.force
+        );
+      }
+
+      // Install deterministic command contracts
+      if (installAll || choices.includes('commands')) {
+        console.log(chalk.yellow('Installing command contracts...'));
+        await fs.ensureDir(path.join(targetDir, 'agents', 'commands'));
+        await copyDirectory(
+          path.join(templateDir, 'agents', 'commands'),
+          path.join(targetDir, 'agents', 'commands'),
           options.force
         );
       }
@@ -256,6 +287,7 @@ program
                 { name: 'Documentation (agent-docs/)', value: 'docs' },
                 { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules' },
                 { name: 'Skills (reusable agent capabilities)', value: 'skills' },
+                { name: 'Command contracts (agents/commands/*.md)', value: 'commands' },
                 { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
                 { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents' }
               ],
@@ -293,6 +325,7 @@ program
             { name: 'Documentation (agent-docs/)', value: 'docs', checked: true },
             { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules', checked: true },
             { name: 'Skills (reusable agent capabilities)', value: 'skills', checked: true },
+            { name: 'Command contracts (agents/commands/*.md)', value: 'commands', checked: true },
             { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github', checked: true },
             { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents', checked: true }
           ],
@@ -319,6 +352,7 @@ program
         docs: componentAnswers.components.includes('docs'),
         rules: componentAnswers.components.includes('rules'),
         skills: componentAnswers.components.includes('skills'),
+        commands: componentAnswers.components.includes('commands'),
         github: componentAnswers.components.includes('github'),
         subagents: componentAnswers.components.includes('subagents')
       };
@@ -350,6 +384,17 @@ program
         await copyDirectory(
           path.join(templateDir, 'agents', 'skills'),
           path.join(targetDir, LAYOUT.canonical.skillsDir),
+          options.force
+        );
+      }
+
+      // Install deterministic command contracts
+      if (options.commands) {
+        console.log(chalk.yellow('Installing command contracts...'));
+        await fs.ensureDir(path.join(targetDir, 'agents', 'commands'));
+        await copyDirectory(
+          path.join(templateDir, 'agents', 'commands'),
+          path.join(targetDir, 'agents', 'commands'),
           options.force
         );
       }
@@ -403,9 +448,15 @@ program
     console.log(chalk.yellow('docs') + '    - Documentation files (agent-docs/ directory)');
     console.log(chalk.yellow('rules') + '   - Agent rules (.claude/rules/*.md)');
     console.log(chalk.yellow('skills') + '  - Agent skills (.github/skills/*)');
+    console.log(chalk.yellow('commands') + ' - Deterministic command contracts (agents/commands/*.md)');
     console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)');
     console.log(chalk.yellow('subagents') + ' - Agent subagents (.claude/agents/*.md)');
     console.log(chalk.yellow('all') + '     - All components');
+
+    console.log(chalk.blue.bold('\n\nWorkflow Commands:\n'));
+    WORKFLOW_COMMANDS.forEach(({ cli, specialist, description }) => {
+      console.log(chalk.cyan(cli) + ` - ${specialist}: ${description}`);
+    });
     
     console.log(chalk.blue.bold('\n\nAvailable Presets:\n'));
     console.log(chalk.cyan('nextjs') + '       - Next.js with TypeScript, React, and Tailwind CSS');
@@ -490,6 +541,29 @@ program
         passed.push(`✓ ${skills.length} skills installed in ${relativeSkillsDir}`);
       } else {
         warnings.push(`⚠ ${LAYOUT.canonical.skillsDir} directory missing - run 'agents-templated init --skills'`);
+      }
+
+      const commandsDir = path.join(targetDir, 'agents', 'commands');
+      if (await fs.pathExists(commandsDir)) {
+        for (const contractFile of CONTRACT_FILES) {
+          const contractPath = path.join(commandsDir, contractFile);
+          if (await fs.pathExists(contractPath)) {
+            passed.push(`✓ agents/commands/${contractFile} found`);
+          } else {
+            warnings.push(`⚠ agents/commands/${contractFile} missing`);
+          }
+        }
+
+        for (const contractFile of SPECIALIST_CONTRACT_FILES) {
+          const contractPath = path.join(commandsDir, contractFile);
+          if (await fs.pathExists(contractPath)) {
+            passed.push(`✓ agents/commands/${contractFile} found`);
+          } else {
+            warnings.push(`⚠ agents/commands/${contractFile} missing`);
+          }
+        }
+      } else {
+        warnings.push(`⚠ agents/commands directory missing - run 'agents-templated init --commands'`);
       }
 
       // Check subagents
@@ -678,7 +752,7 @@ async function cleanupLegacyInstructionFiles(targetDir) {
 
 async function updateSelectedComponents(targetDir, templateDir, selectedComponents, overwrite = true) {
   const components = selectedComponents.includes('all')
-    ? ['docs', 'rules', 'skills', 'github', 'subagents']
+    ? ['docs', 'rules', 'skills', 'commands', 'github', 'subagents']
     : selectedComponents;
 
   if (components.includes('docs')) {
@@ -707,6 +781,16 @@ async function updateSelectedComponents(targetDir, templateDir, selectedComponen
     await copyDirectory(
       path.join(templateDir, 'agents', 'skills'),
       path.join(targetDir, LAYOUT.canonical.skillsDir),
+      overwrite
+    );
+  }
+
+  if (components.includes('commands')) {
+    console.log(chalk.yellow('Updating command contracts...'));
+    await fs.ensureDir(path.join(targetDir, 'agents', 'commands'));
+    await copyDirectory(
+      path.join(templateDir, 'agents', 'commands'),
+      path.join(targetDir, 'agents', 'commands'),
       overwrite
     );
   }
@@ -760,6 +844,7 @@ program
   .option('-d, --docs', 'Update documentation files only')
   .option('-r, --rules', 'Update agent rules only')
   .option('-s, --skills', 'Update skills only')
+  .option('-C, --commands', 'Update deterministic command contracts only')
   .option('-g, --github', 'Update AI agent instruction files only')
   .option('-S, --subagents', 'Update agent subagents only')
   .option('-c, --check-only', 'Only check for updates, don\'t install')
@@ -812,7 +897,7 @@ program
         console.log(chalk.green('✓ Legacy layout migration completed.\n'));
       }
 
-      const hasComponentSelection = options.all || options.docs || options.rules || options.skills || options.github;
+      const hasComponentSelection = options.all || options.docs || options.rules || options.skills || options.commands || options.github || options.subagents;
 
       // Component refresh mode: update selected parts directly without stack/wizard prompts
       if (hasComponentSelection) {
@@ -820,6 +905,7 @@ program
         if (options.all || options.docs) selectedComponents.push('docs');
         if (options.all || options.rules) selectedComponents.push('rules');
         if (options.all || options.skills) selectedComponents.push('skills');
+        if (options.all || options.commands) selectedComponents.push('commands');
         if (options.all || options.github) selectedComponents.push('github');
         if (options.all || options.subagents) selectedComponents.push('subagents');
 
@@ -844,7 +930,9 @@ program
         { targetFile: `${LAYOUT.canonical.skillsDir}/find-skills/SKILL.md`, templateFile: 'agents/skills/find-skills/SKILL.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/error-patterns/SKILL.md`, templateFile: 'agents/skills/error-patterns/SKILL.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/ui-ux-pro-max/SKILL.md`, templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' },
-        { targetFile: `${LAYOUT.canonical.skillsDir}/shadcn-ui/SKILL.md`, templateFile: 'agents/skills/shadcn-ui/SKILL.md', component: 'skills' }
+        { targetFile: `${LAYOUT.canonical.skillsDir}/shadcn-ui/SKILL.md`, templateFile: 'agents/skills/shadcn-ui/SKILL.md', component: 'skills' },
+        { targetFile: 'agents/commands/SCHEMA.md', templateFile: 'agents/commands/SCHEMA.md', component: 'commands' },
+        { targetFile: 'agents/commands/README.md', templateFile: 'agents/commands/README.md', component: 'commands' }
       ];
 
       for (const {targetFile, templateFile, component} of checkFiles) {
@@ -1006,6 +1094,47 @@ program
       process.exit(1);
     }
   });
+
+program
+  .command('workflow')
+  .description('Show the lifecycle workflow and specialist commands')
+  .alias('sprint')
+  .action(() => {
+    console.log(chalk.blue.bold('\nWorkflow Lifecycle\n'));
+    console.log(chalk.white('Think -> Plan -> Build -> Review -> Test -> Ship -> Reflect\n'));
+    WORKFLOW_COMMANDS.forEach(({ cli, specialist, slash, description }) => {
+      console.log(chalk.cyan(cli) + ` (${slash})`);
+      console.log(chalk.gray(`  ${specialist} - ${description}`));
+    });
+    console.log(chalk.gray('\nRun any workflow command with an objective, for example:'));
+    console.log(chalk.white('  agents-templated problem-map "daily briefing app for founders"\n'));
+  });
+
+for (const workflow of WORKFLOW_COMMANDS) {
+  program
+    .command(`${workflow.cli} [objective...]`)
+    .description(`${workflow.specialist}: ${workflow.description}`)
+    .action((objective) => {
+      const objectiveText = Array.isArray(objective) ? objective.join(' ') : '';
+      process.stdout.write(formatWorkflowOutput(workflow, objectiveText));
+    });
+}
+
+for (const alias of DEPRECATED_COMMAND_ALIASES) {
+  const mapped = WORKFLOW_COMMANDS.find((command) => command.cli === alias.to);
+  if (!mapped) {
+    continue;
+  }
+
+  program
+    .command(`${alias.from} [objective...]`)
+    .description(`Deprecated alias for ${alias.to}`)
+    .action((objective) => {
+      const objectiveText = Array.isArray(objective) ? objective.join(' ') : '';
+      console.log(chalk.yellow(`Deprecated command: "${alias.from}" will be removed in v3.0. Use "${alias.to}" instead.`));
+      process.stdout.write(formatWorkflowOutput(mapped, objectiveText));
+    });
+}
 
 program
   .command('new-skill <name>')
