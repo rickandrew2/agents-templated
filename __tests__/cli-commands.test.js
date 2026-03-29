@@ -95,11 +95,10 @@ describe('CLI commands', () => {
       expect(output).toContain('Template file: agents/commands/plan.md');
     });
 
-    test('legacy alias should print deprecation notice and route to new command', () => {
+    test('legacy alias should be rejected after alias removal', () => {
       const output = runCLI('office-hours "legacy path"', tempDir);
-      expect(output).toContain('Deprecated command: "office-hours"');
-      expect(output).toContain('Use "problem-map" instead');
-      expect(output).toContain('Command: problem-map');
+      expect(output).toContain('unknown command');
+      expect(output).toContain('office-hours');
     });
   });
 

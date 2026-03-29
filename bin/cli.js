@@ -27,7 +27,6 @@ const {
   WORKFLOW_COMMANDS,
   CONTRACT_FILES,
   SPECIALIST_CONTRACT_FILES,
-  DEPRECATED_COMMAND_ALIASES,
   formatWorkflowOutput,
   validateWorkflowDefinitions
 } = require('../lib/workflow');
@@ -1117,22 +1116,6 @@ for (const workflow of WORKFLOW_COMMANDS) {
     .action((objective) => {
       const objectiveText = Array.isArray(objective) ? objective.join(' ') : '';
       process.stdout.write(formatWorkflowOutput(workflow, objectiveText));
-    });
-}
-
-for (const alias of DEPRECATED_COMMAND_ALIASES) {
-  const mapped = WORKFLOW_COMMANDS.find((command) => command.cli === alias.to);
-  if (!mapped) {
-    continue;
-  }
-
-  program
-    .command(`${alias.from} [objective...]`)
-    .description(`Deprecated alias for ${alias.to}`)
-    .action((objective) => {
-      const objectiveText = Array.isArray(objective) ? objective.join(' ') : '';
-      console.log(chalk.yellow(`Deprecated command: "${alias.from}" will be removed in v3.0. Use "${alias.to}" instead.`));
-      process.stdout.write(formatWorkflowOutput(mapped, objectiveText));
     });
 }
 

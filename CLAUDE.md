@@ -36,6 +36,8 @@ All policy, routing, and skill governance lives here — edit this file directly
 | feature-delivery | `.github/skills/feature-delivery/SKILL.md` | Build/add/implement feature work |
 | find-skills | `.github/skills/find-skills/SKILL.md` | User asks to discover a skill |
 | ui-ux-pro-max | `.github/skills/ui-ux-pro-max/SKILL.md` | UI, layout, design, visual work |
+| emilkowalski-skill | `.github/skills/emilkowalski-skill/SKILL.md` | Frontend polish, animation quality, interaction refinement |
+| raphaelsalaja-userinterface-wiki | `.github/skills/raphaelsalaja-userinterface-wiki/SKILL.md` | UI hierarchy, readability, and interface best-practice audits |
 | api-design | `.github/skills/api-design/SKILL.md` | REST/GraphQL API design, OpenAPI specs, versioning |
 | llm-integration | `.github/skills/llm-integration/SKILL.md` | LLM integrations, RAG, prompt engineering, evaluation |
 

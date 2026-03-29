@@ -245,20 +245,6 @@ These commands provide deterministic specialist guidance aligned to the sprint l
 
 Each command maps to deterministic contract files in `agents/commands/` and uses the schema in `agents/commands/SCHEMA.md`.
 
-Legacy aliases are supported until v3.0 and print a deprecation warning:
-
-- `office-hours` -> `problem-map`
-- `plan-ceo-review` -> `scope-shape`
-- `plan-eng-review` -> `arch-check`
-- `plan-design-review` -> `ux-bar`
-- `investigate` -> `debug-track`
-- `review` -> `risk-review`
-- `qa` -> `quality-gate`
-- `benchmark` -> `perf-scan`
-- `ship` -> `release-ready`
-- `document-release` -> `docs-sync`
-- `retro` -> `learn-loop`
-
 ---
 
 ## After Installation: Next Steps

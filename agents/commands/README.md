@@ -39,7 +39,7 @@ Execution requirements:
 
 - Primary workflow commands must have unique purpose identifiers.
 - Duplicate command purpose definitions fail CLI startup validation.
-- Deprecated aliases are not treated as primary commands and are removed in v3.0.
+- Deprecated aliases are not part of the active command surface.
 
 ## Publish Inclusion
 
@@ -68,18 +68,3 @@ The CLI command `agents-templated workflow` prints this lifecycle in order:
 
 Think -> Plan -> Build -> Review -> Test -> Ship -> Reflect
 
-## Deprecated Aliases (Until v3.0)
-
-The following legacy command names still work as aliases and print a deprecation warning:
-
-- `office-hours` -> `problem-map`
-- `plan-ceo-review` -> `scope-shape`
-- `plan-eng-review` -> `arch-check`
-- `plan-design-review` -> `ux-bar`
-- `investigate` -> `debug-track`
-- `review` -> `risk-review`
-- `qa` -> `quality-gate`
-- `benchmark` -> `perf-scan`
-- `ship` -> `release-ready`
-- `document-release` -> `docs-sync`
-- `retro` -> `learn-loop`

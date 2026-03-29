@@ -67,6 +67,10 @@ To create a new skill for your specific domain:
 │   └── SKILL.md              # Risk-based hardening and obfuscation guidance
 ├── ui-ux-pro-max/
 │   └── SKILL.md              # Premium UI/UX implementation patterns
+├── emilkowalski-skill/
+│   └── SKILL.md              # Frontend polish and animation quality checks
+├── raphaelsalaja-userinterface-wiki/
+│   └── SKILL.md              # UI hierarchy and interface best-practice playbook
 ├── my-custom-skill/
 │   └── SKILL.md              # Your custom skill
 └── README.md                 # This file
@@ -101,6 +105,8 @@ Consider creating skills for:
 - `error-patterns`: Use when errors repeat to apply known fixes from lessons-learned and automatically record new resolutions.
 - `app-hardening`: Use for high-risk/distributed runtimes to enforce hardening profile, obfuscation decisions, and release evidence.
 - `shadcn-ui`: Use for shadcn/ui installation, component composition, form patterns, and theme customization.
+- `emilkowalski-skill`: Use for frontend animation, micro-interaction quality, and visual polish passes.
+- `raphaelsalaja-userinterface-wiki`: Use for interface hierarchy, readability, and UX consistency audits.
 
 ## Using Skills in Your Project
 
