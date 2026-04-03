@@ -237,10 +237,9 @@ These commands provide deterministic specialist guidance aligned to the sprint l
 | `ux-bar` | Design Quality Lead | Raise UX quality before implementation |
 | `debug-track` | Root-Cause Investigator | Reproduce and isolate root cause |
 | `risk-review` | Release Risk Reviewer | Surface production-risk issues before merge |
-| `quality-gate` | Quality Gatekeeper | Validate behavior and regression safety |
-| `perf-scan` | Performance Analyst | Capture performance baseline and deltas |
+| `perf` | Performance Analyst | Optimize performance and guard against regressions |
 | `release-ready` | Release Coordinator | Prepare release artifacts and final checks |
-| `docs-sync` | Documentation Engineer | Sync docs with shipped behavior |
+| `docs` | Documentation Engineer | Sync docs with shipped behavior |
 | `learn-loop` | Iteration Lead | Capture lessons and next-cycle actions |
 
 Each command maps to deterministic contract files in `agents/commands/` and uses the schema in `agents/commands/SCHEMA.md`.

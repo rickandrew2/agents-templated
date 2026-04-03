@@ -61,6 +61,12 @@ To create a new skill for your specific domain:
 │   └── SKILL.md              # Systematic feature scoping and execution contracts
 ├── bug-triage/
 │   └── SKILL.md              # Reproduction-first debugging and regression workflows
+├── debug-skill/
+│   └── SKILL.md              # Breakpoint-first debugging and execution tracing
+├── secure-code-guardian/
+│   └── SKILL.md              # Secure-by-default coding for auth and input boundaries
+├── feature-forge/
+│   └── SKILL.md              # Requirements forging before implementation starts
 ├── error-patterns/
 │   └── SKILL.md              # Persistent debugging memory and known-fix application
 ├── app-hardening/
@@ -102,6 +108,9 @@ Consider creating skills for:
 
 - `feature-delivery`: Use when user asks are broad and you need objective, scope, acceptance criteria, and validation plan.
 - `bug-triage`: Use for defects and regressions requiring reproducible evidence, root-cause isolation, and minimal safe patches.
+- `debug-skill`: Use for breakpoint-driven debugging, execution tracing, and variable-state inspection.
+- `secure-code-guardian`: Use for secure-by-default implementation across auth, secrets, and untrusted input.
+- `feature-forge`: Use before coding to turn rough asks into execution-ready requirements and acceptance criteria.
 - `error-patterns`: Use when errors repeat to apply known fixes from lessons-learned and automatically record new resolutions.
 - `app-hardening`: Use for high-risk/distributed runtimes to enforce hardening profile, obfuscation decisions, and release evidence.
 - `shadcn-ui`: Use for shadcn/ui installation, component composition, form patterns, and theme customization.

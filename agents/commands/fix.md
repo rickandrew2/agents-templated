@@ -1,34 +1,58 @@
 # /fix
 
 ## A. Intent
-Apply the smallest safe change that resolves a verified defect.
+Apply the smallest safe code fix with regression evidence and bounded impact.
 
 ## B. When to Use
-Use for bugs with reproducible evidence.
+- Use after root cause is confirmed and a targeted fix is required.
+- Do not use when defect cause is still speculative.
 
-## C. Required Inputs
-- Defect description
-- Reproduction evidence
-- Target scope
+## C. Context Assumptions
+- Issue is reproducible or sufficiently evidenced.
+- Root cause has been identified.
+- Regression checks are available.
 
-## D. Deterministic Execution Flow
-1. Validate defect evidence.
-2. Reproduce failure.
-3. Locate root cause.
-4. Generate minimal patch.
-5. Execute targeted validation.
-6. Emit fix report.
+## D. Required Inputs
+| Input | Type | Example |
+|---------------------|------------|----------------------------------|
+| `defect_id` | string | "BUG-142" |
+| `affected_paths` | string[] | ["src/auth.ts", "tests/auth.test.ts"] |
+| `evidence` | artifact | stack trace, failing test output, screenshot |
 
-## E. Structured Output Template
-- `defect_id`
-- `root_cause`
-- `patch_summary`
-- `files_changed[]`
-- `validation_results[]`
+## E. Pre-Execution Guards <- fail fast, check ALL before running
+- [ ] root cause evidence is present
+- [ ] fix scope is bounded
+- [ ] regression checks are defined
 
-## F. Stop Conditions
-- Non-reproducible failure.
-- Root cause unresolved.
+## F. Execution Flow
+1. Read defect evidence and failing paths.
+2. Implement minimal change set.
+3. Run targeted validations.
+4. Decision point ->
+   - condition A -> validation fails -> iterate fix or abort
+   - condition B ->  validation passes -> continue.
+5. Prepare change rationale and impact summary.
+6. Emit fix package with evidence.
 
-## G. Safety Constraints
-- Do not broaden scope beyond defect boundary.
+## G. Output Schema
+
+```json
+{
+  "fix_id": "string",
+  "changed_files": ["array","of","strings"],
+  "risk": "low | medium | high",
+  "rollback_note": "string | null"
+}
+```
+
+## H. Output Target
+- Default delivery: stdout
+- Override flag: --output=<target>
+
+## I. Stop Conditions <- abort with error message, never emit partial output
+- no verified root-cause evidence
+- regression validation unavailable for critical path
+
+## J. Safety Constraints
+- Hard block: no broad refactor inside fix-only workflow
+- Warn only: warn when temporary workaround is used

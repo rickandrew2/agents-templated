@@ -1,39 +1,58 @@
 # /release
 
 ## A. Intent
-Produce deterministic release readiness decision and rollout contract.
+Generate deterministic release decision package with rollout and rollback readiness.
 
 ## B. When to Use
-Use when promoting validated changes to release channels.
+- Use when deciding whether to ship to production.
+- Do not use before release-ready checks are complete.
 
-## C. Required Inputs
-- Version/tag
-- Change manifest
-- Rollback strategy
-- Hardening verification evidence (when required by risk profile)
+## C. Context Assumptions
+- Release candidate is identified.
+- Pre-release checks are completed.
+- Rollback strategy is defined.
 
-## D. Deterministic Execution Flow
-1. Validate release prerequisites.
-2. Validate compatibility and migration risks.
-3. Validate security and test gates.
-4. Validate hardening verification evidence when hardening-required profile applies.
-5. Build release notes.
-6. Build rollout and rollback steps.
-7. Emit release contract.
+## D. Required Inputs
+| Input | Type | Example |
+|---------------------|------------|----------------------------------|
+| `version` | string | "v2.4.0" |
+| `gate_results` | string[] | ["tests-pass", "risk-review-pass"] |
+| `release_artifacts` | artifact | release notes draft, migration plan |
 
-## E. Structured Output Template
-- `version`
-- `release_readiness`
-- `gates[]`
-- `rollout_plan[]`
-- `rollback_plan[]`
-- `release_notes`
-- `hardening_verification`
+## E. Pre-Execution Guards <- fail fast, check ALL before running
+- [ ] version is valid and unique
+- [ ] required gates are complete
+- [ ] rollback plan exists
 
-## F. Stop Conditions
-- Gate failure.
-- Missing rollback strategy.
+## F. Execution Flow
+1. Collect gate outputs and release artifacts.
+2. Validate rollout and rollback prerequisites.
+3. Classify release risk.
+4. Decision point ->
+   - condition A -> high unresolved risk -> block release
+   - condition B ->  acceptable risk -> continue.
+5. Build release decision and communication payload.
+6. Emit release package.
 
-## G. Safety Constraints
-- Block release when any critical gate fails.
-- Block release when required hardening evidence is missing.
+## G. Output Schema
+
+```json
+{
+  "release_id": "string",
+  "gates": ["array","of","strings"],
+  "release_risk": "low | medium | high",
+  "rollback_status": "string | null"
+}
+```
+
+## H. Output Target
+- Default delivery: stdout
+- Override flag: --output=<target>
+
+## I. Stop Conditions <- abort with error message, never emit partial output
+- required gate missing or failed
+- rollback plan is undefined
+
+## J. Safety Constraints
+- Hard block: hard block on unresolved high-severity release risks
+- Warn only: warn when rollout is phased due to uncertainty

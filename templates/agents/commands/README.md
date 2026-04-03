@@ -7,9 +7,7 @@ This directory is the modular source of truth for slash-command execution contra
 - Command contracts:
   - `plan.md`
   - `task.md`
-  - `scaffold.md`
   - `fix.md`
-  - `refactor.md`
   - `audit.md`
   - `perf.md`
   - `test.md`
@@ -22,10 +20,7 @@ This directory is the modular source of truth for slash-command execution contra
   - `ux-bar.md`
   - `debug-track.md`
   - `risk-review.md`
-  - `quality-gate.md`
-  - `perf-scan.md`
   - `release-ready.md`
-  - `docs-sync.md`
   - `learn-loop.md`
 
 Execution requirements:
@@ -58,10 +53,9 @@ Use these lifecycle commands as the recommended specialist sequence:
 - `ux-bar` -> `plan.md`
 - `debug-track` -> `fix.md`
 - `risk-review` -> `audit.md`
-- `quality-gate` -> `test.md`
-- `perf-scan` -> `perf.md`
+- `perf` -> `perf.md`
 - `release-ready` -> `release.md`
-- `docs-sync` -> `docs.md`
+- `docs` -> `docs.md`
 - `learn-loop` -> `task.md`
 
 The CLI command `agents-templated workflow` prints this lifecycle in order:

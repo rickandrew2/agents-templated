@@ -1,38 +1,58 @@
 # /audit
 
 ## A. Intent
-Run structured engineering audit across security, correctness, and maintainability.
+Produce a deterministic risk and compliance audit with prioritized findings.
 
 ## B. When to Use
-Use before high-impact merges, releases, and external reviews.
+- Use before release or for targeted quality/security reviews.
+- Do not use as a substitute for implementation planning.
 
-## C. Required Inputs
-- Audit scope
-- Risk profile
-- Compliance baseline
-- Hardening profile requirement (if applicable)
+## C. Context Assumptions
+- Audit scope is defined.
+- Relevant artifacts are available.
+- Severity rubric is agreed.
 
-## D. Deterministic Execution Flow
-1. Resolve audit scope.
-2. Run static checks.
-3. Run security checks.
-4. Run dependency/config checks.
-5. Verify hardening evidence when hardening-required profile applies.
-6. Classify findings by severity.
-7. Emit audit report.
+## D. Required Inputs
+| Input | Type | Example |
+|---------------------|------------|----------------------------------|
+| `audit_scope` | string | "authentication flows" |
+| `checklist` | string[] | ["security", "tests", "rollback"] |
+| `evidence_set` | artifact | PR diff, logs, reports |
 
-## E. Structured Output Template
-- `scope`
-- `checks_executed[]`
-- `findings[]`
-- `severity_summary`
-- `remediation_plan[]`
-- `hardening_evidence_status`
+## E. Pre-Execution Guards <- fail fast, check ALL before running
+- [ ] scope is explicit
+- [ ] evidence artifacts are accessible
+- [ ] severity model is available
 
-## F. Stop Conditions
-- Inaccessible scope.
-- Unavailable tooling.
+## F. Execution Flow
+1. Collect scoped evidence and standards.
+2. Evaluate checks against evidence.
+3. Classify findings by severity.
+4. Decision point ->
+   - condition A -> critical unresolved finding -> block recommendation
+   - condition B ->  no critical blocker -> continue.
+5. Assemble remediation actions and owners.
+6. Emit audit report.
 
-## G. Safety Constraints
-- Classify secret leaks and auth bypass as critical.
-- Classify missing hardening verification evidence as release-blocking when hardening is required.
+## G. Output Schema
+
+```json
+{
+  "audit_id": "string",
+  "findings": ["array","of","strings"],
+  "severity": "low | medium | high",
+  "blocker": "string | null"
+}
+```
+
+## H. Output Target
+- Default delivery: stdout
+- Override flag: --output=<target>
+
+## I. Stop Conditions <- abort with error message, never emit partial output
+- scope cannot be determined
+- critical evidence is missing
+
+## J. Safety Constraints
+- Hard block: hard block when critical finding lacks mitigation
+- Warn only: warn when medium findings are deferred

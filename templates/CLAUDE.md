@@ -32,6 +32,9 @@ All policy, routing, and skill governance lives here — edit this file directly
 |-------|------|------------------|
 | app-hardening | `.github/skills/app-hardening/SKILL.md` | Hardening, anti-tamper, integrity controls |
 | bug-triage | `.github/skills/bug-triage/SKILL.md` | Something is broken, failing, or crashing |
+| debug-skill | `.github/skills/debug-skill/SKILL.md` | Breakpoint-first debugging, execution tracing, state inspection |
+| secure-code-guardian | `.github/skills/secure-code-guardian/SKILL.md` | Secure-by-default coding for auth, secrets, and user input |
+| feature-forge | `.github/skills/feature-forge/SKILL.md` | Turn feature ideas into execution-ready requirements and acceptance criteria |
 | error-patterns | `.github/skills/error-patterns/SKILL.md` | Debugging with persistent lessons memory and automatic fix recording |
 | feature-delivery | `.github/skills/feature-delivery/SKILL.md` | Build/add/implement feature work |
 | find-skills | `.github/skills/find-skills/SKILL.md` | User asks to discover a skill |

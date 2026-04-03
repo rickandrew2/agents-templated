@@ -1,33 +1,58 @@
 # /ux-bar
 
 ## A. Intent
-Set a minimum UX quality bar with clear criteria before UI implementation.
+Assess UX quality bar and guarantee core interaction states are defined before build.
 
 ## B. When to Use
-Use when a feature has user-facing interaction or visual design impact.
+- Use when UX quality and accessibility need pre-implementation validation.
+- Do not use as a replacement for visual design exploration.
 
-## C. Required Inputs
-- Target user flow
-- Existing design language
-- Accessibility requirements
+## C. Context Assumptions
+- Scope and architecture are available.
+- Primary user flows are identified.
+- Design references exist.
 
-## D. Deterministic Execution Flow
-1. Evaluate key interaction states.
-2. Check visual hierarchy and clarity.
-3. Validate accessibility coverage.
-4. Identify UX risks and gaps.
-5. Emit UX quality checklist.
+## D. Required Inputs
+| Input | Type | Example |
+|---------------------|------------|----------------------------------|
+| `ux_goal` | string | "reduce checkout friction" |
+| `flows` | string[] | ["cart", "payment", "confirmation"] |
+| `design_artifact` | artifact | wireframes, Figma link, screenshots |
 
-## E. Structured Output Template
-- `ux_scorecard[]`
-- `interaction_states[]`
-- `accessibility_checks[]`
-- `ux_gaps[]`
-- `improvements[]`
+## E. Pre-Execution Guards <- fail fast, check ALL before running
+- [ ] critical flows are enumerated
+- [ ] interaction states include loading/error/empty
+- [ ] accessibility checks are defined
 
-## F. Stop Conditions
-- Critical flow has undefined state handling.
-- Accessibility constraints are missing.
+## F. Execution Flow
+1. Review flows and interaction states.
+2. Evaluate accessibility and usability risks.
+3. Score UX gaps by severity.
+4. Decision point ->
+   - condition A -> critical UX gap -> block readiness
+   - condition B ->  manageable gaps -> continue.
+5. Build prioritized improvement list.
+6. Emit UX quality package.
 
-## G. Safety Constraints
-- Preserve existing design system patterns unless an explicit redesign is approved.
+## G. Output Schema
+
+```json
+{
+  "ux_review_id": "string",
+  "ux_gaps": ["array","of","strings"],
+  "severity": "low | medium | high",
+  "blocker": "string | null"
+}
+```
+
+## H. Output Target
+- Default delivery: stdout
+- Override flag: --output=<target>
+
+## I. Stop Conditions <- abort with error message, never emit partial output
+- critical flow lacks defined interaction states
+- accessibility baseline is not addressed
+
+## J. Safety Constraints
+- Hard block: hard block on unaddressed critical accessibility failures
+- Warn only: warn when medium UX issues are deferred

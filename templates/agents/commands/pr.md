@@ -1,35 +1,58 @@
 # /pr
 
 ## A. Intent
-Prepare a deterministic pull request payload with implementation evidence.
+Prepare a deterministic pull request package with implementation and validation evidence.
 
 ## B. When to Use
-Use after validated changes are ready for review.
+- Use after code changes and validation are complete and review package is needed.
+- Do not use when critical findings are still unresolved.
 
-## C. Required Inputs
-- Change summary
-- Linked issues/tasks
-- Validation evidence
+## C. Context Assumptions
+- Change set exists.
+- Validation evidence is available.
+- Linked issue/task context is known.
 
-## D. Deterministic Execution Flow
-1. Collect changed files.
-2. Summarize intent and impact.
-3. Attach validation evidence.
-4. Classify risk and rollout impact.
-5. Build reviewer checklist.
-6. Emit PR package.
+## D. Required Inputs
+| Input | Type | Example |
+|---------------------|------------|----------------------------------|
+| `change_summary` | string | "add retry policy to webhook worker" |
+| `linked_items` | string[] | ["ISSUE-18", "TASK-42"] |
+| `validation_evidence` | artifact | test report, benchmark output, screenshot |
 
-## E. Structured Output Template
-- `title`
-- `summary`
-- `files_changed[]`
-- `validation_evidence[]`
-- `risk_assessment`
-- `review_checklist[]`
+## E. Pre-Execution Guards <- fail fast, check ALL before running
+- [ ] change summary is complete
+- [ ] linked items are resolvable
+- [ ] validation evidence is present
 
-## F. Stop Conditions
-- Missing validation evidence.
-- Open critical findings.
+## F. Execution Flow
+1. Collect changed files and linked references.
+2. Summarize intent, impact, and scope.
+3. Attach validation and risk evidence.
+4. Decision point ->
+   - condition A -> critical blocker open -> abort PR package
+   - condition B ->  no blocker -> continue.
+5. Build reviewer checklist and rollout notes.
+6. Emit PR payload.
 
-## G. Safety Constraints
-- Block PR package when critical issues remain unresolved.
+## G. Output Schema
+
+```json
+{
+  "title": "string",
+  "files_changed": ["array","of","strings"],
+  "risk_assessment": "low | medium | high",
+  "blockers": "string | null"
+}
+```
+
+## H. Output Target
+- Default delivery: stdout
+- Override flag: --output=<target>
+
+## I. Stop Conditions <- abort with error message, never emit partial output
+- validation evidence missing for critical changes
+- open critical findings remain unresolved
+
+## J. Safety Constraints
+- Hard block: hard block if critical issues remain
+- Warn only: warn when non-critical follow-up items are deferred

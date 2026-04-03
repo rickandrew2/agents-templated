@@ -1,34 +1,58 @@
 # /docs
 
 ## A. Intent
-Generate or update documentation aligned to implemented behavior.
+Create deterministic documentation outputs aligned with current implementation behavior.
 
 ## B. When to Use
-Use when code, APIs, operations, or workflows change.
+- Use when generating or updating docs as a direct deliverable.
+- Do not use for release decision making.
 
-## C. Required Inputs
-- Documentation scope
-- Source changes
-- Target audience
+## C. Context Assumptions
+- Source behavior is known.
+- Target audience is defined.
+- Doc destination is available.
 
-## D. Deterministic Execution Flow
-1. Resolve source-of-truth artifacts.
-2. Extract behavior and API deltas.
-3. Map deltas to sections.
-4. Apply concise updates.
-5. Validate examples/commands.
-6. Emit docs change report.
+## D. Required Inputs
+| Input | Type | Example |
+|---------------------|------------|----------------------------------|
+| `doc_scope` | string | "API auth endpoints" |
+| `source_refs` | string[] | ["src/auth.ts", "openapi.yaml"] |
+| `doc_artifact` | artifact | existing README path or docs URL |
 
-## E. Structured Output Template
-- `scope`
-- `sources[]`
-- `sections_updated[]`
-- `example_validation`
-- `follow_up_actions[]`
+## E. Pre-Execution Guards <- fail fast, check ALL before running
+- [ ] scope is explicit
+- [ ] source refs are accessible
+- [ ] destination path is writable
 
-## F. Stop Conditions
-- Missing source artifacts.
-- Unresolved ambiguity.
+## F. Execution Flow
+1. Collect implementation references.
+2. Draft structured documentation content.
+3. Validate examples and references.
+4. Decision point ->
+   - condition A -> mismatch with implementation -> revise doc content
+   - condition B ->  aligned -> continue.
+5. Assemble final documentation package.
+6. Emit documentation output.
 
-## G. Safety Constraints
-- Do not publish secrets, tokens, or credentials.
+## G. Output Schema
+
+```json
+{
+  "doc_id": "string",
+  "updated_sections": ["array","of","strings"],
+  "confidence": "low | medium | high",
+  "gap": "string | null"
+}
+```
+
+## H. Output Target
+- Default delivery: file
+- Override flag: --output=<target>
+
+## I. Stop Conditions <- abort with error message, never emit partial output
+- source references are unavailable
+- critical behavior cannot be documented accurately
+
+## J. Safety Constraints
+- Hard block: hard block on knowingly incorrect implementation claims
+- Warn only: warn when sections remain TODO with owner

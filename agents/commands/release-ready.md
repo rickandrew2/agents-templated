@@ -1,33 +1,58 @@
 # /release-ready
 
 ## A. Intent
-Validate release readiness with checks for quality, risk, and rollback.
+Validate pre-release readiness gates and guarantee deploy prerequisites are satisfied.
 
 ## B. When to Use
-Use immediately before opening or merging a release PR.
+- Use after implementation/tests/risk review and before final release decision.
+- Do not use to execute deployment itself.
 
-## C. Required Inputs
-- Change summary
-- Validation evidence
-- Deployment path
+## C. Context Assumptions
+- Release candidate exists.
+- All required gate outputs are available.
+- Rollout and rollback plans are drafted.
 
-## D. Deterministic Execution Flow
-1. Confirm test and quality gate outcomes.
-2. Confirm risk-review status.
-3. Verify migration and deploy prerequisites.
-4. Verify rollback plan.
-5. Emit release readiness decision.
+## D. Required Inputs
+| Input | Type | Example |
+|---------------------|------------|----------------------------------|
+| `candidate_version` | string | "v2.4.0-rc1" |
+| `gate_artifacts` | string[] | ["test", "risk-review", "perf-scan"] |
+| `release_artifact` | artifact | release checklist, migration plan |
 
-## E. Structured Output Template
-- `release_scope`
-- `checks_passed[]`
-- `blocking_issues[]`
-- `rollback_plan`
-- `ready_status`
+## E. Pre-Execution Guards <- fail fast, check ALL before running
+- [ ] mandatory gates are present
+- [ ] critical blockers are resolved
+- [ ] rollback steps are executable
 
-## F. Stop Conditions
-- Blocking issue unresolved.
-- Rollback plan absent.
+## F. Execution Flow
+1. Collect gate evidence for candidate.
+2. Validate checklist completion.
+3. Verify rollout and rollback readiness.
+4. Decision point ->
+   - condition A -> missing mandatory gate -> block readiness
+   - condition B ->  all gates complete -> continue.
+5. Assemble readiness summary and open items.
+6. Emit release-ready report.
 
-## G. Safety Constraints
-- Do not approve release when required evidence is missing.
+## G. Output Schema
+
+```json
+{
+  "readiness_id": "string",
+  "gate_status": ["array","of","strings"],
+  "readiness_risk": "low | medium | high",
+  "blocker": "string | null"
+}
+```
+
+## H. Output Target
+- Default delivery: stdout
+- Override flag: --output=<target>
+
+## I. Stop Conditions <- abort with error message, never emit partial output
+- mandatory gate missing or failed
+- rollback execution path is unverified
+
+## J. Safety Constraints
+- Hard block: hard block when release checklist is incomplete on critical items
+- Warn only: warn when non-critical items are deferred
