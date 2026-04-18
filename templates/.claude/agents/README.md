@@ -23,11 +23,18 @@ Subagents are bounded agent processes that your orchestrator (main AI) can deleg
 | `refactor-cleaner` | sonnet | Remove dead code, unused deps, orphaned exports |
 | `doc-updater` | haiku | Sync README, API docs, and codemaps after code changes |
 | `performance-profiler` | sonnet | Diagnose latency and resource bottlenecks with measurable optimization plans |
+| `performance-specialist` | sonnet | Execute explicit profile/load performance phases with mode-locked invocation |
+| `test-data-builder` | sonnet | Build deterministic fixtures/seeds and handoff data for validation/e2e/load |
 | `dependency-auditor` | sonnet | Audit dependency risk, CVEs, and upgrade hygiene |
 | `configuration-validator` | sonnet | Validate environment config, safety defaults, and deploy readiness |
 | `database-migrator` | sonnet | Plan and review schema/data migrations with rollback and validation gates |
 | `load-tester` | sonnet | Define load scenarios, thresholds, and release-quality performance gates |
 | `compatibility-checker` | sonnet | Detect contract-breaking API changes and enforce versioning discipline |
+| `backend-specialist` | sonnet | Execute backend-oriented implementation phases in orchestrated runs |
+| `frontend-specialist` | sonnet | Execute frontend-oriented implementation phases in orchestrated runs |
+| `qa-specialist` | sonnet | Run validation and regression-focused orchestration phases |
+| `release-ops-specialist` | sonnet | Perform release hardening, risk checks, and operational readiness steps |
+| `deployment-specialist` | sonnet | Prepare deployment rollout plans and rollback-safe execution guidance |
 
 ## Model Selection Guide
 
@@ -64,11 +71,18 @@ Reference the subagent file directly in your prompt or instruct your AI to follo
 ├── refactor-cleaner.md
 ├── doc-updater.md
 ├── performance-profiler.md
+├── performance-specialist.md
+├── test-data-builder.md
 ├── dependency-auditor.md
 ├── configuration-validator.md
 ├── database-migrator.md
 ├── load-tester.md
-└── compatibility-checker.md
+├── compatibility-checker.md
+├── backend-specialist.md
+├── frontend-specialist.md
+├── qa-specialist.md
+├── release-ops-specialist.md
+└── deployment-specialist.md
 ```
 
 ## Adding a New Subagent

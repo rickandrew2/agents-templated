@@ -93,6 +93,7 @@ Your AI assistant will auto-load the configurations and follow enterprise patter
 |---------|-------------|
 | **Quick Start Presets** | 5 popular tech stack presets (Next.js, Express, Django, FastAPI, Go) |
 | **Interactive Wizard** | Guided setup with personalized recommendations |
+| **AI Agents Supported** | Cursor, GitHub Copilot, Claude, and generic agents via `AGENTS.MD` |
 | **Deterministic Commands** | Slash-command contracts with strict structured outputs |
 | **Intent-Routing Ready** | Command schema supports `slash-command-auto` mode for agent-side routing policies |
 | **Security-First** | OWASP Top 10 protection patterns built-in |
@@ -236,6 +237,7 @@ These commands provide deterministic specialist guidance aligned to the sprint l
 | `arch-check` | Architecture Reviewer | Lock architecture and edge-case coverage |
 | `ux-bar` | Design Quality Lead | Raise UX quality before implementation |
 | `debug-track` | Root-Cause Investigator | Reproduce and isolate root cause |
+| `test-data` | Test Data Builder | Prepare deterministic fixtures/seeds for downstream validation |
 | `risk-review` | Release Risk Reviewer | Surface production-risk issues before merge |
 | `perf` | Performance Analyst | Optimize performance and guard against regressions |
 | `release-ready` | Release Coordinator | Prepare release artifacts and final checks |
@@ -243,6 +245,24 @@ These commands provide deterministic specialist guidance aligned to the sprint l
 | `learn-loop` | Iteration Lead | Capture lessons and next-cycle actions |
 
 Each command maps to deterministic contract files in `agents/commands/` and uses the schema in `agents/commands/SCHEMA.md`.
+
+### Deprecated Workflow Aliases
+
+The CLI keeps selected legacy names as non-breaking redirects with deterministic notices.
+
+| Deprecated | Canonical |
+|------------|-----------|
+| `quality-gate` | `risk-review` |
+| `perf-scan` | `perf` |
+| `docs-sync` | `docs` |
+
+Migration guidance:
+
+- Existing scripts continue to work.
+- Alias invocations print a deprecation warning and redirect deterministically.
+- New automation should use canonical names only.
+- Sunset guidance: deprecated aliases remain supported through v2.x and are scheduled for removal in v3.0.
+
 
 ---
 
@@ -359,11 +379,20 @@ Your AI will follow the enterprise patterns automatically!
 
 | Agent | Responsibility |
 |-------|---------------|
-| **FrontendAgent** | UI/UX, components, design system, accessibility |
-| **BackendAgent** | API, business logic, authentication, middleware |
-| **DatabaseAgent** | Schema design, migrations, query optimization |
-| **TestAgent** | Unit, integration, E2E, accessibility testing |
-| **SecurityAgent** | Input validation, authentication, OWASP compliance |
+| **backend-specialist** | API, business logic, auth middleware, persistence changes |
+| **frontend-specialist** | UI/UX implementation, accessibility, interaction behavior |
+| **qa-specialist** | Design-mode test planning and validation-mode regression gates |
+| **performance-specialist** | Mode-locked performance profiling and load threshold validation |
+| **test-data-builder** | Deterministic fixtures, seeds, and downstream handoff contracts |
+| **security-reviewer** | Conditional security invocation based on trigger thresholds |
+| **dependency-auditor** | CVE/dependency risk auditing and upgrade hygiene |
+| **deployment-specialist** | Ordered deployment phase contract and rollback readiness |
+
+#### Separation-Preservation Sequence Contracts
+
+- Backend implementation lane: `backend-specialist -> build-error-resolver -> compatibility-checker`
+- Review/governance lane: `code-reviewer -> dependency-auditor -> doc-updater`
+- Test-data handoff lane: `qa-specialist(mode=design) -> test-data-builder -> qa-specialist(mode=validation) -> e2e-runner -> performance-specialist(mode=load)`
 
 **Reference**: [AGENTS.MD](AGENTS.MD)
 

@@ -138,6 +138,12 @@ This template is designed to work with **any modern technology stack**. Choose t
 - **Accessibility Testing**: Automated WCAG compliance checking
 - **Security Testing**: Input validation and authentication flow testing
 
+### Orchestration Runtime Policy
+- **Mode-locked specialists**: `qa-specialist` requires explicit `design|validation` and `performance-specialist` requires explicit `profile|load`. Missing or unsupported modes block orchestration with a stop condition.
+- **Conditional security threshold**: `security-reviewer` is mandatory only when high-risk triggers are present (auth, secrets, PII, vulnerability/breaking contract signals). Medium signals are scored; below threshold results in explicit skip reason.
+- **Refactor retry cap**: Refactor-cleanup/build-repair loops are capped at 2 retries. Attempting cycle 3 halts execution and requires escalation instead of infinite retry.
+- **Deterministic diagnostics**: Orchestration output includes selected scenario, phase handoffs, invocation modes, security policy decision, and retry-cap state for auditable execution.
+
 ### Developer Experience
 - **Development Tools**: Hot reload, debugging tools, comprehensive logging
 - **Code Quality**: Linting, formatting, pre-commit hooks, automated quality gates

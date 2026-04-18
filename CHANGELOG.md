@@ -1,5 +1,52 @@
 # Changelog
 
+## Version 2.2.13 - Agent Command Wiring and Release Sync (April 18, 2026)
+
+### ✨ New Features
+
+- Wired command usage into agent roster files with explicit mandatory/optional command guidance per agent.
+- Added command wiring sections to source and template agent files to reduce workflow duplication.
+
+### ✅ Validation
+
+- Confirmed command wiring coverage for all command contracts.
+- Confirmed source/template agent parity after command wiring updates.
+- Test suite passed (`57/57` tests).
+
+## Version 2.2.12 - Orchestration Roster Migration Waves 3-5 (April 18, 2026)
+
+### ✨ New Features
+
+- Added `test-data-builder` subagent (source + template) for deterministic fixture/seed/mock generation.
+- Added `/test-data` deterministic command contract and orchestration command surface integration.
+- Added orchestration handoff metadata (`handoff_inputs`) for downstream QA/E2E/performance phases.
+
+### 🧭 Routing and Boundary Controls
+
+- Added non-overlap routing boundaries to preserve separation between:
+  - `backend-specialist` vs `build-error-resolver` vs `compatibility-checker`
+  - `code-reviewer` -> `dependency-auditor` -> `doc-updater`
+- Added ordered review chain enforcement and command-specific optional delegate allowlists.
+- Added test-data handoff routing from QA design and backend/database contexts to validation/e2e/load consumers.
+
+### ♻️ Compatibility and Deprecation
+
+- Added deterministic deprecated command redirects:
+  - `quality-gate` -> `risk-review`
+  - `perf-scan` -> `perf`
+  - `docs-sync` -> `docs`
+- Added deprecated subagent alias redirect metadata for absorbed roles (mode-preserving where applicable).
+- CLI now prints deterministic deprecation notices while preserving non-breaking behavior.
+- Added explicit sunset guidance: deprecated aliases remain in v2.x and are removed in v3.0.
+
+### 📚 Documentation
+
+- Updated source + template command docs with:
+  - non-overlap boundary policy,
+  - test-data handoff routing,
+  - alias migration guidance.
+- Updated source + template README with test-data command and deprecation mapping.
+
 ## Version 2.2.11 - Workflow Contracts and Publish Hardening (March 29, 2026)
 
 ### ✨ New Features

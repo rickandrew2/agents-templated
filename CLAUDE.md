@@ -60,11 +60,18 @@ Skills add capability only. They must not override security, testing, or core co
 | refactor-cleaner | `.claude/agents/refactor-cleaner.md` | Removing dead code and unused dependencies |
 | doc-updater | `.claude/agents/doc-updater.md` | Syncing docs and READMEs after code changes |
 | performance-profiler | `.claude/agents/performance-profiler.md` | Diagnosing latency, CPU, memory, and build bottlenecks |
+| performance-specialist | `.claude/agents/performance-specialist.md` | Diagnosing bottlenecks or validating performance thresholds with explicit mode |
+| test-data-builder | `.claude/agents/test-data-builder.md` | Building deterministic fixtures, seeds, and mock datasets for downstream validation |
 | dependency-auditor | `.claude/agents/dependency-auditor.md` | Auditing package risk, CVEs, and upgrade hygiene |
 | configuration-validator | `.claude/agents/configuration-validator.md` | Validating env settings, defaults, and deploy readiness |
 | database-migrator | `.claude/agents/database-migrator.md` | Planning safe migrations with validation and rollback gates |
 | load-tester | `.claude/agents/load-tester.md` | Designing load tests with thresholds and pass/fail criteria |
 | compatibility-checker | `.claude/agents/compatibility-checker.md` | Reviewing API contract compatibility and versioning impact |
+| backend-specialist | `.claude/agents/backend-specialist.md` | Implementing backend-focused phases in orchestrated execution |
+| frontend-specialist | `.claude/agents/frontend-specialist.md` | Implementing frontend-focused phases in orchestrated execution |
+| qa-specialist | `.claude/agents/qa-specialist.md` | Running test and regression validation phases |
+| release-ops-specialist | `.claude/agents/release-ops-specialist.md` | Managing release hardening and operational readiness phases |
+| deployment-specialist | `.claude/agents/deployment-specialist.md` | Handling deployment planning, rollout checks, and rollback readiness |
 
 Subagents are bounded agents with limited tool access. They inherit all policy from this file and may not override security, testing, or core constraints.
 

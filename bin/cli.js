@@ -27,9 +27,14 @@ const {
   WORKFLOW_COMMANDS,
   CONTRACT_FILES,
   SPECIALIST_CONTRACT_FILES,
+  DEPRECATED_COMMAND_ALIASES,
   formatWorkflowOutput,
   validateWorkflowDefinitions
 } = require('../lib/workflow');
+const {
+  WorkflowOrchestrator,
+  formatOrchestrationOutput
+} = require('../lib/orchestrator');
 
 // Resolve the templates directory - works in both dev and installed contexts
 const getTemplatesDir = () => {
@@ -1109,6 +1114,32 @@ program
     console.log(chalk.white('  agents-templated problem-map "daily briefing app for founders"\n'));
   });
 
+program
+  .command('orchestrate [objective...]')
+  .description('Automatically route a high-level objective across specialist subagents')
+  .option('--scenario <id>', 'Force a specific scenario id (feature-delivery, backend-api, frontend-feature, bug-fix, deployment)')
+  .option('--mode <mode>', 'slash-command or slash-command-auto', 'slash-command-auto')
+  .option('--retry-cycle <n>', 'Current retry cycle for refactor-cleaner/build-error-resolver loop control', '0')
+  .option('--json', 'Emit structured JSON only')
+  .action((objective, options) => {
+    const objectiveText = Array.isArray(objective) ? objective.join(' ') : '';
+    const retryCycle = Number.parseInt(options.retryCycle, 10);
+    const orchestrator = new WorkflowOrchestrator();
+    const result = orchestrator.orchestrate({
+      objective: objectiveText,
+      scenarioId: options.scenario,
+      mode: options.mode,
+      retryCycle: Number.isNaN(retryCycle) ? 0 : retryCycle
+    });
+
+    if (options.json) {
+      process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+      return;
+    }
+
+    process.stdout.write(formatOrchestrationOutput(result));
+  });
+
 for (const workflow of WORKFLOW_COMMANDS) {
   program
     .command(`${workflow.cli} [objective...]`)
@@ -1116,6 +1147,24 @@ for (const workflow of WORKFLOW_COMMANDS) {
     .action((objective) => {
       const objectiveText = Array.isArray(objective) ? objective.join(' ') : '';
       process.stdout.write(formatWorkflowOutput(workflow, objectiveText));
+    });
+}
+
+for (const deprecatedAlias of DEPRECATED_COMMAND_ALIASES) {
+  program
+    .command(`${deprecatedAlias.from} [objective...]`)
+    .description(`Deprecated alias for ${deprecatedAlias.to}`)
+    .action((objective) => {
+      const objectiveText = Array.isArray(objective) ? objective.join(' ') : '';
+      const redirectedWorkflow = WORKFLOW_COMMANDS.find((workflow) => workflow.cli === deprecatedAlias.to);
+
+      if (!redirectedWorkflow) {
+        console.error(chalk.red(`Deprecated alias target not found: ${deprecatedAlias.to}`));
+        process.exit(1);
+      }
+
+      console.log(chalk.yellow(`[deprecated] ${deprecatedAlias.notice}`));
+      process.stdout.write(formatWorkflowOutput(redirectedWorkflow, objectiveText));
     });
 }
 

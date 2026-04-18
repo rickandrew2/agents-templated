@@ -3,6 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const os = require('os');
 const { install } = require('../index');
+const { WorkflowOrchestrator } = require('../lib/orchestrator');
 
 const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
 
@@ -99,6 +100,73 @@ describe('CLI commands', () => {
       const output = runCLI('office-hours "legacy path"', tempDir);
       expect(output).toContain('unknown command');
       expect(output).toContain('office-hours');
+    });
+
+    test('orchestrate should auto-route an objective across specialist tracks', () => {
+      const output = runCLI('orchestrate "build api auth service"', tempDir);
+      expect(output).toContain('Orchestration run');
+      expect(output).toContain('Status: completed');
+      expect(output).toContain('backend-specialist');
+      expect(output).toContain('optional: security-reviewer');
+    });
+
+    test('orchestrate --json should emit deterministic schema fields', () => {
+      const output = runCLI('orchestrate "deploy release candidate" --json', tempDir);
+      expect(output).toContain('"command": "/orchestrate"');
+      expect(output).toContain('"mode": "slash-command-auto"');
+      expect(output).toContain('"status": "completed"');
+      expect(output).toContain('"scenario": "deployment"');
+      expect(output).toContain('"optional_subagents"');
+    });
+
+    test('orchestrate with invalid scenario should fail safely', () => {
+      const output = runCLI('orchestrate "ship it" --scenario unknown-scenario --json', tempDir);
+      expect(output).toContain('"status": "failed"');
+      expect(output).toContain('Unknown scenario: unknown-scenario');
+    });
+
+    test('mode-lock contract should halt when required specialist mode is missing', () => {
+      const orchestrator = new WorkflowOrchestrator();
+      expect(() => orchestrator.assertModeLock('qa-specialist', null)).toThrow('Missing required mode');
+    });
+
+    test('orchestrate should surface mode diagnostics for mode-locked specialists', () => {
+      const output = runCLI('orchestrate "build api auth service"', tempDir);
+      expect(output).toContain('mode=design');
+      expect(output).toContain('mode=validation');
+    });
+
+    test('orchestrate should block when retry-cycle exceeds refactor cap', () => {
+      const output = runCLI('orchestrate "refactor cleanup parser" --retry-cycle 3 --json', tempDir);
+      expect(output).toContain('"status": "blocked"');
+      expect(output).toContain('retry cap exceeded');
+    });
+
+    test('orchestrate should include mandatory security policy decision in JSON output', () => {
+      const output = runCLI('orchestrate "build auth token endpoint with permission checks" --json', tempDir);
+      expect(output).toContain('"security_policy"');
+      expect(output).toContain('"level": "mandatory"');
+      expect(output).toContain('mandatory security trigger matched');
+    });
+
+    test('orchestrate should include explicit security skip reason when threshold is not met', () => {
+      const output = runCLI('orchestrate "docs typo fix" --json', tempDir);
+      expect(output).toContain('"security_policy"');
+      expect(output).toContain('"level": "skipped"');
+      expect(output).toContain('"skipReason"');
+    });
+
+    test('deprecated workflow aliases should redirect with deterministic notice', () => {
+      const output = runCLI('perf-scan "measure latency"', tempDir);
+      expect(output).toContain('[deprecated]');
+      expect(output).toContain('redirecting to perf');
+      expect(output).toContain('Command: perf');
+    });
+
+    test('orchestrate should include deprecation notices in JSON when legacy subagent aliases are routed', () => {
+      const output = runCLI('orchestrate "add api with tdd coverage validation" --json', tempDir);
+      expect(output).toContain('"deprecation_notices"');
+      expect(output).toContain('tdd-guide is deprecated');
     });
   });
 

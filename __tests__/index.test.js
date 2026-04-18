@@ -3,7 +3,21 @@ const path = require('path');
 const { install } = require('../index');
 const os = require('os');
 const pkg = require('../package.json');
-const { validateWorkflowDefinitions, WORKFLOW_COMMANDS } = require('../lib/workflow');
+const {
+  validateWorkflowDefinitions,
+  WORKFLOW_COMMANDS,
+  ORCHESTRATION_SCENARIOS,
+  ORCHESTRATION_TRACKS,
+  OPTIONAL_SUBAGENT_RULES,
+  DEPRECATED_COMMAND_ALIASES,
+  DEPRECATED_SUBAGENT_ALIASES,
+  NON_OVERLAP_ROUTE_BOUNDARIES,
+  MODE_LOCKED_SPECIALISTS,
+  SECURITY_REVIEW_POLICY,
+  REFACTOR_BUILD_RETRY_CAP,
+  REFACTOR_BUILD_HALT_AFTER,
+  resolveScenarioFromObjective
+} = require('../lib/workflow');
 
 describe('agents-templated API', () => {
   let tempDir;
@@ -169,6 +183,103 @@ describe('agents-templated API', () => {
 
     test('should pass workflow definition validation', () => {
       expect(validateWorkflowDefinitions()).toEqual([]);
+    });
+
+    test('should not have duplicate orchestration scenario ids', () => {
+      const scenarioIds = ORCHESTRATION_SCENARIOS.map((scenario) => scenario.id);
+      const uniqueScenarioIds = new Set(scenarioIds);
+      expect(uniqueScenarioIds.size).toBe(scenarioIds.length);
+    });
+
+    test('should resolve deployment scenario from deployment objective keywords', () => {
+      const { scenario } = resolveScenarioFromObjective('deploy release candidate to production');
+      expect(scenario.id).toBe('deployment');
+    });
+
+    test('should only reference known tracks in orchestration scenarios', () => {
+      for (const scenario of ORCHESTRATION_SCENARIOS) {
+        for (const phase of scenario.phases) {
+          expect(ORCHESTRATION_TRACKS[phase.track]).toBeDefined();
+        }
+      }
+    });
+
+    test('should keep optional subagent delegation non-required', () => {
+      for (const rule of OPTIONAL_SUBAGENT_RULES) {
+        expect(rule.required).toBe(false);
+      }
+    });
+
+    test('should include existing subagents in optional orchestration rules', () => {
+      const optionalNames = OPTIONAL_SUBAGENT_RULES.map((rule) => rule.subagent);
+      expect(optionalNames).toContain('security-reviewer');
+      expect(optionalNames).toContain('e2e-runner');
+      expect(optionalNames).toContain('dependency-auditor');
+      expect(optionalNames).toContain('configuration-validator');
+    });
+
+    test('should define mode locks for qa and performance specialists', () => {
+      expect(MODE_LOCKED_SPECIALISTS['qa-specialist']).toEqual(['design', 'validation']);
+      expect(MODE_LOCKED_SPECIALISTS['performance-specialist']).toEqual(['profile', 'load']);
+    });
+
+    test('should route perf command to performance specialist track', () => {
+      const perfCommand = WORKFLOW_COMMANDS.find((command) => command.cli === 'perf');
+      expect(perfCommand).toBeDefined();
+      expect(perfCommand.track).toBe('performance');
+      expect(ORCHESTRATION_TRACKS.performance.subagent).toBe('performance-specialist');
+    });
+
+    test('should route test-data command to test-data-builder track', () => {
+      const testDataCommand = WORKFLOW_COMMANDS.find((command) => command.cli === 'test-data');
+      expect(testDataCommand).toBeDefined();
+      expect(testDataCommand.track).toBe('test-data');
+      expect(ORCHESTRATION_TRACKS['test-data'].subagent).toBe('test-data-builder');
+    });
+
+    test('should expose deterministic security threshold and retry cap policy', () => {
+      expect(SECURITY_REVIEW_POLICY.mediumThreshold).toBeGreaterThan(0);
+      expect(REFACTOR_BUILD_RETRY_CAP).toBe(2);
+      expect(REFACTOR_BUILD_HALT_AFTER).toBe(REFACTOR_BUILD_RETRY_CAP + 1);
+    });
+
+    test('should expose deterministic deprecated command alias redirects', () => {
+      const aliases = DEPRECATED_COMMAND_ALIASES.map((alias) => alias.from);
+      expect(aliases).toContain('quality-gate');
+      expect(aliases).toContain('perf-scan');
+      expect(aliases).toContain('docs-sync');
+    });
+
+    test('should enforce non-overlap backend and review route boundaries', () => {
+      expect(NON_OVERLAP_ROUTE_BOUNDARIES.backendResolutionSubagents).toEqual(
+        expect.arrayContaining(['build-error-resolver', 'compatibility-checker', 'database-migrator'])
+      );
+
+      expect(NON_OVERLAP_ROUTE_BOUNDARIES.reviewSequence).toEqual([
+        'code-reviewer',
+        'dependency-auditor',
+        'doc-updater'
+      ]);
+
+      expect(NON_OVERLAP_ROUTE_BOUNDARIES.commandAllowlist['risk-review']).toEqual(
+        expect.arrayContaining(['code-reviewer', 'dependency-auditor', 'security-reviewer', 'compatibility-checker'])
+      );
+    });
+
+    test('should keep deprecated subagent alias redirects valid and canonical', () => {
+      const canonicalSubagents = new Set([
+        ...Object.values(ORCHESTRATION_TRACKS).map((track) => track.subagent),
+        ...OPTIONAL_SUBAGENT_RULES.map((rule) => rule.subagent),
+        'deployment-specialist',
+        'qa-specialist',
+        'performance-specialist'
+      ]);
+
+      for (const [from, alias] of Object.entries(DEPRECATED_SUBAGENT_ALIASES)) {
+        expect(alias).toHaveProperty('to');
+        expect(alias.to).not.toBe(from);
+        expect(canonicalSubagents.has(alias.to)).toBe(true);
+      }
     });
   });
 
