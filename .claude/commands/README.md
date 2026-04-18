@@ -3,7 +3,7 @@
 This directory is the modular source of truth for slash-command execution contracts.
 
 - Global protocol and safety framework: `AGENTS.MD` → `Deterministic Slash Command System Standard`
-- Global response schema: `agents/commands/SCHEMA.md`
+- Global response schema: `.claude/commands/SCHEMA.md`
 - Command contracts:
   - `plan.md`
   - `task.md`
@@ -39,10 +39,11 @@ Execution requirements:
 
 ## Publish Inclusion
 
-The npm package includes command contracts from both:
+The npm package scaffolds command contracts into `.claude/commands/`.
 
-- `agents/commands/` (root mirror)
-- `templates/agents/commands/` (scaffold source)
+Template source path in this repository:
+
+- `templates/agents/commands/`
 
 ## Workflow Command Mapping
 

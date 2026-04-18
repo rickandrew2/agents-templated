@@ -10,6 +10,7 @@ const {
   LAYOUT,
   resolveRulesDir,
   resolveSkillsDir,
+  resolveCommandsDir,
   resolveSubagentsDir,
   hasAnyLayout,
   getLegacyMigrationPlan
@@ -146,7 +147,7 @@ program
               { name: 'Documentation files (agent-docs/)', value: 'docs' },
               { name: 'Agent rules (.claude/rules/*.md)', value: 'rules' },
               { name: 'Skills (.github/skills/*)', value: 'skills' },
-              { name: 'Command contracts (agents/commands/*.md)', value: 'commands' },
+              { name: 'Command contracts (.claude/commands/*.md)', value: 'commands' },
               { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
               { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents' }
             ],
@@ -210,10 +211,10 @@ program
       // Install deterministic command contracts
       if (installAll || choices.includes('commands')) {
         console.log(chalk.yellow('Installing command contracts...'));
-        await fs.ensureDir(path.join(targetDir, 'agents', 'commands'));
+        await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.commandsDir));
         await copyDirectory(
           path.join(templateDir, 'agents', 'commands'),
-          path.join(targetDir, 'agents', 'commands'),
+          path.join(targetDir, LAYOUT.canonical.commandsDir),
           options.force
         );
       }
@@ -291,7 +292,7 @@ program
                 { name: 'Documentation (agent-docs/)', value: 'docs' },
                 { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules' },
                 { name: 'Skills (reusable agent capabilities)', value: 'skills' },
-                { name: 'Command contracts (agents/commands/*.md)', value: 'commands' },
+                { name: 'Command contracts (.claude/commands/*.md)', value: 'commands' },
                 { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github' },
                 { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents' }
               ],
@@ -329,7 +330,7 @@ program
             { name: 'Documentation (agent-docs/)', value: 'docs', checked: true },
             { name: 'Agent Rules (security, testing, database, etc.)', value: 'rules', checked: true },
             { name: 'Skills (reusable agent capabilities)', value: 'skills', checked: true },
-            { name: 'Command contracts (agents/commands/*.md)', value: 'commands', checked: true },
+            { name: 'Command contracts (.claude/commands/*.md)', value: 'commands', checked: true },
             { name: 'AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)', value: 'github', checked: true },
             { name: 'Agent subagents (.claude/agents/*.md)', value: 'subagents', checked: true }
           ],
@@ -395,10 +396,10 @@ program
       // Install deterministic command contracts
       if (options.commands) {
         console.log(chalk.yellow('Installing command contracts...'));
-        await fs.ensureDir(path.join(targetDir, 'agents', 'commands'));
+        await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.commandsDir));
         await copyDirectory(
           path.join(templateDir, 'agents', 'commands'),
-          path.join(targetDir, 'agents', 'commands'),
+          path.join(targetDir, LAYOUT.canonical.commandsDir),
           options.force
         );
       }
@@ -452,7 +453,7 @@ program
     console.log(chalk.yellow('docs') + '    - Documentation files (agent-docs/ directory)');
     console.log(chalk.yellow('rules') + '   - Agent rules (.claude/rules/*.md)');
     console.log(chalk.yellow('skills') + '  - Agent skills (.github/skills/*)');
-    console.log(chalk.yellow('commands') + ' - Deterministic command contracts (agents/commands/*.md)');
+    console.log(chalk.yellow('commands') + ' - Deterministic command contracts (.claude/commands/*.md)');
     console.log(chalk.yellow('github') + '  - AI Agent instructions (Cursor, Copilot, Claude, Generic AGENTS)');
     console.log(chalk.yellow('subagents') + ' - Agent subagents (.claude/agents/*.md)');
     console.log(chalk.yellow('all') + '     - All components');
@@ -547,27 +548,35 @@ program
         warnings.push(`⚠ ${LAYOUT.canonical.skillsDir} directory missing - run 'agents-templated init --skills'`);
       }
 
-      const commandsDir = path.join(targetDir, 'agents', 'commands');
+      const canonicalCommandsDir = path.join(targetDir, LAYOUT.canonical.commandsDir);
+      const legacyCommandsDir = path.join(targetDir, LAYOUT.legacy.commandsDirs[0]);
+      const commandsDir = path.join(targetDir, resolveCommandsDir(targetDir));
+
+      if (!(await fs.pathExists(canonicalCommandsDir)) && await fs.pathExists(legacyCommandsDir)) {
+        issues.push(`✗ Legacy command contract layout detected at ${LAYOUT.legacy.commandsDirs[0]} - run 'agents-templated update --all' to migrate`);
+      }
+
       if (await fs.pathExists(commandsDir)) {
+        const relativeCommandsDir = path.relative(targetDir, commandsDir) || LAYOUT.canonical.commandsDir;
         for (const contractFile of CONTRACT_FILES) {
           const contractPath = path.join(commandsDir, contractFile);
           if (await fs.pathExists(contractPath)) {
-            passed.push(`✓ agents/commands/${contractFile} found`);
+            passed.push(`✓ ${relativeCommandsDir}/${contractFile} found`);
           } else {
-            warnings.push(`⚠ agents/commands/${contractFile} missing`);
+            warnings.push(`⚠ ${relativeCommandsDir}/${contractFile} missing`);
           }
         }
 
         for (const contractFile of SPECIALIST_CONTRACT_FILES) {
           const contractPath = path.join(commandsDir, contractFile);
           if (await fs.pathExists(contractPath)) {
-            passed.push(`✓ agents/commands/${contractFile} found`);
+            passed.push(`✓ ${relativeCommandsDir}/${contractFile} found`);
           } else {
-            warnings.push(`⚠ agents/commands/${contractFile} missing`);
+            warnings.push(`⚠ ${relativeCommandsDir}/${contractFile} missing`);
           }
         }
       } else {
-        warnings.push(`⚠ agents/commands directory missing - run 'agents-templated init --commands'`);
+        warnings.push(`⚠ ${LAYOUT.canonical.commandsDir} directory missing - run 'agents-templated init --commands'`);
       }
 
       // Check subagents
@@ -791,10 +800,10 @@ async function updateSelectedComponents(targetDir, templateDir, selectedComponen
 
   if (components.includes('commands')) {
     console.log(chalk.yellow('Updating command contracts...'));
-    await fs.ensureDir(path.join(targetDir, 'agents', 'commands'));
+    await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.commandsDir));
     await copyDirectory(
       path.join(templateDir, 'agents', 'commands'),
-      path.join(targetDir, 'agents', 'commands'),
+      path.join(targetDir, LAYOUT.canonical.commandsDir),
       overwrite
     );
   }
@@ -935,8 +944,8 @@ program
         { targetFile: `${LAYOUT.canonical.skillsDir}/error-patterns/SKILL.md`, templateFile: 'agents/skills/error-patterns/SKILL.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/ui-ux-pro-max/SKILL.md`, templateFile: 'agents/skills/ui-ux-pro-max/SKILL.md', component: 'skills' },
         { targetFile: `${LAYOUT.canonical.skillsDir}/shadcn-ui/SKILL.md`, templateFile: 'agents/skills/shadcn-ui/SKILL.md', component: 'skills' },
-        { targetFile: 'agents/commands/SCHEMA.md', templateFile: 'agents/commands/SCHEMA.md', component: 'commands' },
-        { targetFile: 'agents/commands/README.md', templateFile: 'agents/commands/README.md', component: 'commands' }
+        { targetFile: `${LAYOUT.canonical.commandsDir}/SCHEMA.md`, templateFile: 'agents/commands/SCHEMA.md', component: 'commands' },
+        { targetFile: `${LAYOUT.canonical.commandsDir}/README.md`, templateFile: 'agents/commands/README.md', component: 'commands' }
       ];
 
       for (const {targetFile, templateFile, component} of checkFiles) {

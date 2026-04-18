@@ -72,10 +72,10 @@ async function install(targetDir, options = {}) {
 
   // Deterministic command contracts
   if (installAll || options.commands) {
-    await fs.ensureDir(path.join(targetDir, 'agents', 'commands'));
+    await fs.ensureDir(path.join(targetDir, LAYOUT.canonical.commandsDir));
     await copyDirectory(
       path.join(templateDir, 'agents', 'commands'),
-      path.join(targetDir, 'agents', 'commands'),
+      path.join(targetDir, LAYOUT.canonical.commandsDir),
       options.force
     );
   }

@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/rickandrew2/agents-templated?style=social)](https://github.com/rickandrew2/agents-templated)
 
-> **Agents Templated** is a CLI tool and npm package that instantly scaffolds production-ready project structures with enterprise-grade development patterns, security guidelines, and AI assistant configurations. Designed for developers who want to start projects the right way—with proven OWASP security practices, comprehensive testing strategies (80/15/5 coverage targets), and agent-based architecture patterns—without being locked into specific frameworks. It generates unified configuration files that work seamlessly with Cursor, GitHub Copilot, Claude, and Google Gemini, allowing AI assistants to automatically follow best practices from day one. Whether you're building a Next.js app, Django API, Go microservice, or any custom stack, Agents Templated provides the guardrails and patterns you need while giving you complete freedom to choose your technology.
+> **Agents Templated** is a technology-agnostic CLI that scaffolds the AI development operating layer around your app: policy rules, deterministic command contracts, reusable skills, and compatibility files for Cursor, GitHub Copilot, Claude, and generic agent hosts. It does not scaffold your product framework. It scaffolds how your team and agents plan, build, test, review, and release.
 
 ---
 
@@ -16,11 +16,27 @@ Most starter templates only create files. This package creates operating rules f
 You get:
 
 - Multi-agent configuration for Cursor, Copilot, Claude, and generic hosts
-- Deterministic command contracts in `agents/commands/`
+- Deterministic command contracts in `.claude/commands/`
 - Security-first and testing-first rule baselines
 - Reusable skills and optional subagents
 
 Important: this package does not install your framework. It installs the operating layer around your framework.
+
+## What Agents Templated Actually Is
+
+Agents Templated is a project governance and agent-orchestration scaffold.
+
+- It installs a canonical AI policy source (`CLAUDE.md`) and compatibility shims (`AGENTS.MD`, `.github/copilot-instructions.md`, `.cursorrules`).
+- It installs deterministic command contracts in `.claude/commands/` for repeatable specialist workflows.
+- It installs reusable skills in `.github/skills/` and optional subagents in `.claude/agents/`.
+- It installs rule modules in `.claude/rules/` for security, testing, planning, workflows, and guardrails.
+- It includes `validate`, `doctor`, `update`, and `workflow` commands to keep scaffolds healthy over time.
+
+What it is not:
+
+- Not a framework generator.
+- Not a dependency installer for your app stack.
+- Not a replacement for your application architecture.
 
 ## 30-Second Start
 
@@ -161,10 +177,8 @@ your-project/
 │   │   ├── system-workflow.md
 │   │   ├── hardening.md
 │   │   └── lessons-learned.md
-│   └── agents/                     # Optional subagents
-│
-├── agents/                          # Deterministic command contracts
-│   └── commands/
+│   ├── agents/                     # Optional subagents
+│   └── commands/                   # Deterministic command contracts
 │   │   ├── SCHEMA.md              # Global slash-command response schema
 │   │   ├── plan.md                # /plan contract
 │   │   ├── fix.md                 # /fix contract
@@ -244,7 +258,7 @@ These commands provide deterministic specialist guidance aligned to the sprint l
 | `docs` | Documentation Engineer | Sync docs with shipped behavior |
 | `learn-loop` | Iteration Lead | Capture lessons and next-cycle actions |
 
-Each command maps to deterministic contract files in `agents/commands/` and uses the schema in `agents/commands/SCHEMA.md`.
+Each command maps to deterministic contract files in `.claude/commands/` and uses the schema in `.claude/commands/SCHEMA.md`.
 
 ### Deprecated Workflow Aliases
 

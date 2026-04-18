@@ -93,7 +93,7 @@ describe('CLI commands', () => {
       const output = runCLI('problem-map "improve release quality"', tempDir);
       expect(output).toContain('Workflow command');
       expect(output).toContain('Slash contract: /problem-map');
-      expect(output).toContain('Template file: agents/commands/plan.md');
+      expect(output).toContain('.claude/commands/plan.md');
     });
 
     test('legacy alias should be rejected after alias removal', () => {

@@ -1,5 +1,24 @@
 # Changelog
 
+## Version 2.2.14 - Canonical Commands Path and README Clarification (April 18, 2026)
+
+### ✨ Improvements
+
+- Clarified the main package definition in `README.md` to clearly state what Agents Templated is and is not.
+- Added a dedicated "What Agents Templated Actually Is" section for onboarding clarity.
+- Fixed the scaffold tree documentation so command contracts are shown under `.claude/commands/`.
+
+### 🔧 CLI and Layout Alignment
+
+- Standardized command contract install/update/validation paths to canonical `.claude/commands/`.
+- Added legacy detection support for `agents/commands` with migration guidance.
+- Updated workflow output and validation messaging to reference canonical command contract paths.
+
+### ✅ Validation
+
+- Test suite passed (`57/57` tests).
+- Smoke generation check confirmed canonical path output with no legacy `agents/commands` directory.
+
 ## Version 2.2.13 - Agent Command Wiring and Release Sync (April 18, 2026)
 
 ### ✨ New Features

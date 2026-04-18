@@ -51,8 +51,8 @@ describe('agents-templated API', () => {
       expect(await fs.pathExists(path.join(tempDir, '.github/skills/shadcn-ui/SKILL.md'))).toBe(true);
 
       // Check command contracts
-      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/README.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/SCHEMA.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/commands/README.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/commands/SCHEMA.md'))).toBe(true);
 
       // Check all AI agent config files
       expect(await fs.pathExists(path.join(tempDir, '.github/copilot-instructions.md'))).toBe(true);
@@ -99,10 +99,10 @@ describe('agents-templated API', () => {
       await install(tempDir, { commands: true });
 
       // Check contracts exist
-      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/README.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/SCHEMA.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/plan.md'))).toBe(true);
-      expect(await fs.pathExists(path.join(tempDir, 'agents/commands/problem-map.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/commands/README.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/commands/SCHEMA.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/commands/plan.md'))).toBe(true);
+      expect(await fs.pathExists(path.join(tempDir, '.claude/commands/problem-map.md'))).toBe(true);
 
       // Check unrelated components don't exist
       expect(await fs.pathExists(path.join(tempDir, '.github/skills'))).toBe(false);

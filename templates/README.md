@@ -16,7 +16,7 @@ Most starter templates only create files. This package creates operating rules f
 You get:
 
 - Multi-agent configuration for Cursor, Copilot, Claude, and generic hosts
-- Deterministic command contracts in `agents/commands/`
+- Deterministic command contracts in `.claude/commands/`
 - Security-first and testing-first rule baselines
 - Reusable skills and optional subagents
 
@@ -163,8 +163,7 @@ your-project/
 │   │   └── lessons-learned.md
 │   └── agents/                     # Optional subagents
 │
-├── agents/                          # Deterministic command contracts
-│   └── commands/
+│   ├── commands/                   # Deterministic command contracts
 │   │   ├── SCHEMA.md              # Global slash-command response schema
 │   │   ├── plan.md                # /plan contract
 │   │   ├── fix.md                 # /fix contract
@@ -244,7 +243,7 @@ These commands provide deterministic specialist guidance aligned to the sprint l
 | `docs` | Documentation Engineer | Sync docs with shipped behavior |
 | `learn-loop` | Iteration Lead | Capture lessons and next-cycle actions |
 
-Each command maps to deterministic contract files in `agents/commands/` and uses the schema in `agents/commands/SCHEMA.md`.
+Each command maps to deterministic contract files in `.claude/commands/` and uses the schema in `.claude/commands/SCHEMA.md`.
 
 ### Deprecated Workflow Aliases
 
