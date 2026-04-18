@@ -32,6 +32,17 @@ Agents Templated is a project governance and agent-orchestration scaffold.
 - It installs rule modules in `.claude/rules/` for security, testing, planning, workflows, and guardrails.
 - It includes `validate`, `doctor`, `update`, and `workflow` commands to keep scaffolds healthy over time.
 
+## Orchestration-First Workflow (Current Model)
+
+The current model is orchestration-first: give one objective and let the CLI generate a deterministic multi-phase specialist handoff.
+
+- Use `agents-templated orchestrate "<objective>"` to run end-to-end routing.
+- Subagent selection is automatic and policy-driven from `CLAUDE.md`.
+- Mode-locked specialists require explicit mode handling (`qa-specialist`, `performance-specialist`).
+- Security escalation is conditionally mandatory based on trigger conditions.
+- Deprecated specialist aliases are redirected to canonical agents with explicit notices.
+- Orchestration stops on blocked/failed phases and returns structured stop conditions.
+
 What it is not:
 
 - Not a framework generator.
@@ -51,6 +62,7 @@ npx agents-templated@latest wizard
 ```bash
 agents-templated workflow
 agents-templated problem-map "daily briefing assistant for founders"
+agents-templated orchestrate "build auth API and admin dashboard"
 ```
 
 ### 3. Optional preset bootstrap
@@ -111,6 +123,7 @@ Your AI assistant will auto-load the configurations and follow enterprise patter
 | **Interactive Wizard** | Guided setup with personalized recommendations |
 | **AI Agents Supported** | Cursor, GitHub Copilot, Claude, and generic agents via `AGENTS.MD` |
 | **Deterministic Commands** | Slash-command contracts with strict structured outputs |
+| **Automatic Orchestration** | Objective-to-specialist auto-routing via `orchestrate` with deterministic phase outputs |
 | **Intent-Routing Ready** | Command schema supports `slash-command-auto` mode for agent-side routing policies |
 | **Security-First** | OWASP Top 10 protection patterns built-in |
 | **Hardening Workflow** | Risk-based hardening rules plus verification/release gates |
@@ -238,6 +251,7 @@ agents-templated list
 
 # Lifecycle workflow and specialist commands
 agents-templated workflow
+agents-templated orchestrate "build auth API and dashboard"
 ```
 
 ### Workflow Commands
@@ -259,6 +273,28 @@ These commands provide deterministic specialist guidance aligned to the sprint l
 | `learn-loop` | Iteration Lead | Capture lessons and next-cycle actions |
 
 Each command maps to deterministic contract files in `.claude/commands/` and uses the schema in `.claude/commands/SCHEMA.md`.
+
+### Automatic Orchestration Command
+
+Use orchestration when you want the system to chain specialists automatically from one objective.
+
+```bash
+# Human-readable orchestration summary
+agents-templated orchestrate "build auth API and dashboard"
+
+# Structured output for pipelines and automation
+agents-templated orchestrate "prepare production deployment" --json
+
+# Force a specific scenario
+agents-templated orchestrate "ship release candidate" --scenario deployment --json
+```
+
+Orchestration behavior:
+
+- Uses deterministic routing and phase sequencing.
+- Enforces mode-lock constraints for `qa-specialist` and `performance-specialist`.
+- Includes deprecation notices when legacy aliases are routed.
+- Emits structured stop conditions if a phase is blocked or fails.
 
 ### Deprecated Workflow Aliases
 

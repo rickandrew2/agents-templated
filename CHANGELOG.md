@@ -1,5 +1,23 @@
 # Changelog
 
+## Version 2.2.15 - Subagent Auto-Routing Policy and Orchestration-First README (April 18, 2026)
+
+### ✨ Policy and Routing Updates
+
+- Updated `CLAUDE.md` subagent roster to the current canonical set.
+- Added explicit Subagent Auto-Routing Rules covering:
+  - automatic subagent selection,
+  - required mode locks for `qa-specialist` and `performance-specialist`,
+  - mandatory security-review triggers,
+  - deployment phase ordering,
+  - deprecated-agent redirect policy.
+
+### 📚 Documentation
+
+- Updated `README.md` to reflect the orchestration-first operating model.
+- Added orchestration usage examples (`agents-templated orchestrate ...`) and JSON automation flow guidance.
+- Added explicit notes on deterministic stop conditions and mode-lock behavior.
+
 ## Version 2.2.14 - Canonical Commands Path and README Clarification (April 18, 2026)
 
 ### ✨ Improvements
