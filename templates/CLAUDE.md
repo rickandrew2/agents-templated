@@ -50,28 +50,51 @@ Skills add capability only. They must not override security, testing, or core co
 
 | Subagent | Path | Invoke when... |
 |----------|------|----------------|
-| planner | `.claude/agents/planner.md` | Breaking down features into phased plans |
+| planner | `.claude/agents/planner.md` | Breaking down features into phased execution plans |
 | architect | `.claude/agents/architect.md` | System design decisions, ADRs, trade-off analysis |
-| tdd-guide | `.claude/agents/tdd-guide.md` | Writing tests before implementation |
-| code-reviewer | `.claude/agents/code-reviewer.md` | Reviewing code for quality and correctness |
-| security-reviewer | `.claude/agents/security-reviewer.md` | Scanning for security vulnerabilities |
-| build-error-resolver | `.claude/agents/build-error-resolver.md` | Fixing build and type errors |
-| e2e-runner | `.claude/agents/e2e-runner.md` | Running Playwright E2E test suites |
-| refactor-cleaner | `.claude/agents/refactor-cleaner.md` | Removing dead code and unused dependencies |
-| doc-updater | `.claude/agents/doc-updater.md` | Syncing docs and READMEs after code changes |
-| performance-profiler | `.claude/agents/performance-profiler.md` | Diagnosing latency, CPU, memory, and build bottlenecks |
-| performance-specialist | `.claude/agents/performance-specialist.md` | Diagnosing bottlenecks or validating performance thresholds with explicit mode |
-| test-data-builder | `.claude/agents/test-data-builder.md` | Building deterministic fixtures, seeds, and mock datasets for downstream validation |
-| dependency-auditor | `.claude/agents/dependency-auditor.md` | Auditing package risk, CVEs, and upgrade hygiene |
-| configuration-validator | `.claude/agents/configuration-validator.md` | Validating env settings, defaults, and deploy readiness |
+| backend-specialist | `.claude/agents/backend-specialist.md` | Implementing backend features, APIs, and server-side logic |
+| frontend-specialist | `.claude/agents/frontend-specialist.md` | Implementing UI, interaction, accessibility, and client-side state |
 | database-migrator | `.claude/agents/database-migrator.md` | Planning safe migrations with validation and rollback gates |
-| load-tester | `.claude/agents/load-tester.md` | Designing load tests with thresholds and pass/fail criteria |
-| compatibility-checker | `.claude/agents/compatibility-checker.md` | Reviewing API contract compatibility and versioning impact |
-| backend-specialist | `.claude/agents/backend-specialist.md` | Implementing backend-focused phases in orchestrated execution |
-| frontend-specialist | `.claude/agents/frontend-specialist.md` | Implementing frontend-focused phases in orchestrated execution |
-| qa-specialist | `.claude/agents/qa-specialist.md` | Running test and regression validation phases |
-| release-ops-specialist | `.claude/agents/release-ops-specialist.md` | Managing release hardening and operational readiness phases |
-| deployment-specialist | `.claude/agents/deployment-specialist.md` | Handling deployment planning, rollout checks, and rollback readiness |
+| deployment-specialist | `.claude/agents/deployment-specialist.md` | Deployment planning, config validation, rollout, and rollback |
+| performance-specialist | `.claude/agents/performance-specialist.md` | Bottleneck diagnosis (mode=profile) or load threshold validation (mode=load) |
+| qa-specialist | `.claude/agents/qa-specialist.md` | Pre-implementation test planning (mode=design) or post-implementation validation (mode=validation) |
+| e2e-runner | `.claude/agents/e2e-runner.md` | Running end-to-end test suites and reporting flakiness |
+| code-reviewer | `.claude/agents/code-reviewer.md` | Reviewing code for quality, correctness, and severity prioritization |
+| security-reviewer | `.claude/agents/security-reviewer.md` | Security risk gating — invoke when authn/authz, secrets, or new public endpoints are touched |
+| refactor-cleaner | `.claude/agents/refactor-cleaner.md` | Removing dead code and unused dependencies in approved cleanup windows |
+| build-error-resolver | `.claude/agents/build-error-resolver.md` | Fixing compile, type, lint, and import failures only |
+| compatibility-checker | `.claude/agents/compatibility-checker.md` | API contract compatibility and breaking-change verdicts |
+| dependency-auditor | `.claude/agents/dependency-auditor.md` | Auditing package risk, CVEs, and upgrade hygiene |
+| doc-updater | `.claude/agents/doc-updater.md` | Syncing docs and READMEs after accepted behavior changes |
+| test-data-builder | `.claude/agents/test-data-builder.md` | Building deterministic fixtures, seeds, and mock datasets |
+
+### Subagent Auto-Routing Rules
+
+When a task is received, automatically select and invoke the appropriate subagent(s) without waiting for explicit instruction. Follow these rules:
+
+- Always read `.claude/agents/<name>.md` before invoking that subagent to confirm its contract.
+- For multi-step tasks, chain subagents in dependency order — do not invoke all at once.
+- qa-specialist MUST be invoked with explicit mode:
+   - mode=design for pre-implementation test planning
+   - mode=validation for post-implementation sign-off
+   - If mode is unclear, HALT and ask before proceeding.
+- performance-specialist MUST be invoked with explicit mode:
+   - mode=profile for bottleneck diagnosis
+   - mode=load for threshold validation
+   - If mode is unclear, HALT and ask before proceeding.
+- security-reviewer is mandatory when any of these are true:
+   - Authentication, authorization, or session logic is touched
+   - A new public endpoint is added
+   - Secrets, credentials, or environment variables are changed
+   - dependency-auditor reports a High or Critical finding
+- deployment-specialist always runs internal phases in order:
+   release_readiness → config_validation → rollout_execution
+   Never skip or reorder phases.
+- build-error-resolver handles compile/lint/type failures only.
+   Do not route feature or architecture decisions through it.
+- refactor-cleaner max retry cap is 2 cycles. If build still fails after 2 cycles, HALT and escalate to the feature owner.
+- Deprecated agent names (tdd-guide, load-tester, performance-profiler, release-ops-specialist, configuration-validator) must redirect to their canonical replacements with a deprecation warning.
+   Never invoke deprecated agents directly.
 
 Subagents are bounded agents with limited tool access. They inherit all policy from this file and may not override security, testing, or core constraints.
 

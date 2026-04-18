@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 2.2.16 - Template CLAUDE Sync Fix (April 18, 2026)
+
+### 🛠️ Fixes
+
+- Synced `templates/CLAUDE.md` with canonical `CLAUDE.md`.
+- Fixed generated project output where `init --github` produced the older 178/179-line policy file.
+
+### ✅ Validation
+
+- Verified canonical source line count: `201`.
+- Verified template source line count: `201`.
+- Verified fresh scaffold output line count: `201` via `agents-templated init --github --force` smoke test.
+
 ## Version 2.2.15 - Subagent Auto-Routing Policy and Orchestration-First README (April 18, 2026)
 
 ### ✨ Policy and Routing Updates
