@@ -39,6 +39,7 @@
     "lib",
     "agents",
     "templates",
+    "templates/.claude/agents",
     "templates/presets",
     "index.js",
     "README.md",
