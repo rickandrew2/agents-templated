@@ -50,23 +50,23 @@ Skills add capability only. They must not override security, testing, or core co
 
 | Subagent | Path | Invoke when... |
 |----------|------|----------------|
-| planner | `.claude/agents/planner.md` | Breaking down features into phased execution plans |
-| architect | `.claude/agents/architect.md` | System design decisions, ADRs, trade-off analysis |
-| backend-specialist | `.claude/agents/backend-specialist.md` | Implementing backend features, APIs, and server-side logic |
-| frontend-specialist | `.claude/agents/frontend-specialist.md` | Implementing UI, interaction, accessibility, and client-side state |
-| database-migrator | `.claude/agents/database-migrator.md` | Planning safe migrations with validation and rollback gates |
-| deployment-specialist | `.claude/agents/deployment-specialist.md` | Deployment planning, config validation, rollout, and rollback |
-| performance-specialist | `.claude/agents/performance-specialist.md` | Bottleneck diagnosis (mode=profile) or load threshold validation (mode=load) |
-| qa-specialist | `.claude/agents/qa-specialist.md` | Pre-implementation test planning (mode=design) or post-implementation validation (mode=validation) |
-| e2e-runner | `.claude/agents/e2e-runner.md` | Running end-to-end test suites and reporting flakiness |
-| code-reviewer | `.claude/agents/code-reviewer.md` | Reviewing code for quality, correctness, and severity prioritization |
-| security-reviewer | `.claude/agents/security-reviewer.md` | Security risk gating — invoke when authn/authz, secrets, or new public endpoints are touched |
-| refactor-cleaner | `.claude/agents/refactor-cleaner.md` | Removing dead code and unused dependencies in approved cleanup windows |
-| build-error-resolver | `.claude/agents/build-error-resolver.md` | Fixing compile, type, lint, and import failures only |
-| compatibility-checker | `.claude/agents/compatibility-checker.md` | API contract compatibility and breaking-change verdicts |
-| dependency-auditor | `.claude/agents/dependency-auditor.md` | Auditing package risk, CVEs, and upgrade hygiene |
-| doc-updater | `.claude/agents/doc-updater.md` | Syncing docs and READMEs after accepted behavior changes |
-| test-data-builder | `.claude/agents/test-data-builder.md` | Building deterministic fixtures, seeds, and mock datasets |
+| planner | `.claude/agents/planner.md` | Break work into phased, testable execution plans when implementation scope must be sequenced, not when code fixes are already scoped and ready. |
+| architect | `.claude/agents/architect.md` | Define system-level design decisions and ADR-ready trade-offs when architecture choices are material, not for routine implementation tasks. |
+| backend-specialist | `.claude/agents/backend-specialist.md` | Implement backend APIs, services, and persistence logic after planning is complete, not for build-fix or compatibility-governance ownership. |
+| frontend-specialist | `.claude/agents/frontend-specialist.md` | Implement UI behavior, accessibility, and client interactions for scoped frontend phases, not for backend implementation or release-governance tasks. |
+| database-migrator | `.claude/agents/database-migrator.md` | Plan and validate schema/data migrations with rollback safety when persistence contracts change, not for general feature implementation. |
+| deployment-specialist | `.claude/agents/deployment-specialist.md` | Plan deployment execution and rollback-safe rollout gates when release movement is required, not for feature coding or QA verdict ownership. |
+| performance-specialist | `.claude/agents/performance-specialist.md` | Run explicit profile or load evaluations for performance decisions when orchestrator mode is declared, not for ambiguous or mode-inferred requests. |
+| qa-specialist | `.claude/agents/qa-specialist.md` | Execute design-mode test planning or validation-mode regression verdicts with explicit orchestrator mode, not as a self-selected mixed QA function. |
+| e2e-runner | `.claude/agents/e2e-runner.md` | Execute end-to-end journey validation with deterministic setup when integration behavior must be proven, not for unit-level or design-only testing. |
+| code-reviewer | `.claude/agents/code-reviewer.md` | Review diffs for correctness, risk, and policy alignment before merge, not for dependency-risk auditing or documentation synchronization ownership. |
+| security-reviewer | `.claude/agents/security-reviewer.md` | Perform conditional security review when trigger thresholds are met, not as an always-on mandatory step when risk signals are absent. |
+| refactor-cleaner | `.claude/agents/refactor-cleaner.md` | Remove dead code and simplify safely in bounded increments when cleanup is requested, not for repeated build-repair loops beyond retry policy. |
+| build-error-resolver | `.claude/agents/build-error-resolver.md` | Fix build, type, and lint failures with minimal diffs when the build is red, not for broad feature work or architectural refactors. |
+| compatibility-checker | `.claude/agents/compatibility-checker.md` | Assess backward compatibility and contract-version impacts when interfaces change, not for code implementation or release documentation updates. |
+| dependency-auditor | `.claude/agents/dependency-auditor.md` | Audit dependency risk, CVEs, and upgrade hygiene when package risk is in scope, not for code-style review or feature implementation. |
+| doc-updater | `.claude/agents/doc-updater.md` | Synchronize README and architecture documentation with implemented behavior after changes land, not for deciding code correctness or dependency risk. |
+| test-data-builder | `.claude/agents/test-data-builder.md` | Generate deterministic fixtures, seeds, and synthetic datasets for downstream validation/load phases, not for feature coding or final QA verdict ownership. |
 
 ### Subagent Auto-Routing Rules
 
