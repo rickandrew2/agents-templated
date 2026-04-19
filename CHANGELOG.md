@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 2.2.18 - Specialist Agent Descriptions Re-Publish (April 19, 2026)
+
+### 📦 Publish Update
+
+- Published a fresh package release that includes specialist-focused subagent descriptions in:
+  - `templates/.claude/agents/*.md`
+  - `.claude/agents/*.md`
+- Reaffirmed canonical specialist wording for role ownership and invoke boundaries across all subagent definition files.
+
+### ✅ Validation
+
+- Verified package publish artifact contains specialist subagent descriptions.
+- Verified npm latest resolves to this release version.
+
 ## Version 2.2.17 - Lessons-Learned Memory Policy Sync (April 19, 2026)
 
 ### 🛠️ Fixes
