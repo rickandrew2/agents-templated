@@ -13,3 +13,10 @@
 - **Fix**: Extract package files to a temp directory (`tar -xf`) and compare extracted files with `Get-Content` and `Get-FileHash`.
 - **Avoid**: Do not rely on streamed `tar -xOf` line counts for parity checks.
 - **Date**: 2026-04-19
+
+### [OTHER] Apparent line mismatch after template edits
+- **Symptom**: Earlier checks showed old line counts (QA 92 / Frontend 79) while expected counts were higher after edits.
+- **Root Cause**: The repository content had not yet been synchronized and verified end-to-end against package output after edits.
+- **Fix**: Re-check on-disk files with `Get-Content`, sync `.claude/agents` and `templates/.claude/agents`, then validate with `npm pack` extraction and hash parity.
+- **Avoid**: Do not assume editor-visible state is already reflected in publish artifacts without a fresh disk+pack verification.
+- **Date**: 2026-04-19
