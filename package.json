@@ -1,6 +1,6 @@
 {
   "name": "agents-templated",
-  "version": "2.2.16",
+  "version": "2.2.17",
   "description": "Technology-agnostic development template with multi-AI agent support (Cursor, Copilot, VSCode, Gemini), security-first patterns, and comprehensive testing guidelines",
   "main": "index.js",
   "bin": {

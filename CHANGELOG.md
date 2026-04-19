@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.2.17 - Lessons-Learned Memory Policy Sync (April 19, 2026)
+
+### 🛠️ Fixes
+
+- Synced lessons-learned rule guidance to use project-root `memory.md` as the persistent lesson store.
+- Added root policy file `.claude/rules/lessons-learned.md` with the same memory.md workflow used by templates.
+- Aligned template rule text in `templates/.claude/rules/lessons-learned.md` to prevent drift.
+
+### ✅ Validation
+
+- Verified source/template lessons-learned content parity.
+
 ## Version 2.2.16 - Template CLAUDE Sync Fix (April 18, 2026)
 
 ### 🛠️ Fixes
